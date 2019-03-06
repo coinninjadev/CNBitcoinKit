@@ -1,0 +1,13 @@
+inherit lib
+
+source="https://github.com/jedisct1/libsodium.git#b732443c" # v 1.0.17 tag
+
+build() {
+    ./autogen.sh
+    ./configure --enable-static --disable-shared --host=$cross --prefix=$install_dir
+    make -j $parallel_jobs
+    make install
+}
+
+include="include/sodium.h include/sodium/*"
+lib="lib/libsodium.a"

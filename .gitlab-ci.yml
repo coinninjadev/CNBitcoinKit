@@ -1,0 +1,16 @@
+cache:
+  key: deps
+  paths:
+    - deps/build/
+    - deps/download/
+
+variables:
+  LC_ALL: "en_US.UTF-8"
+  LANG: "en_US.UTF-8"
+
+test:
+  script:
+    - bundle install
+    - bundle exec fastlane test
+  tags:
+    - ios

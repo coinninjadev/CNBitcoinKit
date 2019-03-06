@@ -1,0 +1,20 @@
+depends="libsodium"
+inherit lib
+
+source="https://github.com/zeromq/libzmq.git#3226b8eb" # v 4.2.3 tag
+
+build() {
+    echo Building...
+
+    mkdir -p build-aux
+    touch build-aux/config.rpath
+
+    ./autogen.sh
+    ./configure --prefix=$install_dir --enable-static --disable-shared --host=$cross \
+      --without-docs --without-tests --without-examples ${ENABLE_TESTNET:+--enable-testnet}
+    make -j $parallel_jobs
+    make install
+}
+
+include="include/libzmq/*"
+lib="lib/libzmq.a"

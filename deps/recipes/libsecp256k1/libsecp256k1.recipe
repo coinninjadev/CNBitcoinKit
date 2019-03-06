@@ -1,0 +1,19 @@
+inherit lib
+
+source="https://github.com/libbitcoin/secp256k1.git#9d560f99" # v0.1.0.13 tag
+
+build() {
+    # Optimize:
+    patch -p1 < $recipe_dir/optimize.patch
+
+    # Build:
+    autoreconf -i
+    ./configure --enable-static --disable-shared --host=$cross --prefix=$install_dir \
+        --disable-tests --enable-module-recovery
+    make clean
+    make -j $parallel_jobs
+    make install
+}
+
+include="include/secp256k1.h"
+lib="lib/libsecp256k1.a"

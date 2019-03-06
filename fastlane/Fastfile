@@ -1,0 +1,59 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+fastlane_version '2.116.0'
+
+default_platform(:ios)
+
+platform :ios do
+
+  before_all do |lane|
+    lanes_to_exclude = []
+    if !lanes_to_exclude.include?(lane)
+      bundle_install(deployment: true)
+    end
+  end
+
+  desc "Autogenerate Swift code. Current working dir for Fastlane's context is ./fastlane"
+  lane :autogen do
+    if File.exists?("../env-vars.sh")
+      File.readlines("../env-vars.sh").each do |line|
+        # assumes lines in file begin with "export" keyword followed by space
+        env = line.split(" ")
+        values = env[1].split("=")
+        ENV[values[0]]=values[1].gsub('\n','')
+      end
+    end
+    arguments = [
+      "@\"#{ENV['WORDS1']}\"",
+      "@\"#{ENV['WORDS2']}\"",
+      "@\"#{ENV['WORDS3']}\"",
+      "@\"#{ENV['WORDS4']}\""
+    ]
+    file = "../CNBitcoinKitTests/GeneratedWords.m"
+    File.open(file, 'w') { |f|
+      f.write("#import \"GeneratedWords.h\"\n")
+      f.write("@implementation GeneratedWords\n")
+      f.write("+ (NSString *)words1 { return #{arguments[0]}; }\n")
+      f.write("+ (NSString *)words2 { return #{arguments[1]}; }\n")
+      f.write("+ (NSString *)words3 { return #{arguments[2]}; }\n")
+      f.write("+ (NSString *)words4 { return #{arguments[3]}; }\n")
+      f.write("@end")
+    }
+  end
+
+  desc "Test project"
+  lane :test do
+    autogen
+    gym
+    scan
+  end
+end

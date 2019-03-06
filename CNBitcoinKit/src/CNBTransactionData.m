@@ -1,0 +1,151 @@
+//
+//  CNBTransactionData.m
+//  CNBitcoinKit
+//
+//  Created by Mitchell on 5/14/18.
+//  Copyright © 2018 Coin Ninja, LLC. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+#import "CNBTransactionData.h"
+
+@implementation CNBTransactionData
+
+- (nonnull instancetype)initWithAddress:(nonnull NSString *)paymentAddress
+              unspentTransactionOutputs:(nonnull NSArray *)unspentTransactionOutputs
+                                 amount:(NSUInteger)amount
+                              feeAmount:(NSUInteger)feeAmount
+                           changeAmount:(NSUInteger)changeAmount
+                             changePath:(nullable CNBDerivationPath *)changePath
+                            blockHeight:(NSUInteger)blockHeight {
+  if (self = [super init]) {
+    _paymentAddress = paymentAddress;
+    _unspentTransactionOutputs = unspentTransactionOutputs;
+    _amount = amount;
+    _feeAmount = feeAmount;
+    _changeAmount = changeAmount;
+    _changePath = changePath;
+    _locktime = blockHeight;
+  }
+
+  return self;
+}
+
+- (nullable instancetype)initWithAddress:(NSString *)paymentAddress
+                 fromAllAvailableOutputs:(NSArray<CNBUnspentTransactionOutput *> *)allUnspentTransactionOutputs
+                           paymentAmount:(NSUInteger)amount
+                                 feeRate:(NSUInteger)feeRate
+                              changePath:(nullable CNBDerivationPath *)changePath
+                             blockHeight:(NSUInteger)blockHeight {
+  if (self = [super init]) {
+    _paymentAddress = paymentAddress;
+    _amount = amount;
+    _unspentTransactionOutputs = @[];
+    _feeAmount = 0;
+    _locktime = blockHeight;
+    NSMutableArray<CNBUnspentTransactionOutput *> *mutableOutputsFromAll = [allUnspentTransactionOutputs mutableCopy];
+    NSMutableArray<CNBUnspentTransactionOutput *> *outputsToUse = [@[] mutableCopy];
+
+    NSInteger bytesPerInputOrOutput = 100;
+    NSInteger totalFromUTXOs = 0;
+
+    NSInteger numberOfInputsAndOutputs = 1;  // assume already one output
+
+    do {
+      // early exit if insufficient funds
+      if (mutableOutputsFromAll.count == 0) {
+        return nil;
+      }
+
+      // get a utxo
+      CNBUnspentTransactionOutput *output = [mutableOutputsFromAll objectAtIndex:0];
+      [mutableOutputsFromAll removeObjectAtIndex:0];
+      [outputsToUse addObject:output];
+      numberOfInputsAndOutputs += 1;
+
+      _feeAmount = bytesPerInputOrOutput * numberOfInputsAndOutputs * feeRate;
+
+      totalFromUTXOs += output.amount;
+
+      NSInteger possibleChange = totalFromUTXOs - (NSInteger)amount - (NSInteger)_feeAmount;
+      NSInteger tempChangeAmount = MAX(0, possibleChange);
+      _changeAmount = (NSUInteger)tempChangeAmount;
+
+      if (totalFromUTXOs >= amount && tempChangeAmount > 0 && _changePath == nil) {
+        numberOfInputsAndOutputs += 1;
+        _feeAmount = bytesPerInputOrOutput * numberOfInputsAndOutputs * feeRate;
+        _changePath = changePath;
+        _changeAmount = MAX(0, (totalFromUTXOs - (NSInteger)amount - (NSInteger)_feeAmount));
+
+        if (_changeAmount < 1000) {
+          _changePath = nil;
+          _changeAmount = 0;
+        }
+      }
+
+    } while (totalFromUTXOs < (_feeAmount + amount));
+
+    _unspentTransactionOutputs = [outputsToUse copy];
+  }
+
+  return self;
+}
+
+- (instancetype)initWithAddress:(NSString *)paymentAddress
+        fromAllAvailableOutputs:(NSArray<CNBUnspentTransactionOutput *> *)allUnspentTransactionOutputs
+                  paymentAmount:(NSUInteger)amount
+                        flatFee:(NSUInteger)flatFee
+                     changePath:(CNBDerivationPath *)changePath
+                    blockHeight:(NSUInteger)blockHeight {
+  if (self = [super init]) {
+    _paymentAddress = paymentAddress;
+    _amount = amount;
+    _unspentTransactionOutputs = @[];
+    _feeAmount = flatFee;
+    _locktime = blockHeight;
+
+    NSMutableArray<CNBUnspentTransactionOutput *> *mutableOutputsFromAll = [allUnspentTransactionOutputs mutableCopy];
+    NSMutableArray<CNBUnspentTransactionOutput *> *outputsToUse = [@[] mutableCopy];
+
+    NSInteger totalFromUTXOs = 0;
+
+    do {
+      // early exit if insufficient funds
+      if (mutableOutputsFromAll.count == 0) {
+        return nil;
+      }
+
+      // get a utxo
+      CNBUnspentTransactionOutput *output = [mutableOutputsFromAll objectAtIndex:0];
+      [mutableOutputsFromAll removeObjectAtIndex:0];
+      [outputsToUse addObject:output];
+
+      totalFromUTXOs += output.amount;
+
+      NSInteger possibleChange = totalFromUTXOs - (NSInteger)amount - (NSInteger)_feeAmount;
+      NSInteger tempChangeAmount = MAX(0, possibleChange);
+      _changeAmount = (NSUInteger)tempChangeAmount;
+
+      if (totalFromUTXOs >= amount && tempChangeAmount > 0 && _changePath == nil) {
+        _changePath = changePath;
+        _changeAmount = MAX(0, (totalFromUTXOs - (NSInteger)amount - (NSInteger)_feeAmount));
+
+        if (_changeAmount < 1000) {
+          _changePath = nil;
+          _changeAmount = 0;
+        }
+      }
+
+    } while (totalFromUTXOs < (_feeAmount + _amount));
+
+    _unspentTransactionOutputs = [outputsToUse copy];
+  }
+
+  return self;
+}
+
+- (BOOL)shouldAddChangeToTransaction {
+  return _changeAmount > 0 && _changePath != nil;
+}
+
+@end

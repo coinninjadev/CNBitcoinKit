@@ -1,0 +1,1665 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 48;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		3715FCFC20AE1E7200D29BEB /* libboost_program_options.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB5932D2018ED2C00B84626 /* libboost_program_options.a */; };
+		3715FCFD20AE1E9100D29BEB /* libboost_regex.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB593282018ED2B00B84626 /* libboost_regex.a */; };
+		3715FD0020AE1FA600D29BEB /* derivation_path.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3715FCFE20AE1FA600D29BEB /* derivation_path.cpp */; };
+		3715FD0120AE1FA600D29BEB /* derivation_path.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3715FCFF20AE1FA600D29BEB /* derivation_path.hpp */; };
+		3715FD0420AE21C100D29BEB /* usable_address.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3715FD0220AE21C100D29BEB /* usable_address.cpp */; };
+		3715FD0520AE21C100D29BEB /* usable_address.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3715FD0320AE21C100D29BEB /* usable_address.hpp */; };
+		3782A6592098BA720023648E /* NSData+CNBitcoinKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 3782A6572098BA720023648E /* NSData+CNBitcoinKit.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		3782A65A2098BA720023648E /* NSData+CNBitcoinKit.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3782A6582098BA720023648E /* NSData+CNBitcoinKit.mm */; };
+		3B0F440520AC9CA80031DD34 /* CNBMetaAddress.h in Headers */ = {isa = PBXBuildFile; fileRef = 3B0F440320AC9CA80031DD34 /* CNBMetaAddress.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3B0F440620AC9CA80031DD34 /* CNBMetaAddress.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B0F440420AC9CA80031DD34 /* CNBMetaAddress.m */; };
+		3B1C602E212C9627008211C5 /* CNBTransactionMetadata.h in Headers */ = {isa = PBXBuildFile; fileRef = 3B1C602C212C9627008211C5 /* CNBTransactionMetadata.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3B1C602F212C9627008211C5 /* CNBTransactionMetadata.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B1C602D212C9627008211C5 /* CNBTransactionMetadata.m */; };
+		3B29A2DC21EE1BFA00F72511 /* libsodium.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B29A2DB21EE1BFA00F72511 /* libsodium.a */; };
+		3B29A2DE21EE1E4600F72511 /* sodium.h in Headers */ = {isa = PBXBuildFile; fileRef = 3B29A2DD21EE1E4600F72511 /* sodium.h */; };
+		3B29A2E121EE21DB00F72511 /* NSString+NSData.h in Headers */ = {isa = PBXBuildFile; fileRef = 3B29A2DF21EE21DB00F72511 /* NSString+NSData.h */; };
+		3B29A2E221EE21DB00F72511 /* NSString+NSData.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3B29A2E021EE21DB00F72511 /* NSString+NSData.mm */; };
+		3B4215AD201A5B54000C4E64 /* libzmq.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B4215AC201A5B53000C4E64 /* libzmq.a */; };
+		3B4215B1201A5D56000C4E64 /* zmq_utils.h in Headers */ = {isa = PBXBuildFile; fileRef = 3B4215AF201A5D56000C4E64 /* zmq_utils.h */; };
+		3B4215B2201A5D56000C4E64 /* zmq.h in Headers */ = {isa = PBXBuildFile; fileRef = 3B4215B0201A5D56000C4E64 /* zmq.h */; };
+		3B5B7E27207E81A200785646 /* CNBBaseCoin.h in Headers */ = {isa = PBXBuildFile; fileRef = 3B5B7E25207E81A200785646 /* CNBBaseCoin.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3B5B7E28207E81A200785646 /* CNBBaseCoin.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5B7E26207E81A200785646 /* CNBBaseCoin.m */; };
+		3B5B7E2B207E965900785646 /* MockBitcoinCoin.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5B7E2A207E965900785646 /* MockBitcoinCoin.m */; };
+		3B7F1D7D21FA13A100023759 /* cipher_key_vendor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3B7F1D7B21FA13A100023759 /* cipher_key_vendor.cpp */; };
+		3B7F1D7E21FA13A100023759 /* cipher_key_vendor.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3B7F1D7C21FA13A100023759 /* cipher_key_vendor.hpp */; };
+		3B9A8DFC215158B900C78C2C /* CNBHDWallet_Base58_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B9A8DFB215158B900C78C2C /* CNBHDWallet_Base58_Tests.m */; };
+		3B9A8E032151741100C78C2C /* Base58Check.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3B9A8E012151741100C78C2C /* Base58Check.cpp */; };
+		3B9A8E042151741100C78C2C /* Base58Check.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3B9A8E022151741100C78C2C /* Base58Check.hpp */; };
+		3BAA8BEE2017C677004D6F89 /* CNBHDWallet.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3BD781512017B16200E44B14 /* CNBHDWallet.mm */; };
+		3BB593212018ED0E00B84626 /* libbitcoin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB593202018ED0E00B84626 /* libbitcoin.a */; };
+		3BB593232018ED1C00B84626 /* libsecp256k1.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB593222018ED1C00B84626 /* libsecp256k1.a */; };
+		3BB5932F2018ED2C00B84626 /* libboost_date_time.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB593242018ED2B00B84626 /* libboost_date_time.a */; };
+		3BB593302018ED2C00B84626 /* libboost_filesystem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB593252018ED2B00B84626 /* libboost_filesystem.a */; };
+		3BB593312018ED2C00B84626 /* libboost_log_setup.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB593262018ED2B00B84626 /* libboost_log_setup.a */; };
+		3BB593322018ED2C00B84626 /* libboost_thread.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB593272018ED2B00B84626 /* libboost_thread.a */; };
+		3BB593332018ED2C00B84626 /* libboost_regex.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB593282018ED2B00B84626 /* libboost_regex.a */; };
+		3BB593342018ED2C00B84626 /* libboost_atomic.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB593292018ED2B00B84626 /* libboost_atomic.a */; };
+		3BB593352018ED2C00B84626 /* libboost_chrono.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB5932A2018ED2B00B84626 /* libboost_chrono.a */; };
+		3BB593362018ED2C00B84626 /* libboost_log.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB5932B2018ED2B00B84626 /* libboost_log.a */; };
+		3BB593372018ED2C00B84626 /* libboost_iostreams.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB5932C2018ED2B00B84626 /* libboost_iostreams.a */; };
+		3BB593382018ED2C00B84626 /* libboost_program_options.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB5932D2018ED2C00B84626 /* libboost_program_options.a */; };
+		3BB593392018ED2C00B84626 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB5932E2018ED2C00B84626 /* libboost_system.a */; };
+		3BB5934120190A4400B84626 /* libbitcoin-protocol.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB5934020190A4400B84626 /* libbitcoin-protocol.a */; };
+		3BB5934320190A5000B84626 /* libbitcoin-client.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB5934220190A5000B84626 /* libbitcoin-client.a */; };
+		3BC23EEE20BD9A2800877BB6 /* CNBTransactionDataTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BC23EED20BD9A2800877BB6 /* CNBTransactionDataTests.m */; };
+		3BC23EF020BDC57B00877BB6 /* CNBTransactionData+Project.h in Headers */ = {isa = PBXBuildFile; fileRef = 3BC23EEF20BDC52D00877BB6 /* CNBTransactionData+Project.h */; };
+		3BD51D312018C0960095B3C0 /* bitcoin.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D2F2018C0960095B3C0 /* bitcoin.hpp */; };
+		3BD51E1E2018C0E00095B3C0 /* integer_fwd.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D342018C0C90095B3C0 /* integer_fwd.hpp */; };
+		3BD51E1F2018C0E00095B3C0 /* non_type.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D352018C0C90095B3C0 /* non_type.hpp */; };
+		3BD51E202018C0E00095B3C0 /* get_pointer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D362018C0C90095B3C0 /* get_pointer.hpp */; };
+		3BD51E212018C0E00095B3C0 /* checked_delete.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D372018C0C90095B3C0 /* checked_delete.hpp */; };
+		3BD51E222018C0E00095B3C0 /* progress.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D382018C0C90095B3C0 /* progress.hpp */; };
+		3BD51E232018C0E00095B3C0 /* unordered_set.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D392018C0C90095B3C0 /* unordered_set.hpp */; };
+		3BD51E262018C0E00095B3C0 /* geometry.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D3C2018C0C90095B3C0 /* geometry.hpp */; };
+		3BD51E292018C0E00095B3C0 /* pointee.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D3F2018C0CA0095B3C0 /* pointee.hpp */; };
+		3BD51E2A2018C0E00095B3C0 /* scope_exit.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D402018C0CA0095B3C0 /* scope_exit.hpp */; };
+		3BD51E2C2018C0E00095B3C0 /* convert.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D422018C0CA0095B3C0 /* convert.hpp */; };
+		3BD51E2D2018C0E00095B3C0 /* functional.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D432018C0CA0095B3C0 /* functional.hpp */; };
+		3BD51E2E2018C0E00095B3C0 /* integer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D442018C0CA0095B3C0 /* integer.hpp */; };
+		3BD51E302018C0E00095B3C0 /* scoped_array.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D462018C0CA0095B3C0 /* scoped_array.hpp */; };
+		3BD51E312018C0E00095B3C0 /* weak_ptr.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D472018C0CA0095B3C0 /* weak_ptr.hpp */; };
+		3BD51E322018C0E00095B3C0 /* flyweight.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D482018C0CA0095B3C0 /* flyweight.hpp */; };
+		3BD51E332018C0E00095B3C0 /* aligned_storage.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D492018C0CA0095B3C0 /* aligned_storage.hpp */; };
+		3BD51E352018C0E00095B3C0 /* cregex.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D4B2018C0CB0095B3C0 /* cregex.hpp */; };
+		3BD51E362018C0E00095B3C0 /* none_t.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D4C2018C0CB0095B3C0 /* none_t.hpp */; };
+		3BD51E372018C0E00095B3C0 /* unordered_map.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D4D2018C0CB0095B3C0 /* unordered_map.hpp */; };
+		3BD51E392018C0E00095B3C0 /* enable_shared_from_this.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D4F2018C0CB0095B3C0 /* enable_shared_from_this.hpp */; };
+		3BD51E3A2018C0E00095B3C0 /* integer_traits.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D502018C0CB0095B3C0 /* integer_traits.hpp */; };
+		3BD51E3B2018C0E00095B3C0 /* polymorphic_cast.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D512018C0CC0095B3C0 /* polymorphic_cast.hpp */; };
+		3BD51E3D2018C0E00095B3C0 /* function.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D532018C0CC0095B3C0 /* function.hpp */; };
+		3BD51E3F2018C0E00095B3C0 /* signal.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D552018C0CC0095B3C0 /* signal.hpp */; };
+		3BD51E412018C0E00095B3C0 /* mpi.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D572018C0CC0095B3C0 /* mpi.hpp */; };
+		3BD51E432018C0E00095B3C0 /* next_prior.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D592018C0CD0095B3C0 /* next_prior.hpp */; };
+		3BD51E442018C0E00095B3C0 /* spirit.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D5A2018C0CD0095B3C0 /* spirit.hpp */; };
+		3BD51E472018C0E00095B3C0 /* is_placeholder.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D5D2018C0CD0095B3C0 /* is_placeholder.hpp */; };
+		3BD51E482018C0E00095B3C0 /* format.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D5E2018C0CD0095B3C0 /* format.hpp */; };
+		3BD51E4A2018C0E00095B3C0 /* multi_array.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D602018C0CD0095B3C0 /* multi_array.hpp */; };
+		3BD51E4B2018C0E00095B3C0 /* thread.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D612018C0CD0095B3C0 /* thread.hpp */; };
+		3BD51E4D2018C0E00095B3C0 /* concept_check.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D632018C0CD0095B3C0 /* concept_check.hpp */; };
+		3BD51E4F2018C0E00095B3C0 /* intrusive_ptr.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D652018C0CD0095B3C0 /* intrusive_ptr.hpp */; };
+		3BD51E502018C0E00095B3C0 /* current_function.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D662018C0CD0095B3C0 /* current_function.hpp */; };
+		3BD51E552018C0E00095B3C0 /* local_function.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D6B2018C0CE0095B3C0 /* local_function.hpp */; };
+		3BD51E562018C0E00095B3C0 /* regex.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D6C2018C0CE0095B3C0 /* regex.hpp */; };
+		3BD51E582018C0E00095B3C0 /* io_fwd.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D6E2018C0CE0095B3C0 /* io_fwd.hpp */; };
+		3BD51E592018C0E00095B3C0 /* filesystem.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D6F2018C0CE0095B3C0 /* filesystem.hpp */; };
+		3BD51E5A2018C0E00095B3C0 /* align.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D702018C0CE0095B3C0 /* align.hpp */; };
+		3BD51E5B2018C0E00095B3C0 /* atomic.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D712018C0CE0095B3C0 /* atomic.hpp */; };
+		3BD51E5C2018C0E00095B3C0 /* timer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D722018C0CE0095B3C0 /* timer.hpp */; };
+		3BD51E5E2018C0E00095B3C0 /* memory_order.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D742018C0CE0095B3C0 /* memory_order.hpp */; };
+		3BD51E5F2018C0E00095B3C0 /* math_fwd.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D752018C0CE0095B3C0 /* math_fwd.hpp */; };
+		3BD51E602018C0E00095B3C0 /* foreach_fwd.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D762018C0CE0095B3C0 /* foreach_fwd.hpp */; };
+		3BD51E622018C0E00095B3C0 /* config.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D782018C0CE0095B3C0 /* config.hpp */; };
+		3BD51E632018C0E00095B3C0 /* iterator.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D792018C0CE0095B3C0 /* iterator.hpp */; };
+		3BD51E662018C0E00095B3C0 /* make_shared.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D7C2018C0CE0095B3C0 /* make_shared.hpp */; };
+		3BD51E692018C0E00095B3C0 /* cxx11_char_types.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D7F2018C0CF0095B3C0 /* cxx11_char_types.hpp */; };
+		3BD51E6A2018C0E00095B3C0 /* mem_fn.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D802018C0CF0095B3C0 /* mem_fn.hpp */; };
+		3BD51E6B2018C0E00095B3C0 /* python.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D812018C0CF0095B3C0 /* python.hpp */; };
+		3BD51E6C2018C0E00095B3C0 /* concept_archetype.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D822018C0CF0095B3C0 /* concept_archetype.hpp */; };
+		3BD51E6E2018C0E00095B3C0 /* limits.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D842018C0D10095B3C0 /* limits.hpp */; };
+		3BD51E6F2018C0E00095B3C0 /* compressed_pair.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D852018C0D10095B3C0 /* compressed_pair.hpp */; };
+		3BD51E702018C0E00095B3C0 /* operators.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D862018C0D10095B3C0 /* operators.hpp */; };
+		3BD51E712018C0E00095B3C0 /* random.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D872018C0D20095B3C0 /* random.hpp */; };
+		3BD51E722018C0E00095B3C0 /* regex_fwd.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D882018C0D20095B3C0 /* regex_fwd.hpp */; };
+		3BD51E732018C0E00095B3C0 /* bimap.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D892018C0D20095B3C0 /* bimap.hpp */; };
+		3BD51E752018C0E00095B3C0 /* swap.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D8B2018C0D20095B3C0 /* swap.hpp */; };
+		3BD51E762018C0E00095B3C0 /* cstdfloat.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D8C2018C0D20095B3C0 /* cstdfloat.hpp */; };
+		3BD51E772018C0E00095B3C0 /* static_assert.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D8D2018C0D20095B3C0 /* static_assert.hpp */; };
+		3BD51E792018C0E00095B3C0 /* range.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D8F2018C0D20095B3C0 /* range.hpp */; };
+		3BD51E7C2018C0E00095B3C0 /* blank_fwd.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D922018C0D20095B3C0 /* blank_fwd.hpp */; };
+		3BD51E7D2018C0E00095B3C0 /* wave.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D932018C0D20095B3C0 /* wave.hpp */; };
+		3BD51E832018C0E00095B3C0 /* noncopyable.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D992018C0D40095B3C0 /* noncopyable.hpp */; };
+		3BD51E842018C0E00095B3C0 /* cstdlib.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D9A2018C0D40095B3C0 /* cstdlib.hpp */; };
+		3BD51E852018C0E00095B3C0 /* make_default.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D9B2018C0D40095B3C0 /* make_default.hpp */; };
+		3BD51E872018C0E00095B3C0 /* function_output_iterator.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D9D2018C0D40095B3C0 /* function_output_iterator.hpp */; };
+		3BD51E8D2018C0E00095B3C0 /* circular_buffer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51DA32018C0D50095B3C0 /* circular_buffer.hpp */; };
+		3BD51E8E2018C0E00095B3C0 /* type_traits.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51DA42018C0D50095B3C0 /* type_traits.hpp */; };
+		3BD51E912018C0E00095B3C0 /* phoenix.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51DA72018C0D50095B3C0 /* phoenix.hpp */; };
+		3BD51E922018C0E00095B3C0 /* function_equal.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51DA82018C0D60095B3C0 /* function_equal.hpp */; };
+		3BD51E932018C0E00095B3C0 /* preprocessor.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51DA92018C0D60095B3C0 /* preprocessor.hpp */; };
+		3BD51E952018C0E00095B3C0 /* locale.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51DAB2018C0D60095B3C0 /* locale.hpp */; };
+		3BD51E962018C0E00095B3C0 /* cstdint.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51DAC2018C0D60095B3C0 /* cstdint.hpp */; };
+		3BD51E972018C0E00095B3C0 /* shared_array.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51DAD2018C0D60095B3C0 /* shared_array.hpp */; };
+		3BD51E992018C0E00095B3C0 /* pointer_to_other.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51DAF2018C0D60095B3C0 /* pointer_to_other.hpp */; };
+		3BD51E9B2018C0E00095B3C0 /* variant.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51DB12018C0D70095B3C0 /* variant.hpp */; };
+		3BD51E9C2018C0E00095B3C0 /* token_iterator.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51DB22018C0D70095B3C0 /* token_iterator.hpp */; };
+		3BD51E9D2018C0E00095B3C0 /* ref.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51DB32018C0D70095B3C0 /* ref.hpp */; };
+		3BD51EA12018C0E00095B3C0 /* type_index.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51DB72018C0D70095B3C0 /* type_index.hpp */; };
+		3BD51EA32018C0E00095B3C0 /* program_options.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51DB92018C0D70095B3C0 /* program_options.hpp */; };
+		3BD51EA42018C0E00095B3C0 /* assign.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51DBA2018C0D70095B3C0 /* assign.hpp */; };
+		3BD51EA62018C0E00095B3C0 /* bind.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51DBC2018C0D70095B3C0 /* bind.hpp */; };
+		3BD51EA82018C0E00095B3C0 /* crc.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51DBE2018C0D80095B3C0 /* crc.hpp */; };
+		3BD51EA92018C0E00095B3C0 /* dynamic_bitset_fwd.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51DBF2018C0D80095B3C0 /* dynamic_bitset_fwd.hpp */; };
+		3BD51EAA2018C0E00095B3C0 /* call_traits.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51DC02018C0D80095B3C0 /* call_traits.hpp */; };
+		3BD51EAD2018C0E00095B3C0 /* type.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51DC32018C0D80095B3C0 /* type.hpp */; };
+		3BD51EB02018C0E00095B3C0 /* implicit_cast.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51DC62018C0D80095B3C0 /* implicit_cast.hpp */; };
+		3BD51EB22018C0E00095B3C0 /* last_value.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51DC82018C0D80095B3C0 /* last_value.hpp */; };
+		3BD51EB42018C0E00095B3C0 /* smart_ptr.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51DCA2018C0D80095B3C0 /* smart_ptr.hpp */; };
+		3BD51EB62018C0E00095B3C0 /* visit_each.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51DCC2018C0D90095B3C0 /* visit_each.hpp */; };
+		3BD51EB72018C0E00095B3C0 /* parameter.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51DCD2018C0D90095B3C0 /* parameter.hpp */; };
+		3BD51EB82018C0E00095B3C0 /* cast.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51DCE2018C0D90095B3C0 /* cast.hpp */; };
+		3BD51EBA2018C0E00095B3C0 /* assert.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51DD02018C0D90095B3C0 /* assert.hpp */; };
+		3BD51EBB2018C0E00095B3C0 /* polymorphic_pointer_cast.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51DD12018C0D90095B3C0 /* polymorphic_pointer_cast.hpp */; };
+		3BD51EBC2018C0E00095B3C0 /* circular_buffer_fwd.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51DD22018C0D90095B3C0 /* circular_buffer_fwd.hpp */; };
+		3BD51EBF2018C0E00095B3C0 /* token_functions.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51DD52018C0D90095B3C0 /* token_functions.hpp */; };
+		3BD51EC22018C0E00095B3C0 /* utility.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51DD82018C0DA0095B3C0 /* utility.hpp */; };
+		3BD51EC52018C0E00095B3C0 /* rational.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51DDB2018C0DA0095B3C0 /* rational.hpp */; };
+		3BD51EC72018C0E00095B3C0 /* signals.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51DDD2018C0DA0095B3C0 /* signals.hpp */; };
+		3BD51EC92018C0E00095B3C0 /* none.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51DDF2018C0DA0095B3C0 /* none.hpp */; };
+		3BD51ECA2018C0E00095B3C0 /* lexical_cast.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51DE02018C0DA0095B3C0 /* lexical_cast.hpp */; };
+		3BD51ECB2018C0E00095B3C0 /* nondet_random.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51DE12018C0DA0095B3C0 /* nondet_random.hpp */; };
+		3BD51ECD2018C0E00095B3C0 /* shared_ptr.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51DE32018C0DB0095B3C0 /* shared_ptr.hpp */; };
+		3BD51ECF2018C0E00095B3C0 /* tokenizer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51DE52018C0DB0095B3C0 /* tokenizer.hpp */; };
+		3BD51ED22018C0E00095B3C0 /* cerrno.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51DE82018C0DB0095B3C0 /* cerrno.hpp */; };
+		3BD51ED32018C0E00095B3C0 /* indirect_reference.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51DE92018C0DB0095B3C0 /* indirect_reference.hpp */; };
+		3BD51ED42018C0E00095B3C0 /* dynamic_bitset.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51DEA2018C0DB0095B3C0 /* dynamic_bitset.hpp */; };
+		3BD51ED52018C0E00095B3C0 /* regex.h in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51DEB2018C0DB0095B3C0 /* regex.h */; };
+		3BD51ED72018C0E00095B3C0 /* asio.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51DED2018C0DC0095B3C0 /* asio.hpp */; };
+		3BD51ED92018C0E00095B3C0 /* throw_exception.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51DEF2018C0DC0095B3C0 /* throw_exception.hpp */; };
+		3BD51EDB2018C0E00095B3C0 /* scoped_ptr.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51DF12018C0DC0095B3C0 /* scoped_ptr.hpp */; };
+		3BD51EDC2018C0E00095B3C0 /* pointer_cast.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51DF22018C0DC0095B3C0 /* pointer_cast.hpp */; };
+		3BD51EDE2018C0E00095B3C0 /* multi_index_container.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51DF42018C0DC0095B3C0 /* multi_index_container.hpp */; };
+		3BD51EE02018C0E00095B3C0 /* optional.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51DF62018C0DC0095B3C0 /* optional.hpp */; };
+		3BD51EE12018C0E00095B3C0 /* ratio.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51DF72018C0DC0095B3C0 /* ratio.hpp */; };
+		3BD51EE22018C0E00095B3C0 /* iterator_adaptors.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51DF82018C0DD0095B3C0 /* iterator_adaptors.hpp */; };
+		3BD51EE42018C0E00095B3C0 /* blank.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51DFA2018C0DD0095B3C0 /* blank.hpp */; };
+		3BD51EE82018C0E00095B3C0 /* foreach.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51DFE2018C0DD0095B3C0 /* foreach.hpp */; };
+		3BD51EE92018C0E00095B3C0 /* any.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51DFF2018C0DD0095B3C0 /* any.hpp */; };
+		3BD51EEF2018C0E00095B3C0 /* multi_index_container_fwd.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51E052018C0DE0095B3C0 /* multi_index_container_fwd.hpp */; };
+		3BD51EF22018C0E00095B3C0 /* date_time.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51E082018C0DE0095B3C0 /* date_time.hpp */; };
+		3BD51EF32018C0E00095B3C0 /* make_unique.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51E092018C0DE0095B3C0 /* make_unique.hpp */; };
+		3BD51EF52018C0E00095B3C0 /* chrono.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51E0B2018C0DE0095B3C0 /* chrono.hpp */; };
+		3BD51EF92018C0E00095B3C0 /* shared_container_iterator.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51E0F2018C0DF0095B3C0 /* shared_container_iterator.hpp */; };
+		3BD51EFC2018C0E00095B3C0 /* generator_iterator.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51E122018C0DF0095B3C0 /* generator_iterator.hpp */; };
+		3BD51EFE2018C0E00095B3C0 /* array.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51E142018C0DF0095B3C0 /* array.hpp */; };
+		3BD51F032018C0E00095B3C0 /* exception_ptr.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51E192018C0E00095B3C0 /* exception_ptr.hpp */; };
+		3BD51F042018C0E00095B3C0 /* predef.h in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51E1A2018C0E00095B3C0 /* predef.h */; };
+		3BD51F052018C0E00095B3C0 /* signals2.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51E1B2018C0E00095B3C0 /* signals2.hpp */; };
+		3BD51F062018C0E00095B3C0 /* version.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51E1C2018C0E00095B3C0 /* version.hpp */; };
+		3BD51F092018C0F20095B3C0 /* secp256k1.h in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51F082018C0F10095B3C0 /* secp256k1.h */; };
+		3BD7808B201430A000E44B14 /* CNBitcoinKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BD78081201430A000E44B14 /* CNBitcoinKit.framework */; };
+		3BD78090201430A000E44B14 /* CNBHDWalletTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3BD7808F201430A000E44B14 /* CNBHDWalletTests.mm */; };
+		3BD78092201430A000E44B14 /* CNBitcoinKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 3BD78084201430A000E44B14 /* CNBitcoinKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3BD780A5201431B700E44B14 /* CNBHDWallet.h in Headers */ = {isa = PBXBuildFile; fileRef = 3BD780A3201431B700E44B14 /* CNBHDWallet.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3BD7B73C20D7E68C005057A7 /* CNBAddressResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 3BD7B73A20D7E68C005057A7 /* CNBAddressResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3BD7B73D20D7E68C005057A7 /* CNBAddressResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BD7B73B20D7E68C005057A7 /* CNBAddressResult.m */; };
+		3BDC16F7220E257400AA42F3 /* GeneratedWords.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BDC16F6220E257400AA42F3 /* GeneratedWords.m */; };
+		3BDC16FA220E2ED000AA42F3 /* GeneratedWordsHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BDC16F9220E2ED000AA42F3 /* GeneratedWordsHelper.m */; };
+		3BE87CF32018C540001D4A65 /* CNBHDWallet.h in Headers */ = {isa = PBXBuildFile; fileRef = 3BE87CF22018C401001D4A65 /* CNBHDWallet.h */; };
+		3BE8AA1B21F20D4800A3F0C4 /* CNBCipherKeys.h in Headers */ = {isa = PBXBuildFile; fileRef = 3BE8AA1921F20D4800A3F0C4 /* CNBCipherKeys.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3BE8AA1C21F20D4800A3F0C4 /* CNBCipherKeys.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE8AA1A21F20D4800A3F0C4 /* CNBCipherKeys.m */; };
+		3BE8AA2721F78C6F00A3F0C4 /* cipher_keys.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3BE8AA2521F78C6F00A3F0C4 /* cipher_keys.cpp */; };
+		3BE8AA2821F78C6F00A3F0C4 /* cipher_keys.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BE8AA2621F78C6F00A3F0C4 /* cipher_keys.hpp */; };
+		3BE8AA2B21F78CBB00A3F0C4 /* encryption_cipher_keys.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3BE8AA2921F78CBB00A3F0C4 /* encryption_cipher_keys.cpp */; };
+		3BE8AA2C21F78CBB00A3F0C4 /* encryption_cipher_keys.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BE8AA2A21F78CBB00A3F0C4 /* encryption_cipher_keys.hpp */; };
+		3BE8AA2F21F794CC00A3F0C4 /* CNBEncryptionCipherKeys.h in Headers */ = {isa = PBXBuildFile; fileRef = 3BE8AA2D21F794CC00A3F0C4 /* CNBEncryptionCipherKeys.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3BE8AA3021F794CC00A3F0C4 /* CNBEncryptionCipherKeys.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE8AA2E21F794CC00A3F0C4 /* CNBEncryptionCipherKeys.m */; };
+		A216D77920AA19D5005FBAC2 /* CNBDerivationPath.m in Sources */ = {isa = PBXBuildFile; fileRef = A216D77820AA19D5005FBAC2 /* CNBDerivationPath.m */; };
+		A216D77B20AA19FE005FBAC2 /* CNBDerivationPath.h in Headers */ = {isa = PBXBuildFile; fileRef = A216D77A20AA19FE005FBAC2 /* CNBDerivationPath.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A216D77D20AA1C73005FBAC2 /* CNBUnspentTransactionOutput.m in Sources */ = {isa = PBXBuildFile; fileRef = A216D77C20AA1C73005FBAC2 /* CNBUnspentTransactionOutput.m */; };
+		A216D77F20AA1C8F005FBAC2 /* CNBUnspentTransactionOutput.h in Headers */ = {isa = PBXBuildFile; fileRef = A216D77E20AA1C8F005FBAC2 /* CNBUnspentTransactionOutput.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A216D78120AA1EC7005FBAC2 /* CNBTransactionData.m in Sources */ = {isa = PBXBuildFile; fileRef = A216D78020AA1EC7005FBAC2 /* CNBTransactionData.m */; };
+		A216D78320AA1ED9005FBAC2 /* CNBTransactionData.h in Headers */ = {isa = PBXBuildFile; fileRef = A216D78220AA1ED9005FBAC2 /* CNBTransactionData.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A216D78520AA2423005FBAC2 /* CNBTransactionBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = A216D78420AA2423005FBAC2 /* CNBTransactionBuilder.m */; };
+		A216D78720AA2430005FBAC2 /* CNBTransactionBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = A216D78620AA2430005FBAC2 /* CNBTransactionBuilder.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A216D78920AB4A85005FBAC2 /* CNBTransactionBuilderMainnetTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = A216D78820AB4A85005FBAC2 /* CNBTransactionBuilderMainnetTests.mm */; };
+		A216D78B20ACAD5B005FBAC2 /* CNBHDWallet+Project.h in Headers */ = {isa = PBXBuildFile; fileRef = A216D78A20ACAD5B005FBAC2 /* CNBHDWallet+Project.h */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		3BD7808C201430A000E44B14 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3BD78078201430A000E44B14 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3BD78080201430A000E44B14;
+			remoteInfo = CNBitcoinKit;
+		};
+		3BE87CF82018C6E3001D4A65 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3BD78078201430A000E44B14 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3BE87CF42018C665001D4A65;
+			remoteInfo = libbitcoin;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		3715FCFE20AE1FA600D29BEB /* derivation_path.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = derivation_path.cpp; sourceTree = "<group>"; };
+		3715FCFF20AE1FA600D29BEB /* derivation_path.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = derivation_path.hpp; sourceTree = "<group>"; };
+		3715FD0220AE21C100D29BEB /* usable_address.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = usable_address.cpp; sourceTree = "<group>"; };
+		3715FD0320AE21C100D29BEB /* usable_address.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = usable_address.hpp; sourceTree = "<group>"; };
+		3782A6572098BA720023648E /* NSData+CNBitcoinKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSData+CNBitcoinKit.h"; sourceTree = "<group>"; };
+		3782A6582098BA720023648E /* NSData+CNBitcoinKit.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = "NSData+CNBitcoinKit.mm"; sourceTree = "<group>"; };
+		3B0F440320AC9CA80031DD34 /* CNBMetaAddress.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CNBMetaAddress.h; sourceTree = "<group>"; };
+		3B0F440420AC9CA80031DD34 /* CNBMetaAddress.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CNBMetaAddress.m; sourceTree = "<group>"; };
+		3B1C602C212C9627008211C5 /* CNBTransactionMetadata.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CNBTransactionMetadata.h; sourceTree = "<group>"; };
+		3B1C602D212C9627008211C5 /* CNBTransactionMetadata.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CNBTransactionMetadata.m; sourceTree = "<group>"; };
+		3B29A2DB21EE1BFA00F72511 /* libsodium.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsodium.a; path = "deps/build/libsodium/ios-universal/lib/libsodium.a"; sourceTree = "<group>"; };
+		3B29A2DD21EE1E4600F72511 /* sodium.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = sodium.h; path = deps/build/prefix/ios/arm64/include/sodium.h; sourceTree = "<group>"; };
+		3B29A2DF21EE21DB00F72511 /* NSString+NSData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+NSData.h"; sourceTree = "<group>"; };
+		3B29A2E021EE21DB00F72511 /* NSString+NSData.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = "NSString+NSData.mm"; sourceTree = "<group>"; };
+		3B4215AC201A5B53000C4E64 /* libzmq.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libzmq.a; path = "deps/build/libzmq/ios-universal/lib/libzmq.a"; sourceTree = "<group>"; };
+		3B4215AF201A5D56000C4E64 /* zmq_utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = zmq_utils.h; path = "deps/build/libzmq/ios-arm64/include/zmq_utils.h"; sourceTree = SOURCE_ROOT; };
+		3B4215B0201A5D56000C4E64 /* zmq.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = zmq.h; path = "deps/build/libzmq/ios-arm64/include/zmq.h"; sourceTree = SOURCE_ROOT; };
+		3B5B7E25207E81A200785646 /* CNBBaseCoin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CNBBaseCoin.h; sourceTree = "<group>"; };
+		3B5B7E26207E81A200785646 /* CNBBaseCoin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CNBBaseCoin.m; sourceTree = "<group>"; };
+		3B5B7E29207E965900785646 /* MockBitcoinCoin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MockBitcoinCoin.h; sourceTree = "<group>"; };
+		3B5B7E2A207E965900785646 /* MockBitcoinCoin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MockBitcoinCoin.m; sourceTree = "<group>"; };
+		3B791A5721ED38D9006CDD1E /* sodium.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sodium.h; path = "deps/build/libsodium/ios-arm64/src/libsodium/include/sodium.h"; sourceTree = SOURCE_ROOT; };
+		3B791AE521ED395B006CDD1E /* sodium */ = {isa = PBXFileReference; lastKnownFileType = folder; name = sodium; path = "deps/build/libsodium/ios-arm64/src/libsodium/include/sodium"; sourceTree = SOURCE_ROOT; };
+		3B7F1D7B21FA13A100023759 /* cipher_key_vendor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = cipher_key_vendor.cpp; sourceTree = "<group>"; };
+		3B7F1D7C21FA13A100023759 /* cipher_key_vendor.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = cipher_key_vendor.hpp; sourceTree = "<group>"; };
+		3B9A8DFB215158B900C78C2C /* CNBHDWallet_Base58_Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CNBHDWallet_Base58_Tests.m; sourceTree = "<group>"; };
+		3B9A8E012151741100C78C2C /* Base58Check.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Base58Check.cpp; sourceTree = "<group>"; };
+		3B9A8E022151741100C78C2C /* Base58Check.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Base58Check.hpp; sourceTree = "<group>"; };
+		3BB593202018ED0E00B84626 /* libbitcoin.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libbitcoin.a; path = "deps/build/libbitcoin/ios-universal/lib/libbitcoin.a"; sourceTree = "<group>"; };
+		3BB593222018ED1C00B84626 /* libsecp256k1.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsecp256k1.a; path = "deps/build/libsecp256k1/ios-universal/lib/libsecp256k1.a"; sourceTree = "<group>"; };
+		3BB593242018ED2B00B84626 /* libboost_date_time.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_date_time.a; path = "deps/build/boost/ios-universal/lib/libboost_date_time.a"; sourceTree = "<group>"; };
+		3BB593252018ED2B00B84626 /* libboost_filesystem.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_filesystem.a; path = "deps/build/boost/ios-universal/lib/libboost_filesystem.a"; sourceTree = "<group>"; };
+		3BB593262018ED2B00B84626 /* libboost_log_setup.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_log_setup.a; path = "deps/build/boost/ios-universal/lib/libboost_log_setup.a"; sourceTree = "<group>"; };
+		3BB593272018ED2B00B84626 /* libboost_thread.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_thread.a; path = "deps/build/boost/ios-universal/lib/libboost_thread.a"; sourceTree = "<group>"; };
+		3BB593282018ED2B00B84626 /* libboost_regex.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_regex.a; path = "deps/build/boost/ios-universal/lib/libboost_regex.a"; sourceTree = "<group>"; };
+		3BB593292018ED2B00B84626 /* libboost_atomic.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_atomic.a; path = "deps/build/boost/ios-universal/lib/libboost_atomic.a"; sourceTree = "<group>"; };
+		3BB5932A2018ED2B00B84626 /* libboost_chrono.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_chrono.a; path = "deps/build/boost/ios-universal/lib/libboost_chrono.a"; sourceTree = "<group>"; };
+		3BB5932B2018ED2B00B84626 /* libboost_log.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_log.a; path = "deps/build/boost/ios-universal/lib/libboost_log.a"; sourceTree = "<group>"; };
+		3BB5932C2018ED2B00B84626 /* libboost_iostreams.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_iostreams.a; path = "deps/build/boost/ios-universal/lib/libboost_iostreams.a"; sourceTree = "<group>"; };
+		3BB5932D2018ED2C00B84626 /* libboost_program_options.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_program_options.a; path = "deps/build/boost/ios-universal/lib/libboost_program_options.a"; sourceTree = "<group>"; };
+		3BB5932E2018ED2C00B84626 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = "deps/build/boost/ios-universal/lib/libboost_system.a"; sourceTree = "<group>"; };
+		3BB5934020190A4400B84626 /* libbitcoin-protocol.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libbitcoin-protocol.a"; path = "deps/build/libbitcoin-protocol/ios-universal/lib/libbitcoin-protocol.a"; sourceTree = "<group>"; };
+		3BB5934220190A5000B84626 /* libbitcoin-client.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libbitcoin-client.a"; path = "deps/build/libbitcoin-client/ios-universal/lib/libbitcoin-client.a"; sourceTree = "<group>"; };
+		3BC23EED20BD9A2800877BB6 /* CNBTransactionDataTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CNBTransactionDataTests.m; sourceTree = "<group>"; };
+		3BC23EEF20BDC52D00877BB6 /* CNBTransactionData+Project.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CNBTransactionData+Project.h"; sourceTree = "<group>"; };
+		3BD51D2F2018C0960095B3C0 /* bitcoin.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = bitcoin.hpp; path = deps/build/prefix/ios/arm64/include/bitcoin/bitcoin.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51D302018C0960095B3C0 /* bitcoin */ = {isa = PBXFileReference; lastKnownFileType = folder; name = bitcoin; path = deps/build/prefix/ios/arm64/include/bitcoin/bitcoin; sourceTree = SOURCE_ROOT; };
+		3BD51D342018C0C90095B3C0 /* integer_fwd.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = integer_fwd.hpp; path = deps/build/prefix/ios/arm64/include/boost/integer_fwd.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51D352018C0C90095B3C0 /* non_type.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = non_type.hpp; path = deps/build/prefix/ios/arm64/include/boost/non_type.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51D362018C0C90095B3C0 /* get_pointer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = get_pointer.hpp; path = deps/build/prefix/ios/arm64/include/boost/get_pointer.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51D372018C0C90095B3C0 /* checked_delete.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = checked_delete.hpp; path = deps/build/prefix/ios/arm64/include/boost/checked_delete.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51D382018C0C90095B3C0 /* progress.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = progress.hpp; path = deps/build/prefix/ios/arm64/include/boost/progress.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51D392018C0C90095B3C0 /* unordered_set.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = unordered_set.hpp; path = deps/build/prefix/ios/arm64/include/boost/unordered_set.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51D3A2018C0C90095B3C0 /* compatibility */ = {isa = PBXFileReference; lastKnownFileType = folder; name = compatibility; path = deps/build/prefix/ios/arm64/include/boost/compatibility; sourceTree = SOURCE_ROOT; };
+		3BD51D3B2018C0C90095B3C0 /* tti */ = {isa = PBXFileReference; lastKnownFileType = folder; name = tti; path = deps/build/prefix/ios/arm64/include/boost/tti; sourceTree = SOURCE_ROOT; };
+		3BD51D3C2018C0C90095B3C0 /* geometry.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = geometry.hpp; path = deps/build/prefix/ios/arm64/include/boost/geometry.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51D3D2018C0C90095B3C0 /* units */ = {isa = PBXFileReference; lastKnownFileType = folder; name = units; path = deps/build/prefix/ios/arm64/include/boost/units; sourceTree = SOURCE_ROOT; };
+		3BD51D3E2018C0CA0095B3C0 /* predef */ = {isa = PBXFileReference; lastKnownFileType = folder; name = predef; path = deps/build/prefix/ios/arm64/include/boost/predef; sourceTree = SOURCE_ROOT; };
+		3BD51D3F2018C0CA0095B3C0 /* pointee.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = pointee.hpp; path = deps/build/prefix/ios/arm64/include/boost/pointee.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51D402018C0CA0095B3C0 /* scope_exit.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = scope_exit.hpp; path = deps/build/prefix/ios/arm64/include/boost/scope_exit.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51D412018C0CA0095B3C0 /* variant */ = {isa = PBXFileReference; lastKnownFileType = folder; name = variant; path = deps/build/prefix/ios/arm64/include/boost/variant; sourceTree = SOURCE_ROOT; };
+		3BD51D422018C0CA0095B3C0 /* convert.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = convert.hpp; path = deps/build/prefix/ios/arm64/include/boost/convert.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51D432018C0CA0095B3C0 /* functional.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = functional.hpp; path = deps/build/prefix/ios/arm64/include/boost/functional.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51D442018C0CA0095B3C0 /* integer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = integer.hpp; path = deps/build/prefix/ios/arm64/include/boost/integer.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51D452018C0CA0095B3C0 /* spirit */ = {isa = PBXFileReference; lastKnownFileType = folder; name = spirit; path = deps/build/prefix/ios/arm64/include/boost/spirit; sourceTree = SOURCE_ROOT; };
+		3BD51D462018C0CA0095B3C0 /* scoped_array.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = scoped_array.hpp; path = deps/build/prefix/ios/arm64/include/boost/scoped_array.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51D472018C0CA0095B3C0 /* weak_ptr.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = weak_ptr.hpp; path = deps/build/prefix/ios/arm64/include/boost/weak_ptr.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51D482018C0CA0095B3C0 /* flyweight.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = flyweight.hpp; path = deps/build/prefix/ios/arm64/include/boost/flyweight.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51D492018C0CA0095B3C0 /* aligned_storage.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = aligned_storage.hpp; path = deps/build/prefix/ios/arm64/include/boost/aligned_storage.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51D4A2018C0CB0095B3C0 /* mpl */ = {isa = PBXFileReference; lastKnownFileType = folder; name = mpl; path = deps/build/prefix/ios/arm64/include/boost/mpl; sourceTree = SOURCE_ROOT; };
+		3BD51D4B2018C0CB0095B3C0 /* cregex.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = cregex.hpp; path = deps/build/prefix/ios/arm64/include/boost/cregex.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51D4C2018C0CB0095B3C0 /* none_t.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = none_t.hpp; path = deps/build/prefix/ios/arm64/include/boost/none_t.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51D4D2018C0CB0095B3C0 /* unordered_map.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = unordered_map.hpp; path = deps/build/prefix/ios/arm64/include/boost/unordered_map.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51D4E2018C0CB0095B3C0 /* io */ = {isa = PBXFileReference; lastKnownFileType = folder; name = io; path = deps/build/prefix/ios/arm64/include/boost/io; sourceTree = SOURCE_ROOT; };
+		3BD51D4F2018C0CB0095B3C0 /* enable_shared_from_this.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = enable_shared_from_this.hpp; path = deps/build/prefix/ios/arm64/include/boost/enable_shared_from_this.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51D502018C0CB0095B3C0 /* integer_traits.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = integer_traits.hpp; path = deps/build/prefix/ios/arm64/include/boost/integer_traits.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51D512018C0CC0095B3C0 /* polymorphic_cast.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = polymorphic_cast.hpp; path = deps/build/prefix/ios/arm64/include/boost/polymorphic_cast.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51D522018C0CC0095B3C0 /* multiprecision */ = {isa = PBXFileReference; lastKnownFileType = folder; name = multiprecision; path = deps/build/prefix/ios/arm64/include/boost/multiprecision; sourceTree = SOURCE_ROOT; };
+		3BD51D532018C0CC0095B3C0 /* function.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = function.hpp; path = deps/build/prefix/ios/arm64/include/boost/function.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51D542018C0CC0095B3C0 /* coroutine */ = {isa = PBXFileReference; lastKnownFileType = folder; name = coroutine; path = deps/build/prefix/ios/arm64/include/boost/coroutine; sourceTree = SOURCE_ROOT; };
+		3BD51D552018C0CC0095B3C0 /* signal.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = signal.hpp; path = deps/build/prefix/ios/arm64/include/boost/signal.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51D562018C0CC0095B3C0 /* wave */ = {isa = PBXFileReference; lastKnownFileType = folder; name = wave; path = deps/build/prefix/ios/arm64/include/boost/wave; sourceTree = SOURCE_ROOT; };
+		3BD51D572018C0CC0095B3C0 /* mpi.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = mpi.hpp; path = deps/build/prefix/ios/arm64/include/boost/mpi.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51D582018C0CC0095B3C0 /* circular_buffer */ = {isa = PBXFileReference; lastKnownFileType = folder; name = circular_buffer; path = deps/build/prefix/ios/arm64/include/boost/circular_buffer; sourceTree = SOURCE_ROOT; };
+		3BD51D592018C0CD0095B3C0 /* next_prior.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = next_prior.hpp; path = deps/build/prefix/ios/arm64/include/boost/next_prior.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51D5A2018C0CD0095B3C0 /* spirit.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = spirit.hpp; path = deps/build/prefix/ios/arm64/include/boost/spirit.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51D5B2018C0CD0095B3C0 /* filesystem */ = {isa = PBXFileReference; lastKnownFileType = folder; name = filesystem; path = deps/build/prefix/ios/arm64/include/boost/filesystem; sourceTree = SOURCE_ROOT; };
+		3BD51D5C2018C0CD0095B3C0 /* tr1 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = tr1; path = deps/build/prefix/ios/arm64/include/boost/tr1; sourceTree = SOURCE_ROOT; };
+		3BD51D5D2018C0CD0095B3C0 /* is_placeholder.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = is_placeholder.hpp; path = deps/build/prefix/ios/arm64/include/boost/is_placeholder.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51D5E2018C0CD0095B3C0 /* format.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = format.hpp; path = deps/build/prefix/ios/arm64/include/boost/format.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51D5F2018C0CD0095B3C0 /* sort */ = {isa = PBXFileReference; lastKnownFileType = folder; name = sort; path = deps/build/prefix/ios/arm64/include/boost/sort; sourceTree = SOURCE_ROOT; };
+		3BD51D602018C0CD0095B3C0 /* multi_array.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = multi_array.hpp; path = deps/build/prefix/ios/arm64/include/boost/multi_array.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51D612018C0CD0095B3C0 /* thread.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = thread.hpp; path = deps/build/prefix/ios/arm64/include/boost/thread.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51D622018C0CD0095B3C0 /* bimap */ = {isa = PBXFileReference; lastKnownFileType = folder; name = bimap; path = deps/build/prefix/ios/arm64/include/boost/bimap; sourceTree = SOURCE_ROOT; };
+		3BD51D632018C0CD0095B3C0 /* concept_check.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = concept_check.hpp; path = deps/build/prefix/ios/arm64/include/boost/concept_check.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51D642018C0CD0095B3C0 /* convert */ = {isa = PBXFileReference; lastKnownFileType = folder; name = convert; path = deps/build/prefix/ios/arm64/include/boost/convert; sourceTree = SOURCE_ROOT; };
+		3BD51D652018C0CD0095B3C0 /* intrusive_ptr.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = intrusive_ptr.hpp; path = deps/build/prefix/ios/arm64/include/boost/intrusive_ptr.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51D662018C0CD0095B3C0 /* current_function.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = current_function.hpp; path = deps/build/prefix/ios/arm64/include/boost/current_function.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51D672018C0CD0095B3C0 /* locale */ = {isa = PBXFileReference; lastKnownFileType = folder; name = locale; path = deps/build/prefix/ios/arm64/include/boost/locale; sourceTree = SOURCE_ROOT; };
+		3BD51D682018C0CD0095B3C0 /* msm */ = {isa = PBXFileReference; lastKnownFileType = folder; name = msm; path = deps/build/prefix/ios/arm64/include/boost/msm; sourceTree = SOURCE_ROOT; };
+		3BD51D692018C0CE0095B3C0 /* property_tree */ = {isa = PBXFileReference; lastKnownFileType = folder; name = property_tree; path = deps/build/prefix/ios/arm64/include/boost/property_tree; sourceTree = SOURCE_ROOT; };
+		3BD51D6A2018C0CE0095B3C0 /* integer */ = {isa = PBXFileReference; lastKnownFileType = folder; name = integer; path = deps/build/prefix/ios/arm64/include/boost/integer; sourceTree = SOURCE_ROOT; };
+		3BD51D6B2018C0CE0095B3C0 /* local_function.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = local_function.hpp; path = deps/build/prefix/ios/arm64/include/boost/local_function.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51D6C2018C0CE0095B3C0 /* regex.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = regex.hpp; path = deps/build/prefix/ios/arm64/include/boost/regex.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51D6D2018C0CE0095B3C0 /* exception */ = {isa = PBXFileReference; lastKnownFileType = folder; name = exception; path = deps/build/prefix/ios/arm64/include/boost/exception; sourceTree = SOURCE_ROOT; };
+		3BD51D6E2018C0CE0095B3C0 /* io_fwd.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = io_fwd.hpp; path = deps/build/prefix/ios/arm64/include/boost/io_fwd.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51D6F2018C0CE0095B3C0 /* filesystem.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = filesystem.hpp; path = deps/build/prefix/ios/arm64/include/boost/filesystem.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51D702018C0CE0095B3C0 /* align.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = align.hpp; path = deps/build/prefix/ios/arm64/include/boost/align.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51D712018C0CE0095B3C0 /* atomic.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = atomic.hpp; path = deps/build/prefix/ios/arm64/include/boost/atomic.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51D722018C0CE0095B3C0 /* timer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = timer.hpp; path = deps/build/prefix/ios/arm64/include/boost/timer.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51D732018C0CE0095B3C0 /* date_time */ = {isa = PBXFileReference; lastKnownFileType = folder; name = date_time; path = deps/build/prefix/ios/arm64/include/boost/date_time; sourceTree = SOURCE_ROOT; };
+		3BD51D742018C0CE0095B3C0 /* memory_order.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = memory_order.hpp; path = deps/build/prefix/ios/arm64/include/boost/memory_order.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51D752018C0CE0095B3C0 /* math_fwd.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = math_fwd.hpp; path = deps/build/prefix/ios/arm64/include/boost/math_fwd.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51D762018C0CE0095B3C0 /* foreach_fwd.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = foreach_fwd.hpp; path = deps/build/prefix/ios/arm64/include/boost/foreach_fwd.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51D772018C0CE0095B3C0 /* parameter */ = {isa = PBXFileReference; lastKnownFileType = folder; name = parameter; path = deps/build/prefix/ios/arm64/include/boost/parameter; sourceTree = SOURCE_ROOT; };
+		3BD51D782018C0CE0095B3C0 /* config.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = config.hpp; path = deps/build/prefix/ios/arm64/include/boost/config.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51D792018C0CE0095B3C0 /* iterator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = iterator.hpp; path = deps/build/prefix/ios/arm64/include/boost/iterator.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51D7A2018C0CE0095B3C0 /* preprocessor */ = {isa = PBXFileReference; lastKnownFileType = folder; name = preprocessor; path = deps/build/prefix/ios/arm64/include/boost/preprocessor; sourceTree = SOURCE_ROOT; };
+		3BD51D7B2018C0CE0095B3C0 /* gil */ = {isa = PBXFileReference; lastKnownFileType = folder; name = gil; path = deps/build/prefix/ios/arm64/include/boost/gil; sourceTree = SOURCE_ROOT; };
+		3BD51D7C2018C0CE0095B3C0 /* make_shared.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = make_shared.hpp; path = deps/build/prefix/ios/arm64/include/boost/make_shared.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51D7D2018C0CE0095B3C0 /* tuple */ = {isa = PBXFileReference; lastKnownFileType = folder; name = tuple; path = deps/build/prefix/ios/arm64/include/boost/tuple; sourceTree = SOURCE_ROOT; };
+		3BD51D7E2018C0CE0095B3C0 /* test */ = {isa = PBXFileReference; lastKnownFileType = folder; name = test; path = deps/build/prefix/ios/arm64/include/boost/test; sourceTree = SOURCE_ROOT; };
+		3BD51D7F2018C0CF0095B3C0 /* cxx11_char_types.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = cxx11_char_types.hpp; path = deps/build/prefix/ios/arm64/include/boost/cxx11_char_types.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51D802018C0CF0095B3C0 /* mem_fn.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = mem_fn.hpp; path = deps/build/prefix/ios/arm64/include/boost/mem_fn.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51D812018C0CF0095B3C0 /* python.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = python.hpp; path = deps/build/prefix/ios/arm64/include/boost/python.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51D822018C0CF0095B3C0 /* concept_archetype.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = concept_archetype.hpp; path = deps/build/prefix/ios/arm64/include/boost/concept_archetype.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51D832018C0CF0095B3C0 /* coroutine2 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = coroutine2; path = deps/build/prefix/ios/arm64/include/boost/coroutine2; sourceTree = SOURCE_ROOT; };
+		3BD51D842018C0D10095B3C0 /* limits.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = limits.hpp; path = deps/build/prefix/ios/arm64/include/boost/limits.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51D852018C0D10095B3C0 /* compressed_pair.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = compressed_pair.hpp; path = deps/build/prefix/ios/arm64/include/boost/compressed_pair.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51D862018C0D10095B3C0 /* operators.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = operators.hpp; path = deps/build/prefix/ios/arm64/include/boost/operators.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51D872018C0D20095B3C0 /* random.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = random.hpp; path = deps/build/prefix/ios/arm64/include/boost/random.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51D882018C0D20095B3C0 /* regex_fwd.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = regex_fwd.hpp; path = deps/build/prefix/ios/arm64/include/boost/regex_fwd.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51D892018C0D20095B3C0 /* bimap.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = bimap.hpp; path = deps/build/prefix/ios/arm64/include/boost/bimap.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51D8A2018C0D20095B3C0 /* endian */ = {isa = PBXFileReference; lastKnownFileType = folder; name = endian; path = deps/build/prefix/ios/arm64/include/boost/endian; sourceTree = SOURCE_ROOT; };
+		3BD51D8B2018C0D20095B3C0 /* swap.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = swap.hpp; path = deps/build/prefix/ios/arm64/include/boost/swap.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51D8C2018C0D20095B3C0 /* cstdfloat.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = cstdfloat.hpp; path = deps/build/prefix/ios/arm64/include/boost/cstdfloat.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51D8D2018C0D20095B3C0 /* static_assert.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = static_assert.hpp; path = deps/build/prefix/ios/arm64/include/boost/static_assert.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51D8E2018C0D20095B3C0 /* lexical_cast */ = {isa = PBXFileReference; lastKnownFileType = folder; name = lexical_cast; path = deps/build/prefix/ios/arm64/include/boost/lexical_cast; sourceTree = SOURCE_ROOT; };
+		3BD51D8F2018C0D20095B3C0 /* range.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = range.hpp; path = deps/build/prefix/ios/arm64/include/boost/range.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51D902018C0D20095B3C0 /* format */ = {isa = PBXFileReference; lastKnownFileType = folder; name = format; path = deps/build/prefix/ios/arm64/include/boost/format; sourceTree = SOURCE_ROOT; };
+		3BD51D912018C0D20095B3C0 /* property_map */ = {isa = PBXFileReference; lastKnownFileType = folder; name = property_map; path = deps/build/prefix/ios/arm64/include/boost/property_map; sourceTree = SOURCE_ROOT; };
+		3BD51D922018C0D20095B3C0 /* blank_fwd.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = blank_fwd.hpp; path = deps/build/prefix/ios/arm64/include/boost/blank_fwd.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51D932018C0D20095B3C0 /* wave.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = wave.hpp; path = deps/build/prefix/ios/arm64/include/boost/wave.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51D942018C0D20095B3C0 /* fusion */ = {isa = PBXFileReference; lastKnownFileType = folder; name = fusion; path = deps/build/prefix/ios/arm64/include/boost/fusion; sourceTree = SOURCE_ROOT; };
+		3BD51D952018C0D20095B3C0 /* atomic */ = {isa = PBXFileReference; lastKnownFileType = folder; name = atomic; path = deps/build/prefix/ios/arm64/include/boost/atomic; sourceTree = SOURCE_ROOT; };
+		3BD51D962018C0D20095B3C0 /* geometry */ = {isa = PBXFileReference; lastKnownFileType = folder; name = geometry; path = deps/build/prefix/ios/arm64/include/boost/geometry; sourceTree = SOURCE_ROOT; };
+		3BD51D972018C0D20095B3C0 /* lockfree */ = {isa = PBXFileReference; lastKnownFileType = folder; name = lockfree; path = deps/build/prefix/ios/arm64/include/boost/lockfree; sourceTree = SOURCE_ROOT; };
+		3BD51D982018C0D20095B3C0 /* archive */ = {isa = PBXFileReference; lastKnownFileType = folder; name = archive; path = deps/build/prefix/ios/arm64/include/boost/archive; sourceTree = SOURCE_ROOT; };
+		3BD51D992018C0D40095B3C0 /* noncopyable.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = noncopyable.hpp; path = deps/build/prefix/ios/arm64/include/boost/noncopyable.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51D9A2018C0D40095B3C0 /* cstdlib.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = cstdlib.hpp; path = deps/build/prefix/ios/arm64/include/boost/cstdlib.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51D9B2018C0D40095B3C0 /* make_default.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = make_default.hpp; path = deps/build/prefix/ios/arm64/include/boost/make_default.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51D9C2018C0D40095B3C0 /* range */ = {isa = PBXFileReference; lastKnownFileType = folder; name = range; path = deps/build/prefix/ios/arm64/include/boost/range; sourceTree = SOURCE_ROOT; };
+		3BD51D9D2018C0D40095B3C0 /* function_output_iterator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = function_output_iterator.hpp; path = deps/build/prefix/ios/arm64/include/boost/function_output_iterator.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51D9E2018C0D40095B3C0 /* asio */ = {isa = PBXFileReference; lastKnownFileType = folder; name = asio; path = deps/build/prefix/ios/arm64/include/boost/asio; sourceTree = SOURCE_ROOT; };
+		3BD51D9F2018C0D50095B3C0 /* move */ = {isa = PBXFileReference; lastKnownFileType = folder; name = move; path = deps/build/prefix/ios/arm64/include/boost/move; sourceTree = SOURCE_ROOT; };
+		3BD51DA02018C0D50095B3C0 /* python */ = {isa = PBXFileReference; lastKnownFileType = folder; name = python; path = deps/build/prefix/ios/arm64/include/boost/python; sourceTree = SOURCE_ROOT; };
+		3BD51DA12018C0D50095B3C0 /* chrono */ = {isa = PBXFileReference; lastKnownFileType = folder; name = chrono; path = deps/build/prefix/ios/arm64/include/boost/chrono; sourceTree = SOURCE_ROOT; };
+		3BD51DA22018C0D50095B3C0 /* iostreams */ = {isa = PBXFileReference; lastKnownFileType = folder; name = iostreams; path = deps/build/prefix/ios/arm64/include/boost/iostreams; sourceTree = SOURCE_ROOT; };
+		3BD51DA32018C0D50095B3C0 /* circular_buffer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = circular_buffer.hpp; path = deps/build/prefix/ios/arm64/include/boost/circular_buffer.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51DA42018C0D50095B3C0 /* type_traits.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = type_traits.hpp; path = deps/build/prefix/ios/arm64/include/boost/type_traits.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51DA52018C0D50095B3C0 /* multi_array */ = {isa = PBXFileReference; lastKnownFileType = folder; name = multi_array; path = deps/build/prefix/ios/arm64/include/boost/multi_array; sourceTree = SOURCE_ROOT; };
+		3BD51DA62018C0D50095B3C0 /* logic */ = {isa = PBXFileReference; lastKnownFileType = folder; name = logic; path = deps/build/prefix/ios/arm64/include/boost/logic; sourceTree = SOURCE_ROOT; };
+		3BD51DA72018C0D50095B3C0 /* phoenix.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = phoenix.hpp; path = deps/build/prefix/ios/arm64/include/boost/phoenix.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51DA82018C0D60095B3C0 /* function_equal.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = function_equal.hpp; path = deps/build/prefix/ios/arm64/include/boost/function_equal.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51DA92018C0D60095B3C0 /* preprocessor.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = preprocessor.hpp; path = deps/build/prefix/ios/arm64/include/boost/preprocessor.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51DAA2018C0D60095B3C0 /* statechart */ = {isa = PBXFileReference; lastKnownFileType = folder; name = statechart; path = deps/build/prefix/ios/arm64/include/boost/statechart; sourceTree = SOURCE_ROOT; };
+		3BD51DAB2018C0D60095B3C0 /* locale.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = locale.hpp; path = deps/build/prefix/ios/arm64/include/boost/locale.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51DAC2018C0D60095B3C0 /* cstdint.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = cstdint.hpp; path = deps/build/prefix/ios/arm64/include/boost/cstdint.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51DAD2018C0D60095B3C0 /* shared_array.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = shared_array.hpp; path = deps/build/prefix/ios/arm64/include/boost/shared_array.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51DAE2018C0D60095B3C0 /* smart_ptr */ = {isa = PBXFileReference; lastKnownFileType = folder; name = smart_ptr; path = deps/build/prefix/ios/arm64/include/boost/smart_ptr; sourceTree = SOURCE_ROOT; };
+		3BD51DAF2018C0D60095B3C0 /* pointer_to_other.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = pointer_to_other.hpp; path = deps/build/prefix/ios/arm64/include/boost/pointer_to_other.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51DB02018C0D60095B3C0 /* phoenix */ = {isa = PBXFileReference; lastKnownFileType = folder; name = phoenix; path = deps/build/prefix/ios/arm64/include/boost/phoenix; sourceTree = SOURCE_ROOT; };
+		3BD51DB12018C0D70095B3C0 /* variant.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = variant.hpp; path = deps/build/prefix/ios/arm64/include/boost/variant.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51DB22018C0D70095B3C0 /* token_iterator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = token_iterator.hpp; path = deps/build/prefix/ios/arm64/include/boost/token_iterator.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51DB32018C0D70095B3C0 /* ref.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ref.hpp; path = deps/build/prefix/ios/arm64/include/boost/ref.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51DB42018C0D70095B3C0 /* pending */ = {isa = PBXFileReference; lastKnownFileType = folder; name = pending; path = deps/build/prefix/ios/arm64/include/boost/pending; sourceTree = SOURCE_ROOT; };
+		3BD51DB52018C0D70095B3C0 /* function_types */ = {isa = PBXFileReference; lastKnownFileType = folder; name = function_types; path = deps/build/prefix/ios/arm64/include/boost/function_types; sourceTree = SOURCE_ROOT; };
+		3BD51DB62018C0D70095B3C0 /* local_function */ = {isa = PBXFileReference; lastKnownFileType = folder; name = local_function; path = deps/build/prefix/ios/arm64/include/boost/local_function; sourceTree = SOURCE_ROOT; };
+		3BD51DB72018C0D70095B3C0 /* type_index.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = type_index.hpp; path = deps/build/prefix/ios/arm64/include/boost/type_index.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51DB82018C0D70095B3C0 /* unordered */ = {isa = PBXFileReference; lastKnownFileType = folder; name = unordered; path = deps/build/prefix/ios/arm64/include/boost/unordered; sourceTree = SOURCE_ROOT; };
+		3BD51DB92018C0D70095B3C0 /* program_options.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = program_options.hpp; path = deps/build/prefix/ios/arm64/include/boost/program_options.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51DBA2018C0D70095B3C0 /* assign.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = assign.hpp; path = deps/build/prefix/ios/arm64/include/boost/assign.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51DBB2018C0D70095B3C0 /* core */ = {isa = PBXFileReference; lastKnownFileType = folder; name = core; path = deps/build/prefix/ios/arm64/include/boost/core; sourceTree = SOURCE_ROOT; };
+		3BD51DBC2018C0D70095B3C0 /* bind.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = bind.hpp; path = deps/build/prefix/ios/arm64/include/boost/bind.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51DBD2018C0D80095B3C0 /* interprocess */ = {isa = PBXFileReference; lastKnownFileType = folder; name = interprocess; path = deps/build/prefix/ios/arm64/include/boost/interprocess; sourceTree = SOURCE_ROOT; };
+		3BD51DBE2018C0D80095B3C0 /* crc.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = crc.hpp; path = deps/build/prefix/ios/arm64/include/boost/crc.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51DBF2018C0D80095B3C0 /* dynamic_bitset_fwd.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = dynamic_bitset_fwd.hpp; path = deps/build/prefix/ios/arm64/include/boost/dynamic_bitset_fwd.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51DC02018C0D80095B3C0 /* call_traits.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = call_traits.hpp; path = deps/build/prefix/ios/arm64/include/boost/call_traits.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51DC12018C0D80095B3C0 /* optional */ = {isa = PBXFileReference; lastKnownFileType = folder; name = optional; path = deps/build/prefix/ios/arm64/include/boost/optional; sourceTree = SOURCE_ROOT; };
+		3BD51DC22018C0D80095B3C0 /* dynamic_bitset */ = {isa = PBXFileReference; lastKnownFileType = folder; name = dynamic_bitset; path = deps/build/prefix/ios/arm64/include/boost/dynamic_bitset; sourceTree = SOURCE_ROOT; };
+		3BD51DC32018C0D80095B3C0 /* type.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = type.hpp; path = deps/build/prefix/ios/arm64/include/boost/type.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51DC42018C0D80095B3C0 /* bind */ = {isa = PBXFileReference; lastKnownFileType = folder; name = bind; path = deps/build/prefix/ios/arm64/include/boost/bind; sourceTree = SOURCE_ROOT; };
+		3BD51DC52018C0D80095B3C0 /* heap */ = {isa = PBXFileReference; lastKnownFileType = folder; name = heap; path = deps/build/prefix/ios/arm64/include/boost/heap; sourceTree = SOURCE_ROOT; };
+		3BD51DC62018C0D80095B3C0 /* implicit_cast.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = implicit_cast.hpp; path = deps/build/prefix/ios/arm64/include/boost/implicit_cast.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51DC72018C0D80095B3C0 /* type_erasure */ = {isa = PBXFileReference; lastKnownFileType = folder; name = type_erasure; path = deps/build/prefix/ios/arm64/include/boost/type_erasure; sourceTree = SOURCE_ROOT; };
+		3BD51DC82018C0D80095B3C0 /* last_value.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = last_value.hpp; path = deps/build/prefix/ios/arm64/include/boost/last_value.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51DC92018C0D80095B3C0 /* context */ = {isa = PBXFileReference; lastKnownFileType = folder; name = context; path = deps/build/prefix/ios/arm64/include/boost/context; sourceTree = SOURCE_ROOT; };
+		3BD51DCA2018C0D80095B3C0 /* smart_ptr.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = smart_ptr.hpp; path = deps/build/prefix/ios/arm64/include/boost/smart_ptr.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51DCB2018C0D90095B3C0 /* typeof */ = {isa = PBXFileReference; lastKnownFileType = folder; name = typeof; path = deps/build/prefix/ios/arm64/include/boost/typeof; sourceTree = SOURCE_ROOT; };
+		3BD51DCC2018C0D90095B3C0 /* visit_each.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = visit_each.hpp; path = deps/build/prefix/ios/arm64/include/boost/visit_each.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51DCD2018C0D90095B3C0 /* parameter.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = parameter.hpp; path = deps/build/prefix/ios/arm64/include/boost/parameter.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51DCE2018C0D90095B3C0 /* cast.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = cast.hpp; path = deps/build/prefix/ios/arm64/include/boost/cast.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51DCF2018C0D90095B3C0 /* graph */ = {isa = PBXFileReference; lastKnownFileType = folder; name = graph; path = deps/build/prefix/ios/arm64/include/boost/graph; sourceTree = SOURCE_ROOT; };
+		3BD51DD02018C0D90095B3C0 /* assert.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = assert.hpp; path = deps/build/prefix/ios/arm64/include/boost/assert.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51DD12018C0D90095B3C0 /* polymorphic_pointer_cast.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = polymorphic_pointer_cast.hpp; path = deps/build/prefix/ios/arm64/include/boost/polymorphic_pointer_cast.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51DD22018C0D90095B3C0 /* circular_buffer_fwd.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = circular_buffer_fwd.hpp; path = deps/build/prefix/ios/arm64/include/boost/circular_buffer_fwd.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51DD32018C0D90095B3C0 /* icl */ = {isa = PBXFileReference; lastKnownFileType = folder; name = icl; path = deps/build/prefix/ios/arm64/include/boost/icl; sourceTree = SOURCE_ROOT; };
+		3BD51DD42018C0D90095B3C0 /* lambda */ = {isa = PBXFileReference; lastKnownFileType = folder; name = lambda; path = deps/build/prefix/ios/arm64/include/boost/lambda; sourceTree = SOURCE_ROOT; };
+		3BD51DD52018C0D90095B3C0 /* token_functions.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = token_functions.hpp; path = deps/build/prefix/ios/arm64/include/boost/token_functions.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51DD62018C0D90095B3C0 /* flyweight */ = {isa = PBXFileReference; lastKnownFileType = folder; name = flyweight; path = deps/build/prefix/ios/arm64/include/boost/flyweight; sourceTree = SOURCE_ROOT; };
+		3BD51DD72018C0DA0095B3C0 /* align */ = {isa = PBXFileReference; lastKnownFileType = folder; name = align; path = deps/build/prefix/ios/arm64/include/boost/align; sourceTree = SOURCE_ROOT; };
+		3BD51DD82018C0DA0095B3C0 /* utility.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = utility.hpp; path = deps/build/prefix/ios/arm64/include/boost/utility.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51DD92018C0DA0095B3C0 /* thread */ = {isa = PBXFileReference; lastKnownFileType = folder; name = thread; path = deps/build/prefix/ios/arm64/include/boost/thread; sourceTree = SOURCE_ROOT; };
+		3BD51DDA2018C0DA0095B3C0 /* timer */ = {isa = PBXFileReference; lastKnownFileType = folder; name = timer; path = deps/build/prefix/ios/arm64/include/boost/timer; sourceTree = SOURCE_ROOT; };
+		3BD51DDB2018C0DA0095B3C0 /* rational.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = rational.hpp; path = deps/build/prefix/ios/arm64/include/boost/rational.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51DDC2018C0DA0095B3C0 /* function */ = {isa = PBXFileReference; lastKnownFileType = folder; name = function; path = deps/build/prefix/ios/arm64/include/boost/function; sourceTree = SOURCE_ROOT; };
+		3BD51DDD2018C0DA0095B3C0 /* signals.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = signals.hpp; path = deps/build/prefix/ios/arm64/include/boost/signals.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51DDE2018C0DA0095B3C0 /* polygon */ = {isa = PBXFileReference; lastKnownFileType = folder; name = polygon; path = deps/build/prefix/ios/arm64/include/boost/polygon; sourceTree = SOURCE_ROOT; };
+		3BD51DDF2018C0DA0095B3C0 /* none.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = none.hpp; path = deps/build/prefix/ios/arm64/include/boost/none.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51DE02018C0DA0095B3C0 /* lexical_cast.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = lexical_cast.hpp; path = deps/build/prefix/ios/arm64/include/boost/lexical_cast.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51DE12018C0DA0095B3C0 /* nondet_random.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = nondet_random.hpp; path = deps/build/prefix/ios/arm64/include/boost/nondet_random.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51DE22018C0DA0095B3C0 /* pool */ = {isa = PBXFileReference; lastKnownFileType = folder; name = pool; path = deps/build/prefix/ios/arm64/include/boost/pool; sourceTree = SOURCE_ROOT; };
+		3BD51DE32018C0DB0095B3C0 /* shared_ptr.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = shared_ptr.hpp; path = deps/build/prefix/ios/arm64/include/boost/shared_ptr.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51DE42018C0DB0095B3C0 /* random */ = {isa = PBXFileReference; lastKnownFileType = folder; name = random; path = deps/build/prefix/ios/arm64/include/boost/random; sourceTree = SOURCE_ROOT; };
+		3BD51DE52018C0DB0095B3C0 /* tokenizer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = tokenizer.hpp; path = deps/build/prefix/ios/arm64/include/boost/tokenizer.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51DE62018C0DB0095B3C0 /* assign */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assign; path = deps/build/prefix/ios/arm64/include/boost/assign; sourceTree = SOURCE_ROOT; };
+		3BD51DE72018C0DB0095B3C0 /* log */ = {isa = PBXFileReference; lastKnownFileType = folder; name = log; path = deps/build/prefix/ios/arm64/include/boost/log; sourceTree = SOURCE_ROOT; };
+		3BD51DE82018C0DB0095B3C0 /* cerrno.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = cerrno.hpp; path = deps/build/prefix/ios/arm64/include/boost/cerrno.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51DE92018C0DB0095B3C0 /* indirect_reference.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = indirect_reference.hpp; path = deps/build/prefix/ios/arm64/include/boost/indirect_reference.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51DEA2018C0DB0095B3C0 /* dynamic_bitset.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = dynamic_bitset.hpp; path = deps/build/prefix/ios/arm64/include/boost/dynamic_bitset.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51DEB2018C0DB0095B3C0 /* regex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = regex.h; path = deps/build/prefix/ios/arm64/include/boost/regex.h; sourceTree = SOURCE_ROOT; };
+		3BD51DEC2018C0DB0095B3C0 /* concept_check */ = {isa = PBXFileReference; lastKnownFileType = folder; name = concept_check; path = deps/build/prefix/ios/arm64/include/boost/concept_check; sourceTree = SOURCE_ROOT; };
+		3BD51DED2018C0DC0095B3C0 /* asio.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = asio.hpp; path = deps/build/prefix/ios/arm64/include/boost/asio.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51DEE2018C0DC0095B3C0 /* algorithm */ = {isa = PBXFileReference; lastKnownFileType = folder; name = algorithm; path = deps/build/prefix/ios/arm64/include/boost/algorithm; sourceTree = SOURCE_ROOT; };
+		3BD51DEF2018C0DC0095B3C0 /* throw_exception.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = throw_exception.hpp; path = deps/build/prefix/ios/arm64/include/boost/throw_exception.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51DF02018C0DC0095B3C0 /* ptr_container */ = {isa = PBXFileReference; lastKnownFileType = folder; name = ptr_container; path = deps/build/prefix/ios/arm64/include/boost/ptr_container; sourceTree = SOURCE_ROOT; };
+		3BD51DF12018C0DC0095B3C0 /* scoped_ptr.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = scoped_ptr.hpp; path = deps/build/prefix/ios/arm64/include/boost/scoped_ptr.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51DF22018C0DC0095B3C0 /* pointer_cast.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = pointer_cast.hpp; path = deps/build/prefix/ios/arm64/include/boost/pointer_cast.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51DF32018C0DC0095B3C0 /* serialization */ = {isa = PBXFileReference; lastKnownFileType = folder; name = serialization; path = deps/build/prefix/ios/arm64/include/boost/serialization; sourceTree = SOURCE_ROOT; };
+		3BD51DF42018C0DC0095B3C0 /* multi_index_container.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = multi_index_container.hpp; path = deps/build/prefix/ios/arm64/include/boost/multi_index_container.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51DF52018C0DC0095B3C0 /* container */ = {isa = PBXFileReference; lastKnownFileType = folder; name = container; path = deps/build/prefix/ios/arm64/include/boost/container; sourceTree = SOURCE_ROOT; };
+		3BD51DF62018C0DC0095B3C0 /* optional.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = optional.hpp; path = deps/build/prefix/ios/arm64/include/boost/optional.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51DF72018C0DC0095B3C0 /* ratio.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ratio.hpp; path = deps/build/prefix/ios/arm64/include/boost/ratio.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51DF82018C0DD0095B3C0 /* iterator_adaptors.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = iterator_adaptors.hpp; path = deps/build/prefix/ios/arm64/include/boost/iterator_adaptors.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51DF92018C0DD0095B3C0 /* intrusive */ = {isa = PBXFileReference; lastKnownFileType = folder; name = intrusive; path = deps/build/prefix/ios/arm64/include/boost/intrusive; sourceTree = SOURCE_ROOT; };
+		3BD51DFA2018C0DD0095B3C0 /* blank.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = blank.hpp; path = deps/build/prefix/ios/arm64/include/boost/blank.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51DFB2018C0DD0095B3C0 /* mpi */ = {isa = PBXFileReference; lastKnownFileType = folder; name = mpi; path = deps/build/prefix/ios/arm64/include/boost/mpi; sourceTree = SOURCE_ROOT; };
+		3BD51DFC2018C0DD0095B3C0 /* iterator */ = {isa = PBXFileReference; lastKnownFileType = folder; name = iterator; path = deps/build/prefix/ios/arm64/include/boost/iterator; sourceTree = SOURCE_ROOT; };
+		3BD51DFD2018C0DD0095B3C0 /* signals2 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = signals2; path = deps/build/prefix/ios/arm64/include/boost/signals2; sourceTree = SOURCE_ROOT; };
+		3BD51DFE2018C0DD0095B3C0 /* foreach.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = foreach.hpp; path = deps/build/prefix/ios/arm64/include/boost/foreach.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51DFF2018C0DD0095B3C0 /* any.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = any.hpp; path = deps/build/prefix/ios/arm64/include/boost/any.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51E002018C0DD0095B3C0 /* signals */ = {isa = PBXFileReference; lastKnownFileType = folder; name = signals; path = deps/build/prefix/ios/arm64/include/boost/signals; sourceTree = SOURCE_ROOT; };
+		3BD51E012018C0DD0095B3C0 /* concept */ = {isa = PBXFileReference; lastKnownFileType = folder; name = concept; path = deps/build/prefix/ios/arm64/include/boost/concept; sourceTree = SOURCE_ROOT; };
+		3BD51E022018C0DD0095B3C0 /* detail */ = {isa = PBXFileReference; lastKnownFileType = folder; name = detail; path = deps/build/prefix/ios/arm64/include/boost/detail; sourceTree = SOURCE_ROOT; };
+		3BD51E032018C0DE0095B3C0 /* functional */ = {isa = PBXFileReference; lastKnownFileType = folder; name = functional; path = deps/build/prefix/ios/arm64/include/boost/functional; sourceTree = SOURCE_ROOT; };
+		3BD51E042018C0DE0095B3C0 /* system */ = {isa = PBXFileReference; lastKnownFileType = folder; name = system; path = deps/build/prefix/ios/arm64/include/boost/system; sourceTree = SOURCE_ROOT; };
+		3BD51E052018C0DE0095B3C0 /* multi_index_container_fwd.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = multi_index_container_fwd.hpp; path = deps/build/prefix/ios/arm64/include/boost/multi_index_container_fwd.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51E062018C0DE0095B3C0 /* xpressive */ = {isa = PBXFileReference; lastKnownFileType = folder; name = xpressive; path = deps/build/prefix/ios/arm64/include/boost/xpressive; sourceTree = SOURCE_ROOT; };
+		3BD51E072018C0DE0095B3C0 /* type_index */ = {isa = PBXFileReference; lastKnownFileType = folder; name = type_index; path = deps/build/prefix/ios/arm64/include/boost/type_index; sourceTree = SOURCE_ROOT; };
+		3BD51E082018C0DE0095B3C0 /* date_time.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = date_time.hpp; path = deps/build/prefix/ios/arm64/include/boost/date_time.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51E092018C0DE0095B3C0 /* make_unique.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = make_unique.hpp; path = deps/build/prefix/ios/arm64/include/boost/make_unique.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51E0A2018C0DE0095B3C0 /* regex */ = {isa = PBXFileReference; lastKnownFileType = folder; name = regex; path = deps/build/prefix/ios/arm64/include/boost/regex; sourceTree = SOURCE_ROOT; };
+		3BD51E0B2018C0DE0095B3C0 /* chrono.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = chrono.hpp; path = deps/build/prefix/ios/arm64/include/boost/chrono.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51E0C2018C0DE0095B3C0 /* numeric */ = {isa = PBXFileReference; lastKnownFileType = folder; name = numeric; path = deps/build/prefix/ios/arm64/include/boost/numeric; sourceTree = SOURCE_ROOT; };
+		3BD51E0D2018C0DE0095B3C0 /* math */ = {isa = PBXFileReference; lastKnownFileType = folder; name = math; path = deps/build/prefix/ios/arm64/include/boost/math; sourceTree = SOURCE_ROOT; };
+		3BD51E0E2018C0DF0095B3C0 /* ratio */ = {isa = PBXFileReference; lastKnownFileType = folder; name = ratio; path = deps/build/prefix/ios/arm64/include/boost/ratio; sourceTree = SOURCE_ROOT; };
+		3BD51E0F2018C0DF0095B3C0 /* shared_container_iterator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = shared_container_iterator.hpp; path = deps/build/prefix/ios/arm64/include/boost/shared_container_iterator.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51E102018C0DF0095B3C0 /* uuid */ = {isa = PBXFileReference; lastKnownFileType = folder; name = uuid; path = deps/build/prefix/ios/arm64/include/boost/uuid; sourceTree = SOURCE_ROOT; };
+		3BD51E112018C0DF0095B3C0 /* proto */ = {isa = PBXFileReference; lastKnownFileType = folder; name = proto; path = deps/build/prefix/ios/arm64/include/boost/proto; sourceTree = SOURCE_ROOT; };
+		3BD51E122018C0DF0095B3C0 /* generator_iterator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = generator_iterator.hpp; path = deps/build/prefix/ios/arm64/include/boost/generator_iterator.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51E132018C0DF0095B3C0 /* config */ = {isa = PBXFileReference; lastKnownFileType = folder; name = config; path = deps/build/prefix/ios/arm64/include/boost/config; sourceTree = SOURCE_ROOT; };
+		3BD51E142018C0DF0095B3C0 /* array.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = array.hpp; path = deps/build/prefix/ios/arm64/include/boost/array.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51E152018C0DF0095B3C0 /* multi_index */ = {isa = PBXFileReference; lastKnownFileType = folder; name = multi_index; path = deps/build/prefix/ios/arm64/include/boost/multi_index; sourceTree = SOURCE_ROOT; };
+		3BD51E162018C0DF0095B3C0 /* type_traits */ = {isa = PBXFileReference; lastKnownFileType = folder; name = type_traits; path = deps/build/prefix/ios/arm64/include/boost/type_traits; sourceTree = SOURCE_ROOT; };
+		3BD51E172018C0DF0095B3C0 /* utility */ = {isa = PBXFileReference; lastKnownFileType = folder; name = utility; path = deps/build/prefix/ios/arm64/include/boost/utility; sourceTree = SOURCE_ROOT; };
+		3BD51E182018C0E00095B3C0 /* accumulators */ = {isa = PBXFileReference; lastKnownFileType = folder; name = accumulators; path = deps/build/prefix/ios/arm64/include/boost/accumulators; sourceTree = SOURCE_ROOT; };
+		3BD51E192018C0E00095B3C0 /* exception_ptr.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = exception_ptr.hpp; path = deps/build/prefix/ios/arm64/include/boost/exception_ptr.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51E1A2018C0E00095B3C0 /* predef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = predef.h; path = deps/build/prefix/ios/arm64/include/boost/predef.h; sourceTree = SOURCE_ROOT; };
+		3BD51E1B2018C0E00095B3C0 /* signals2.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = signals2.hpp; path = deps/build/prefix/ios/arm64/include/boost/signals2.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51E1C2018C0E00095B3C0 /* version.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = version.hpp; path = deps/build/prefix/ios/arm64/include/boost/version.hpp; sourceTree = SOURCE_ROOT; };
+		3BD51E1D2018C0E00095B3C0 /* program_options */ = {isa = PBXFileReference; lastKnownFileType = folder; name = program_options; path = deps/build/prefix/ios/arm64/include/boost/program_options; sourceTree = SOURCE_ROOT; };
+		3BD51F082018C0F10095B3C0 /* secp256k1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = secp256k1.h; path = deps/build/prefix/ios/arm64/include/secp256k1.h; sourceTree = SOURCE_ROOT; };
+		3BD78081201430A000E44B14 /* CNBitcoinKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CNBitcoinKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3BD78084201430A000E44B14 /* CNBitcoinKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CNBitcoinKit.h; sourceTree = "<group>"; };
+		3BD78085201430A000E44B14 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3BD7808A201430A000E44B14 /* CNBitcoinKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CNBitcoinKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3BD7808F201430A000E44B14 /* CNBHDWalletTests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CNBHDWalletTests.mm; sourceTree = "<group>"; };
+		3BD78091201430A000E44B14 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3BD780A3201431B700E44B14 /* CNBHDWallet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CNBHDWallet.h; sourceTree = "<group>"; };
+		3BD781512017B16200E44B14 /* CNBHDWallet.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CNBHDWallet.mm; sourceTree = "<group>"; };
+		3BD7B73A20D7E68C005057A7 /* CNBAddressResult.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CNBAddressResult.h; sourceTree = "<group>"; };
+		3BD7B73B20D7E68C005057A7 /* CNBAddressResult.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CNBAddressResult.m; sourceTree = "<group>"; };
+		3BDC16F5220E257400AA42F3 /* GeneratedWords.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeneratedWords.h; sourceTree = "<group>"; };
+		3BDC16F6220E257400AA42F3 /* GeneratedWords.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GeneratedWords.m; sourceTree = "<group>"; };
+		3BDC16F8220E2ED000AA42F3 /* GeneratedWordsHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeneratedWordsHelper.h; sourceTree = "<group>"; };
+		3BDC16F9220E2ED000AA42F3 /* GeneratedWordsHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GeneratedWordsHelper.m; sourceTree = "<group>"; };
+		3BE87CF22018C401001D4A65 /* CNBHDWallet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CNBHDWallet.h; sourceTree = "<group>"; };
+		3BE8AA1921F20D4800A3F0C4 /* CNBCipherKeys.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CNBCipherKeys.h; sourceTree = "<group>"; };
+		3BE8AA1A21F20D4800A3F0C4 /* CNBCipherKeys.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CNBCipherKeys.m; sourceTree = "<group>"; };
+		3BE8AA2521F78C6F00A3F0C4 /* cipher_keys.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = cipher_keys.cpp; sourceTree = "<group>"; };
+		3BE8AA2621F78C6F00A3F0C4 /* cipher_keys.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = cipher_keys.hpp; sourceTree = "<group>"; };
+		3BE8AA2921F78CBB00A3F0C4 /* encryption_cipher_keys.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = encryption_cipher_keys.cpp; sourceTree = "<group>"; };
+		3BE8AA2A21F78CBB00A3F0C4 /* encryption_cipher_keys.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = encryption_cipher_keys.hpp; sourceTree = "<group>"; };
+		3BE8AA2D21F794CC00A3F0C4 /* CNBEncryptionCipherKeys.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CNBEncryptionCipherKeys.h; sourceTree = "<group>"; };
+		3BE8AA2E21F794CC00A3F0C4 /* CNBEncryptionCipherKeys.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CNBEncryptionCipherKeys.m; sourceTree = "<group>"; };
+		A216D77820AA19D5005FBAC2 /* CNBDerivationPath.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CNBDerivationPath.m; sourceTree = "<group>"; };
+		A216D77A20AA19FE005FBAC2 /* CNBDerivationPath.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CNBDerivationPath.h; sourceTree = "<group>"; };
+		A216D77C20AA1C73005FBAC2 /* CNBUnspentTransactionOutput.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CNBUnspentTransactionOutput.m; sourceTree = "<group>"; };
+		A216D77E20AA1C8F005FBAC2 /* CNBUnspentTransactionOutput.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CNBUnspentTransactionOutput.h; sourceTree = "<group>"; };
+		A216D78020AA1EC7005FBAC2 /* CNBTransactionData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CNBTransactionData.m; sourceTree = "<group>"; };
+		A216D78220AA1ED9005FBAC2 /* CNBTransactionData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CNBTransactionData.h; sourceTree = "<group>"; };
+		A216D78420AA2423005FBAC2 /* CNBTransactionBuilder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CNBTransactionBuilder.m; sourceTree = "<group>"; };
+		A216D78620AA2430005FBAC2 /* CNBTransactionBuilder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CNBTransactionBuilder.h; sourceTree = "<group>"; };
+		A216D78820AB4A85005FBAC2 /* CNBTransactionBuilderMainnetTests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CNBTransactionBuilderMainnetTests.mm; sourceTree = "<group>"; };
+		A216D78A20ACAD5B005FBAC2 /* CNBHDWallet+Project.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CNBHDWallet+Project.h"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		3BD7807D201430A000E44B14 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3B29A2DC21EE1BFA00F72511 /* libsodium.a in Frameworks */,
+				3B4215AD201A5B54000C4E64 /* libzmq.a in Frameworks */,
+				3BB5934320190A5000B84626 /* libbitcoin-client.a in Frameworks */,
+				3BB5934120190A4400B84626 /* libbitcoin-protocol.a in Frameworks */,
+				3BB5932F2018ED2C00B84626 /* libboost_date_time.a in Frameworks */,
+				3BB593302018ED2C00B84626 /* libboost_filesystem.a in Frameworks */,
+				3BB593312018ED2C00B84626 /* libboost_log_setup.a in Frameworks */,
+				3BB593322018ED2C00B84626 /* libboost_thread.a in Frameworks */,
+				3BB593332018ED2C00B84626 /* libboost_regex.a in Frameworks */,
+				3BB593342018ED2C00B84626 /* libboost_atomic.a in Frameworks */,
+				3BB593352018ED2C00B84626 /* libboost_chrono.a in Frameworks */,
+				3BB593362018ED2C00B84626 /* libboost_log.a in Frameworks */,
+				3BB593372018ED2C00B84626 /* libboost_iostreams.a in Frameworks */,
+				3BB593382018ED2C00B84626 /* libboost_program_options.a in Frameworks */,
+				3BB593392018ED2C00B84626 /* libboost_system.a in Frameworks */,
+				3BB593232018ED1C00B84626 /* libsecp256k1.a in Frameworks */,
+				3BB593212018ED0E00B84626 /* libbitcoin.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3BD78087201430A000E44B14 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3BD7808B201430A000E44B14 /* CNBitcoinKit.framework in Frameworks */,
+				3715FCFD20AE1E9100D29BEB /* libboost_regex.a in Frameworks */,
+				3715FCFC20AE1E7200D29BEB /* libboost_program_options.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		3B4215AE201A5D3E000C4E64 /* libzmq */ = {
+			isa = PBXGroup;
+			children = (
+				3B4215AF201A5D56000C4E64 /* zmq_utils.h */,
+				3B4215B0201A5D56000C4E64 /* zmq.h */,
+			);
+			name = libzmq;
+			sourceTree = "<group>";
+		};
+		3B791A5621ED36A6006CDD1E /* libsodium */ = {
+			isa = PBXGroup;
+			children = (
+				3B791A5721ED38D9006CDD1E /* sodium.h */,
+				3B791AE521ED395B006CDD1E /* sodium */,
+			);
+			name = libsodium;
+			sourceTree = "<group>";
+		};
+		3BD51D2C2018C0050095B3C0 /* external */ = {
+			isa = PBXGroup;
+			children = (
+				3BD51D2D2018C0170095B3C0 /* include */,
+			);
+			name = external;
+			sourceTree = "<group>";
+		};
+		3BD51D2D2018C0170095B3C0 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				3B791A5621ED36A6006CDD1E /* libsodium */,
+				3B4215AE201A5D3E000C4E64 /* libzmq */,
+				3BD51F082018C0F10095B3C0 /* secp256k1.h */,
+				3BD51D332018C0AA0095B3C0 /* boost */,
+				3BD51D2E2018C0220095B3C0 /* bitcoin */,
+			);
+			name = include;
+			sourceTree = "<group>";
+		};
+		3BD51D2E2018C0220095B3C0 /* bitcoin */ = {
+			isa = PBXGroup;
+			children = (
+				3BD51D302018C0960095B3C0 /* bitcoin */,
+				3BD51D2F2018C0960095B3C0 /* bitcoin.hpp */,
+			);
+			name = bitcoin;
+			sourceTree = "<group>";
+		};
+		3BD51D332018C0AA0095B3C0 /* boost */ = {
+			isa = PBXGroup;
+			children = (
+				3BD51E182018C0E00095B3C0 /* accumulators */,
+				3BD51DEE2018C0DC0095B3C0 /* algorithm */,
+				3BD51DD72018C0DA0095B3C0 /* align */,
+				3BD51D702018C0CE0095B3C0 /* align.hpp */,
+				3BD51D492018C0CA0095B3C0 /* aligned_storage.hpp */,
+				3BD51DFF2018C0DD0095B3C0 /* any.hpp */,
+				3BD51D982018C0D20095B3C0 /* archive */,
+				3BD51E142018C0DF0095B3C0 /* array.hpp */,
+				3BD51D9E2018C0D40095B3C0 /* asio */,
+				3BD51DED2018C0DC0095B3C0 /* asio.hpp */,
+				3BD51DD02018C0D90095B3C0 /* assert.hpp */,
+				3BD51DE62018C0DB0095B3C0 /* assign */,
+				3BD51DBA2018C0D70095B3C0 /* assign.hpp */,
+				3BD51D952018C0D20095B3C0 /* atomic */,
+				3BD51D712018C0CE0095B3C0 /* atomic.hpp */,
+				3BD51D622018C0CD0095B3C0 /* bimap */,
+				3BD51D892018C0D20095B3C0 /* bimap.hpp */,
+				3BD51DC42018C0D80095B3C0 /* bind */,
+				3BD51DBC2018C0D70095B3C0 /* bind.hpp */,
+				3BD51D922018C0D20095B3C0 /* blank_fwd.hpp */,
+				3BD51DFA2018C0DD0095B3C0 /* blank.hpp */,
+				3BD51DC02018C0D80095B3C0 /* call_traits.hpp */,
+				3BD51DCE2018C0D90095B3C0 /* cast.hpp */,
+				3BD51DE82018C0DB0095B3C0 /* cerrno.hpp */,
+				3BD51D372018C0C90095B3C0 /* checked_delete.hpp */,
+				3BD51DA12018C0D50095B3C0 /* chrono */,
+				3BD51E0B2018C0DE0095B3C0 /* chrono.hpp */,
+				3BD51D582018C0CC0095B3C0 /* circular_buffer */,
+				3BD51DD22018C0D90095B3C0 /* circular_buffer_fwd.hpp */,
+				3BD51DA32018C0D50095B3C0 /* circular_buffer.hpp */,
+				3BD51D3A2018C0C90095B3C0 /* compatibility */,
+				3BD51D852018C0D10095B3C0 /* compressed_pair.hpp */,
+				3BD51E012018C0DD0095B3C0 /* concept */,
+				3BD51D822018C0CF0095B3C0 /* concept_archetype.hpp */,
+				3BD51DEC2018C0DB0095B3C0 /* concept_check */,
+				3BD51D632018C0CD0095B3C0 /* concept_check.hpp */,
+				3BD51E132018C0DF0095B3C0 /* config */,
+				3BD51D782018C0CE0095B3C0 /* config.hpp */,
+				3BD51DF52018C0DC0095B3C0 /* container */,
+				3BD51DC92018C0D80095B3C0 /* context */,
+				3BD51D642018C0CD0095B3C0 /* convert */,
+				3BD51D422018C0CA0095B3C0 /* convert.hpp */,
+				3BD51DBB2018C0D70095B3C0 /* core */,
+				3BD51D542018C0CC0095B3C0 /* coroutine */,
+				3BD51D832018C0CF0095B3C0 /* coroutine2 */,
+				3BD51DBE2018C0D80095B3C0 /* crc.hpp */,
+				3BD51D4B2018C0CB0095B3C0 /* cregex.hpp */,
+				3BD51D8C2018C0D20095B3C0 /* cstdfloat.hpp */,
+				3BD51DAC2018C0D60095B3C0 /* cstdint.hpp */,
+				3BD51D9A2018C0D40095B3C0 /* cstdlib.hpp */,
+				3BD51D662018C0CD0095B3C0 /* current_function.hpp */,
+				3BD51D7F2018C0CF0095B3C0 /* cxx11_char_types.hpp */,
+				3BD51D732018C0CE0095B3C0 /* date_time */,
+				3BD51E082018C0DE0095B3C0 /* date_time.hpp */,
+				3BD51E022018C0DD0095B3C0 /* detail */,
+				3BD51DC22018C0D80095B3C0 /* dynamic_bitset */,
+				3BD51DBF2018C0D80095B3C0 /* dynamic_bitset_fwd.hpp */,
+				3BD51DEA2018C0DB0095B3C0 /* dynamic_bitset.hpp */,
+				3BD51D4F2018C0CB0095B3C0 /* enable_shared_from_this.hpp */,
+				3BD51D8A2018C0D20095B3C0 /* endian */,
+				3BD51D6D2018C0CE0095B3C0 /* exception */,
+				3BD51E192018C0E00095B3C0 /* exception_ptr.hpp */,
+				3BD51D5B2018C0CD0095B3C0 /* filesystem */,
+				3BD51D6F2018C0CE0095B3C0 /* filesystem.hpp */,
+				3BD51DD62018C0D90095B3C0 /* flyweight */,
+				3BD51D482018C0CA0095B3C0 /* flyweight.hpp */,
+				3BD51D762018C0CE0095B3C0 /* foreach_fwd.hpp */,
+				3BD51DFE2018C0DD0095B3C0 /* foreach.hpp */,
+				3BD51D902018C0D20095B3C0 /* format */,
+				3BD51D5E2018C0CD0095B3C0 /* format.hpp */,
+				3BD51DDC2018C0DA0095B3C0 /* function */,
+				3BD51DA82018C0D60095B3C0 /* function_equal.hpp */,
+				3BD51D9D2018C0D40095B3C0 /* function_output_iterator.hpp */,
+				3BD51DB52018C0D70095B3C0 /* function_types */,
+				3BD51D532018C0CC0095B3C0 /* function.hpp */,
+				3BD51E032018C0DE0095B3C0 /* functional */,
+				3BD51D432018C0CA0095B3C0 /* functional.hpp */,
+				3BD51D942018C0D20095B3C0 /* fusion */,
+				3BD51E122018C0DF0095B3C0 /* generator_iterator.hpp */,
+				3BD51D962018C0D20095B3C0 /* geometry */,
+				3BD51D3C2018C0C90095B3C0 /* geometry.hpp */,
+				3BD51D362018C0C90095B3C0 /* get_pointer.hpp */,
+				3BD51D7B2018C0CE0095B3C0 /* gil */,
+				3BD51DCF2018C0D90095B3C0 /* graph */,
+				3BD51DC52018C0D80095B3C0 /* heap */,
+				3BD51DD32018C0D90095B3C0 /* icl */,
+				3BD51DC62018C0D80095B3C0 /* implicit_cast.hpp */,
+				3BD51DE92018C0DB0095B3C0 /* indirect_reference.hpp */,
+				3BD51D6A2018C0CE0095B3C0 /* integer */,
+				3BD51D342018C0C90095B3C0 /* integer_fwd.hpp */,
+				3BD51D502018C0CB0095B3C0 /* integer_traits.hpp */,
+				3BD51D442018C0CA0095B3C0 /* integer.hpp */,
+				3BD51DBD2018C0D80095B3C0 /* interprocess */,
+				3BD51DF92018C0DD0095B3C0 /* intrusive */,
+				3BD51D652018C0CD0095B3C0 /* intrusive_ptr.hpp */,
+				3BD51D4E2018C0CB0095B3C0 /* io */,
+				3BD51D6E2018C0CE0095B3C0 /* io_fwd.hpp */,
+				3BD51DA22018C0D50095B3C0 /* iostreams */,
+				3BD51D5D2018C0CD0095B3C0 /* is_placeholder.hpp */,
+				3BD51DFC2018C0DD0095B3C0 /* iterator */,
+				3BD51DF82018C0DD0095B3C0 /* iterator_adaptors.hpp */,
+				3BD51D792018C0CE0095B3C0 /* iterator.hpp */,
+				3BD51DD42018C0D90095B3C0 /* lambda */,
+				3BD51DC82018C0D80095B3C0 /* last_value.hpp */,
+				3BD51D8E2018C0D20095B3C0 /* lexical_cast */,
+				3BD51DE02018C0DA0095B3C0 /* lexical_cast.hpp */,
+				3BD51D842018C0D10095B3C0 /* limits.hpp */,
+				3BD51DB62018C0D70095B3C0 /* local_function */,
+				3BD51D6B2018C0CE0095B3C0 /* local_function.hpp */,
+				3BD51D672018C0CD0095B3C0 /* locale */,
+				3BD51DAB2018C0D60095B3C0 /* locale.hpp */,
+				3BD51D972018C0D20095B3C0 /* lockfree */,
+				3BD51DE72018C0DB0095B3C0 /* log */,
+				3BD51DA62018C0D50095B3C0 /* logic */,
+				3BD51D9B2018C0D40095B3C0 /* make_default.hpp */,
+				3BD51D7C2018C0CE0095B3C0 /* make_shared.hpp */,
+				3BD51E092018C0DE0095B3C0 /* make_unique.hpp */,
+				3BD51E0D2018C0DE0095B3C0 /* math */,
+				3BD51D752018C0CE0095B3C0 /* math_fwd.hpp */,
+				3BD51D802018C0CF0095B3C0 /* mem_fn.hpp */,
+				3BD51D742018C0CE0095B3C0 /* memory_order.hpp */,
+				3BD51D9F2018C0D50095B3C0 /* move */,
+				3BD51DFB2018C0DD0095B3C0 /* mpi */,
+				3BD51D572018C0CC0095B3C0 /* mpi.hpp */,
+				3BD51D4A2018C0CB0095B3C0 /* mpl */,
+				3BD51D682018C0CD0095B3C0 /* msm */,
+				3BD51DA52018C0D50095B3C0 /* multi_array */,
+				3BD51D602018C0CD0095B3C0 /* multi_array.hpp */,
+				3BD51E152018C0DF0095B3C0 /* multi_index */,
+				3BD51E052018C0DE0095B3C0 /* multi_index_container_fwd.hpp */,
+				3BD51DF42018C0DC0095B3C0 /* multi_index_container.hpp */,
+				3BD51D522018C0CC0095B3C0 /* multiprecision */,
+				3BD51D592018C0CD0095B3C0 /* next_prior.hpp */,
+				3BD51D352018C0C90095B3C0 /* non_type.hpp */,
+				3BD51D992018C0D40095B3C0 /* noncopyable.hpp */,
+				3BD51DE12018C0DA0095B3C0 /* nondet_random.hpp */,
+				3BD51D4C2018C0CB0095B3C0 /* none_t.hpp */,
+				3BD51DDF2018C0DA0095B3C0 /* none.hpp */,
+				3BD51E0C2018C0DE0095B3C0 /* numeric */,
+				3BD51D862018C0D10095B3C0 /* operators.hpp */,
+				3BD51DC12018C0D80095B3C0 /* optional */,
+				3BD51DF62018C0DC0095B3C0 /* optional.hpp */,
+				3BD51D772018C0CE0095B3C0 /* parameter */,
+				3BD51DCD2018C0D90095B3C0 /* parameter.hpp */,
+				3BD51DB42018C0D70095B3C0 /* pending */,
+				3BD51DB02018C0D60095B3C0 /* phoenix */,
+				3BD51DA72018C0D50095B3C0 /* phoenix.hpp */,
+				3BD51D3F2018C0CA0095B3C0 /* pointee.hpp */,
+				3BD51DF22018C0DC0095B3C0 /* pointer_cast.hpp */,
+				3BD51DAF2018C0D60095B3C0 /* pointer_to_other.hpp */,
+				3BD51DDE2018C0DA0095B3C0 /* polygon */,
+				3BD51D512018C0CC0095B3C0 /* polymorphic_cast.hpp */,
+				3BD51DD12018C0D90095B3C0 /* polymorphic_pointer_cast.hpp */,
+				3BD51DE22018C0DA0095B3C0 /* pool */,
+				3BD51D3E2018C0CA0095B3C0 /* predef */,
+				3BD51E1A2018C0E00095B3C0 /* predef.h */,
+				3BD51D7A2018C0CE0095B3C0 /* preprocessor */,
+				3BD51DA92018C0D60095B3C0 /* preprocessor.hpp */,
+				3BD51E1D2018C0E00095B3C0 /* program_options */,
+				3BD51DB92018C0D70095B3C0 /* program_options.hpp */,
+				3BD51D382018C0C90095B3C0 /* progress.hpp */,
+				3BD51D912018C0D20095B3C0 /* property_map */,
+				3BD51D692018C0CE0095B3C0 /* property_tree */,
+				3BD51E112018C0DF0095B3C0 /* proto */,
+				3BD51DF02018C0DC0095B3C0 /* ptr_container */,
+				3BD51DA02018C0D50095B3C0 /* python */,
+				3BD51D812018C0CF0095B3C0 /* python.hpp */,
+				3BD51DE42018C0DB0095B3C0 /* random */,
+				3BD51D872018C0D20095B3C0 /* random.hpp */,
+				3BD51D9C2018C0D40095B3C0 /* range */,
+				3BD51D8F2018C0D20095B3C0 /* range.hpp */,
+				3BD51E0E2018C0DF0095B3C0 /* ratio */,
+				3BD51DF72018C0DC0095B3C0 /* ratio.hpp */,
+				3BD51DDB2018C0DA0095B3C0 /* rational.hpp */,
+				3BD51DB32018C0D70095B3C0 /* ref.hpp */,
+				3BD51E0A2018C0DE0095B3C0 /* regex */,
+				3BD51D882018C0D20095B3C0 /* regex_fwd.hpp */,
+				3BD51DEB2018C0DB0095B3C0 /* regex.h */,
+				3BD51D6C2018C0CE0095B3C0 /* regex.hpp */,
+				3BD51D402018C0CA0095B3C0 /* scope_exit.hpp */,
+				3BD51D462018C0CA0095B3C0 /* scoped_array.hpp */,
+				3BD51DF12018C0DC0095B3C0 /* scoped_ptr.hpp */,
+				3BD51DF32018C0DC0095B3C0 /* serialization */,
+				3BD51DAD2018C0D60095B3C0 /* shared_array.hpp */,
+				3BD51E0F2018C0DF0095B3C0 /* shared_container_iterator.hpp */,
+				3BD51DE32018C0DB0095B3C0 /* shared_ptr.hpp */,
+				3BD51D552018C0CC0095B3C0 /* signal.hpp */,
+				3BD51E002018C0DD0095B3C0 /* signals */,
+				3BD51DDD2018C0DA0095B3C0 /* signals.hpp */,
+				3BD51DFD2018C0DD0095B3C0 /* signals2 */,
+				3BD51E1B2018C0E00095B3C0 /* signals2.hpp */,
+				3BD51DAE2018C0D60095B3C0 /* smart_ptr */,
+				3BD51DCA2018C0D80095B3C0 /* smart_ptr.hpp */,
+				3BD51D5F2018C0CD0095B3C0 /* sort */,
+				3BD51D452018C0CA0095B3C0 /* spirit */,
+				3BD51D5A2018C0CD0095B3C0 /* spirit.hpp */,
+				3BD51DAA2018C0D60095B3C0 /* statechart */,
+				3BD51D8D2018C0D20095B3C0 /* static_assert.hpp */,
+				3BD51D8B2018C0D20095B3C0 /* swap.hpp */,
+				3BD51E042018C0DE0095B3C0 /* system */,
+				3BD51D7E2018C0CE0095B3C0 /* test */,
+				3BD51DD92018C0DA0095B3C0 /* thread */,
+				3BD51D612018C0CD0095B3C0 /* thread.hpp */,
+				3BD51DEF2018C0DC0095B3C0 /* throw_exception.hpp */,
+				3BD51DDA2018C0DA0095B3C0 /* timer */,
+				3BD51D722018C0CE0095B3C0 /* timer.hpp */,
+				3BD51DD52018C0D90095B3C0 /* token_functions.hpp */,
+				3BD51DB22018C0D70095B3C0 /* token_iterator.hpp */,
+				3BD51DE52018C0DB0095B3C0 /* tokenizer.hpp */,
+				3BD51D5C2018C0CD0095B3C0 /* tr1 */,
+				3BD51D3B2018C0C90095B3C0 /* tti */,
+				3BD51D7D2018C0CE0095B3C0 /* tuple */,
+				3BD51DC72018C0D80095B3C0 /* type_erasure */,
+				3BD51E072018C0DE0095B3C0 /* type_index */,
+				3BD51DB72018C0D70095B3C0 /* type_index.hpp */,
+				3BD51E162018C0DF0095B3C0 /* type_traits */,
+				3BD51DA42018C0D50095B3C0 /* type_traits.hpp */,
+				3BD51DC32018C0D80095B3C0 /* type.hpp */,
+				3BD51DCB2018C0D90095B3C0 /* typeof */,
+				3BD51D3D2018C0C90095B3C0 /* units */,
+				3BD51DB82018C0D70095B3C0 /* unordered */,
+				3BD51D4D2018C0CB0095B3C0 /* unordered_map.hpp */,
+				3BD51D392018C0C90095B3C0 /* unordered_set.hpp */,
+				3BD51E172018C0DF0095B3C0 /* utility */,
+				3BD51DD82018C0DA0095B3C0 /* utility.hpp */,
+				3BD51E102018C0DF0095B3C0 /* uuid */,
+				3BD51D412018C0CA0095B3C0 /* variant */,
+				3BD51DB12018C0D70095B3C0 /* variant.hpp */,
+				3BD51E1C2018C0E00095B3C0 /* version.hpp */,
+				3BD51DCC2018C0D90095B3C0 /* visit_each.hpp */,
+				3BD51D562018C0CC0095B3C0 /* wave */,
+				3BD51D932018C0D20095B3C0 /* wave.hpp */,
+				3BD51D472018C0CA0095B3C0 /* weak_ptr.hpp */,
+				3BD51E062018C0DE0095B3C0 /* xpressive */,
+			);
+			name = boost;
+			sourceTree = "<group>";
+		};
+		3BD78077201430A000E44B14 = {
+			isa = PBXGroup;
+			children = (
+				3B29A2DD21EE1E4600F72511 /* sodium.h */,
+				3BD78083201430A000E44B14 /* CNBitcoinKit */,
+				3BD7808E201430A000E44B14 /* CNBitcoinKitTests */,
+				3BD78082201430A000E44B14 /* Products */,
+				3BD780A920161E3E00E44B14 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		3BD78082201430A000E44B14 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3BD78081201430A000E44B14 /* CNBitcoinKit.framework */,
+				3BD7808A201430A000E44B14 /* CNBitcoinKitTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		3BD78083201430A000E44B14 /* CNBitcoinKit */ = {
+			isa = PBXGroup;
+			children = (
+				3BD51D2C2018C0050095B3C0 /* external */,
+				3BD7814F2017B15500E44B14 /* src */,
+				3BD780A12014319700E44B14 /* include */,
+				3BD78085201430A000E44B14 /* Info.plist */,
+			);
+			path = CNBitcoinKit;
+			sourceTree = "<group>";
+		};
+		3BD7808E201430A000E44B14 /* CNBitcoinKitTests */ = {
+			isa = PBXGroup;
+			children = (
+				3BD7808F201430A000E44B14 /* CNBHDWalletTests.mm */,
+				3B9A8DFB215158B900C78C2C /* CNBHDWallet_Base58_Tests.m */,
+				A216D78820AB4A85005FBAC2 /* CNBTransactionBuilderMainnetTests.mm */,
+				3BD78091201430A000E44B14 /* Info.plist */,
+				3B5B7E29207E965900785646 /* MockBitcoinCoin.h */,
+				3B5B7E2A207E965900785646 /* MockBitcoinCoin.m */,
+				3BC23EED20BD9A2800877BB6 /* CNBTransactionDataTests.m */,
+				3BDC16F5220E257400AA42F3 /* GeneratedWords.h */,
+				3BDC16F6220E257400AA42F3 /* GeneratedWords.m */,
+				3BDC16F8220E2ED000AA42F3 /* GeneratedWordsHelper.h */,
+				3BDC16F9220E2ED000AA42F3 /* GeneratedWordsHelper.m */,
+			);
+			path = CNBitcoinKitTests;
+			sourceTree = "<group>";
+		};
+		3BD780A12014319700E44B14 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				3BE8AA1921F20D4800A3F0C4 /* CNBCipherKeys.h */,
+				3BE8AA2D21F794CC00A3F0C4 /* CNBEncryptionCipherKeys.h */,
+				3BD7B73A20D7E68C005057A7 /* CNBAddressResult.h */,
+				3B0F440320AC9CA80031DD34 /* CNBMetaAddress.h */,
+				3B5B7E25207E81A200785646 /* CNBBaseCoin.h */,
+				3BD78084201430A000E44B14 /* CNBitcoinKit.h */,
+				3BD780A3201431B700E44B14 /* CNBHDWallet.h */,
+				A216D77A20AA19FE005FBAC2 /* CNBDerivationPath.h */,
+				A216D77E20AA1C8F005FBAC2 /* CNBUnspentTransactionOutput.h */,
+				A216D78220AA1ED9005FBAC2 /* CNBTransactionData.h */,
+				3BC23EEF20BDC52D00877BB6 /* CNBTransactionData+Project.h */,
+				A216D78620AA2430005FBAC2 /* CNBTransactionBuilder.h */,
+				3B1C602C212C9627008211C5 /* CNBTransactionMetadata.h */,
+				A216D78A20ACAD5B005FBAC2 /* CNBHDWallet+Project.h */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		3BD780A920161E3E00E44B14 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3B29A2DB21EE1BFA00F72511 /* libsodium.a */,
+				3B4215AC201A5B53000C4E64 /* libzmq.a */,
+				3BB5934220190A5000B84626 /* libbitcoin-client.a */,
+				3BB5934020190A4400B84626 /* libbitcoin-protocol.a */,
+				3BB593292018ED2B00B84626 /* libboost_atomic.a */,
+				3BB5932A2018ED2B00B84626 /* libboost_chrono.a */,
+				3BB593242018ED2B00B84626 /* libboost_date_time.a */,
+				3BB593252018ED2B00B84626 /* libboost_filesystem.a */,
+				3BB5932C2018ED2B00B84626 /* libboost_iostreams.a */,
+				3BB593262018ED2B00B84626 /* libboost_log_setup.a */,
+				3BB5932B2018ED2B00B84626 /* libboost_log.a */,
+				3BB5932D2018ED2C00B84626 /* libboost_program_options.a */,
+				3BB593282018ED2B00B84626 /* libboost_regex.a */,
+				3BB5932E2018ED2C00B84626 /* libboost_system.a */,
+				3BB593272018ED2B00B84626 /* libboost_thread.a */,
+				3BB593222018ED1C00B84626 /* libsecp256k1.a */,
+				3BB593202018ED0E00B84626 /* libbitcoin.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		3BD7814F2017B15500E44B14 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				3BE87CF22018C401001D4A65 /* CNBHDWallet.h */,
+				3BD781512017B16200E44B14 /* CNBHDWallet.mm */,
+				3B5B7E26207E81A200785646 /* CNBBaseCoin.m */,
+				A216D77820AA19D5005FBAC2 /* CNBDerivationPath.m */,
+				3782A6572098BA720023648E /* NSData+CNBitcoinKit.h */,
+				3782A6582098BA720023648E /* NSData+CNBitcoinKit.mm */,
+				A216D77C20AA1C73005FBAC2 /* CNBUnspentTransactionOutput.m */,
+				A216D78020AA1EC7005FBAC2 /* CNBTransactionData.m */,
+				A216D78420AA2423005FBAC2 /* CNBTransactionBuilder.m */,
+				3B0F440420AC9CA80031DD34 /* CNBMetaAddress.m */,
+				3715FCFE20AE1FA600D29BEB /* derivation_path.cpp */,
+				3715FCFF20AE1FA600D29BEB /* derivation_path.hpp */,
+				3715FD0220AE21C100D29BEB /* usable_address.cpp */,
+				3715FD0320AE21C100D29BEB /* usable_address.hpp */,
+				3BD7B73B20D7E68C005057A7 /* CNBAddressResult.m */,
+				3B1C602D212C9627008211C5 /* CNBTransactionMetadata.m */,
+				3B9A8E012151741100C78C2C /* Base58Check.cpp */,
+				3B9A8E022151741100C78C2C /* Base58Check.hpp */,
+				3B29A2DF21EE21DB00F72511 /* NSString+NSData.h */,
+				3B29A2E021EE21DB00F72511 /* NSString+NSData.mm */,
+				3BE8AA1A21F20D4800A3F0C4 /* CNBCipherKeys.m */,
+				3BE8AA2E21F794CC00A3F0C4 /* CNBEncryptionCipherKeys.m */,
+				3BE8AA2521F78C6F00A3F0C4 /* cipher_keys.cpp */,
+				3BE8AA2621F78C6F00A3F0C4 /* cipher_keys.hpp */,
+				3BE8AA2921F78CBB00A3F0C4 /* encryption_cipher_keys.cpp */,
+				3BE8AA2A21F78CBB00A3F0C4 /* encryption_cipher_keys.hpp */,
+				3B7F1D7B21FA13A100023759 /* cipher_key_vendor.cpp */,
+				3B7F1D7C21FA13A100023759 /* cipher_key_vendor.hpp */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		3BD7807E201430A000E44B14 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3BD51EC52018C0E00095B3C0 /* rational.hpp in Headers */,
+				3BD51EA32018C0E00095B3C0 /* program_options.hpp in Headers */,
+				3BD51E372018C0E00095B3C0 /* unordered_map.hpp in Headers */,
+				3B5B7E27207E81A200785646 /* CNBBaseCoin.h in Headers */,
+				3BE8AA2C21F78CBB00A3F0C4 /* encryption_cipher_keys.hpp in Headers */,
+				3BD51E6F2018C0E00095B3C0 /* compressed_pair.hpp in Headers */,
+				3BD51E4F2018C0E00095B3C0 /* intrusive_ptr.hpp in Headers */,
+				3BD51E722018C0E00095B3C0 /* regex_fwd.hpp in Headers */,
+				3BD51E392018C0E00095B3C0 /* enable_shared_from_this.hpp in Headers */,
+				3BD51E4B2018C0E00095B3C0 /* thread.hpp in Headers */,
+				3BD51E9B2018C0E00095B3C0 /* variant.hpp in Headers */,
+				3BD7B73C20D7E68C005057A7 /* CNBAddressResult.h in Headers */,
+				3B9A8E042151741100C78C2C /* Base58Check.hpp in Headers */,
+				3BD51D312018C0960095B3C0 /* bitcoin.hpp in Headers */,
+				3BD51EB82018C0E00095B3C0 /* cast.hpp in Headers */,
+				3BD51E762018C0E00095B3C0 /* cstdfloat.hpp in Headers */,
+				3BD51ECA2018C0E00095B3C0 /* lexical_cast.hpp in Headers */,
+				3BD51E2E2018C0E00095B3C0 /* integer.hpp in Headers */,
+				3BD51E972018C0E00095B3C0 /* shared_array.hpp in Headers */,
+				3BD51EBC2018C0E00095B3C0 /* circular_buffer_fwd.hpp in Headers */,
+				3BD51E772018C0E00095B3C0 /* static_assert.hpp in Headers */,
+				3BD51E622018C0E00095B3C0 /* config.hpp in Headers */,
+				3BD51EDE2018C0E00095B3C0 /* multi_index_container.hpp in Headers */,
+				3BD51EB02018C0E00095B3C0 /* implicit_cast.hpp in Headers */,
+				3BD51ECD2018C0E00095B3C0 /* shared_ptr.hpp in Headers */,
+				3BD51E552018C0E00095B3C0 /* local_function.hpp in Headers */,
+				3BD51E912018C0E00095B3C0 /* phoenix.hpp in Headers */,
+				3BD51E792018C0E00095B3C0 /* range.hpp in Headers */,
+				3BD51E712018C0E00095B3C0 /* random.hpp in Headers */,
+				3BD51E852018C0E00095B3C0 /* make_default.hpp in Headers */,
+				3BD51E9D2018C0E00095B3C0 /* ref.hpp in Headers */,
+				3BD51E5B2018C0E00095B3C0 /* atomic.hpp in Headers */,
+				3BD51E302018C0E00095B3C0 /* scoped_array.hpp in Headers */,
+				3B4215B1201A5D56000C4E64 /* zmq_utils.h in Headers */,
+				A216D78B20ACAD5B005FBAC2 /* CNBHDWallet+Project.h in Headers */,
+				3BD51EB62018C0E00095B3C0 /* visit_each.hpp in Headers */,
+				3BD51E5A2018C0E00095B3C0 /* align.hpp in Headers */,
+				3BD51ED32018C0E00095B3C0 /* indirect_reference.hpp in Headers */,
+				3BD51E3F2018C0E00095B3C0 /* signal.hpp in Headers */,
+				3BD51ED22018C0E00095B3C0 /* cerrno.hpp in Headers */,
+				3BD51EE42018C0E00095B3C0 /* blank.hpp in Headers */,
+				3BD780A5201431B700E44B14 /* CNBHDWallet.h in Headers */,
+				3BD51E322018C0E00095B3C0 /* flyweight.hpp in Headers */,
+				3BD51E332018C0E00095B3C0 /* aligned_storage.hpp in Headers */,
+				3BD51E5F2018C0E00095B3C0 /* math_fwd.hpp in Headers */,
+				3BD51E702018C0E00095B3C0 /* operators.hpp in Headers */,
+				3BD51E482018C0E00095B3C0 /* format.hpp in Headers */,
+				3BD51E352018C0E00095B3C0 /* cregex.hpp in Headers */,
+				3BD78092201430A000E44B14 /* CNBitcoinKit.h in Headers */,
+				3BD51F052018C0E00095B3C0 /* signals2.hpp in Headers */,
+				3BD51E312018C0E00095B3C0 /* weak_ptr.hpp in Headers */,
+				3BC23EF020BDC57B00877BB6 /* CNBTransactionData+Project.h in Headers */,
+				3BD51ECB2018C0E00095B3C0 /* nondet_random.hpp in Headers */,
+				3BD51E7C2018C0E00095B3C0 /* blank_fwd.hpp in Headers */,
+				3BD51EFC2018C0E00095B3C0 /* generator_iterator.hpp in Headers */,
+				3BD51E2A2018C0E00095B3C0 /* scope_exit.hpp in Headers */,
+				3BD51E602018C0E00095B3C0 /* foreach_fwd.hpp in Headers */,
+				3BD51E3A2018C0E00095B3C0 /* integer_traits.hpp in Headers */,
+				3BD51E232018C0E00095B3C0 /* unordered_set.hpp in Headers */,
+				A216D77F20AA1C8F005FBAC2 /* CNBUnspentTransactionOutput.h in Headers */,
+				3BD51EBF2018C0E00095B3C0 /* token_functions.hpp in Headers */,
+				3BD51EFE2018C0E00095B3C0 /* array.hpp in Headers */,
+				3BD51EDB2018C0E00095B3C0 /* scoped_ptr.hpp in Headers */,
+				3BD51E3D2018C0E00095B3C0 /* function.hpp in Headers */,
+				3BD51E202018C0E00095B3C0 /* get_pointer.hpp in Headers */,
+				3BD51E692018C0E00095B3C0 /* cxx11_char_types.hpp in Headers */,
+				3BD51E6C2018C0E00095B3C0 /* concept_archetype.hpp in Headers */,
+				3BD51EB42018C0E00095B3C0 /* smart_ptr.hpp in Headers */,
+				3782A6592098BA720023648E /* NSData+CNBitcoinKit.h in Headers */,
+				3BD51EE82018C0E00095B3C0 /* foreach.hpp in Headers */,
+				3BD51E732018C0E00095B3C0 /* bimap.hpp in Headers */,
+				3BD51E362018C0E00095B3C0 /* none_t.hpp in Headers */,
+				3BD51E952018C0E00095B3C0 /* locale.hpp in Headers */,
+				3BD51F032018C0E00095B3C0 /* exception_ptr.hpp in Headers */,
+				3BD51E5C2018C0E00095B3C0 /* timer.hpp in Headers */,
+				A216D78320AA1ED9005FBAC2 /* CNBTransactionData.h in Headers */,
+				A216D78720AA2430005FBAC2 /* CNBTransactionBuilder.h in Headers */,
+				3BD51E292018C0E00095B3C0 /* pointee.hpp in Headers */,
+				3BD51E442018C0E00095B3C0 /* spirit.hpp in Headers */,
+				3BD51ECF2018C0E00095B3C0 /* tokenizer.hpp in Headers */,
+				3BD51E632018C0E00095B3C0 /* iterator.hpp in Headers */,
+				3B4215B2201A5D56000C4E64 /* zmq.h in Headers */,
+				3BD51EC72018C0E00095B3C0 /* signals.hpp in Headers */,
+				3BD51E592018C0E00095B3C0 /* filesystem.hpp in Headers */,
+				3BD51E932018C0E00095B3C0 /* preprocessor.hpp in Headers */,
+				3BD51ED42018C0E00095B3C0 /* dynamic_bitset.hpp in Headers */,
+				3BD51E582018C0E00095B3C0 /* io_fwd.hpp in Headers */,
+				3BD51E6E2018C0E00095B3C0 /* limits.hpp in Headers */,
+				3BD51EF22018C0E00095B3C0 /* date_time.hpp in Headers */,
+				3BD51E7D2018C0E00095B3C0 /* wave.hpp in Headers */,
+				3BD51E5E2018C0E00095B3C0 /* memory_order.hpp in Headers */,
+				3BD51F062018C0E00095B3C0 /* version.hpp in Headers */,
+				3BD51F092018C0F20095B3C0 /* secp256k1.h in Headers */,
+				3BD51E2C2018C0E00095B3C0 /* convert.hpp in Headers */,
+				3BD51ED92018C0E00095B3C0 /* throw_exception.hpp in Headers */,
+				3BD51E872018C0E00095B3C0 /* function_output_iterator.hpp in Headers */,
+				3BD51E562018C0E00095B3C0 /* regex.hpp in Headers */,
+				3BD51E6B2018C0E00095B3C0 /* python.hpp in Headers */,
+				3BD51EB72018C0E00095B3C0 /* parameter.hpp in Headers */,
+				3BD51ED72018C0E00095B3C0 /* asio.hpp in Headers */,
+				3BE87CF32018C540001D4A65 /* CNBHDWallet.h in Headers */,
+				3BD51E962018C0E00095B3C0 /* cstdint.hpp in Headers */,
+				3BD51E4D2018C0E00095B3C0 /* concept_check.hpp in Headers */,
+				3BD51E1F2018C0E00095B3C0 /* non_type.hpp in Headers */,
+				3BD51E502018C0E00095B3C0 /* current_function.hpp in Headers */,
+				3BD51E212018C0E00095B3C0 /* checked_delete.hpp in Headers */,
+				3BD51E1E2018C0E00095B3C0 /* integer_fwd.hpp in Headers */,
+				3BD51EAA2018C0E00095B3C0 /* call_traits.hpp in Headers */,
+				3BD51E472018C0E00095B3C0 /* is_placeholder.hpp in Headers */,
+				3BD51EC22018C0E00095B3C0 /* utility.hpp in Headers */,
+				3BD51E4A2018C0E00095B3C0 /* multi_array.hpp in Headers */,
+				3BD51E832018C0E00095B3C0 /* noncopyable.hpp in Headers */,
+				3BD51EF52018C0E00095B3C0 /* chrono.hpp in Headers */,
+				3B1C602E212C9627008211C5 /* CNBTransactionMetadata.h in Headers */,
+				3BD51E412018C0E00095B3C0 /* mpi.hpp in Headers */,
+				3BD51EA42018C0E00095B3C0 /* assign.hpp in Headers */,
+				3B0F440520AC9CA80031DD34 /* CNBMetaAddress.h in Headers */,
+				3BD51EF32018C0E00095B3C0 /* make_unique.hpp in Headers */,
+				3BD51ED52018C0E00095B3C0 /* regex.h in Headers */,
+				3BD51E8E2018C0E00095B3C0 /* type_traits.hpp in Headers */,
+				3BD51E432018C0E00095B3C0 /* next_prior.hpp in Headers */,
+				3BD51E262018C0E00095B3C0 /* geometry.hpp in Headers */,
+				3715FD0520AE21C100D29BEB /* usable_address.hpp in Headers */,
+				3BD51E3B2018C0E00095B3C0 /* polymorphic_cast.hpp in Headers */,
+				3BD51EE92018C0E00095B3C0 /* any.hpp in Headers */,
+				3BD51E222018C0E00095B3C0 /* progress.hpp in Headers */,
+				A216D77B20AA19FE005FBAC2 /* CNBDerivationPath.h in Headers */,
+				3BD51EE22018C0E00095B3C0 /* iterator_adaptors.hpp in Headers */,
+				3BD51E8D2018C0E00095B3C0 /* circular_buffer.hpp in Headers */,
+				3BD51EEF2018C0E00095B3C0 /* multi_index_container_fwd.hpp in Headers */,
+				3BD51EBB2018C0E00095B3C0 /* polymorphic_pointer_cast.hpp in Headers */,
+				3BD51E2D2018C0E00095B3C0 /* functional.hpp in Headers */,
+				3BD51EE12018C0E00095B3C0 /* ratio.hpp in Headers */,
+				3BD51EAD2018C0E00095B3C0 /* type.hpp in Headers */,
+				3BD51E6A2018C0E00095B3C0 /* mem_fn.hpp in Headers */,
+				3715FD0120AE1FA600D29BEB /* derivation_path.hpp in Headers */,
+				3BD51E9C2018C0E00095B3C0 /* token_iterator.hpp in Headers */,
+				3BD51EA62018C0E00095B3C0 /* bind.hpp in Headers */,
+				3BD51E662018C0E00095B3C0 /* make_shared.hpp in Headers */,
+				3BD51EC92018C0E00095B3C0 /* none.hpp in Headers */,
+				3BE8AA2821F78C6F00A3F0C4 /* cipher_keys.hpp in Headers */,
+				3BD51EA82018C0E00095B3C0 /* crc.hpp in Headers */,
+				3BD51EF92018C0E00095B3C0 /* shared_container_iterator.hpp in Headers */,
+				3BD51EBA2018C0E00095B3C0 /* assert.hpp in Headers */,
+				3BD51E992018C0E00095B3C0 /* pointer_to_other.hpp in Headers */,
+				3BD51EDC2018C0E00095B3C0 /* pointer_cast.hpp in Headers */,
+				3B29A2DE21EE1E4600F72511 /* sodium.h in Headers */,
+				3BD51EA92018C0E00095B3C0 /* dynamic_bitset_fwd.hpp in Headers */,
+				3BE8AA1B21F20D4800A3F0C4 /* CNBCipherKeys.h in Headers */,
+				3BD51E922018C0E00095B3C0 /* function_equal.hpp in Headers */,
+				3BD51EB22018C0E00095B3C0 /* last_value.hpp in Headers */,
+				3BD51EE02018C0E00095B3C0 /* optional.hpp in Headers */,
+				3B29A2E121EE21DB00F72511 /* NSString+NSData.h in Headers */,
+				3B7F1D7E21FA13A100023759 /* cipher_key_vendor.hpp in Headers */,
+				3BD51F042018C0E00095B3C0 /* predef.h in Headers */,
+				3BD51E842018C0E00095B3C0 /* cstdlib.hpp in Headers */,
+				3BD51E752018C0E00095B3C0 /* swap.hpp in Headers */,
+				3BE8AA2F21F794CC00A3F0C4 /* CNBEncryptionCipherKeys.h in Headers */,
+				3BD51EA12018C0E00095B3C0 /* type_index.hpp in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXLegacyTarget section */
+		3BE87CF42018C665001D4A65 /* libbitcoin */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "libbitcoin-client.ios-universal";
+			buildConfigurationList = 3BE87CF72018C665001D4A65 /* Build configuration list for PBXLegacyTarget "libbitcoin" */;
+			buildPhases = (
+			);
+			buildToolPath = /usr/bin/make;
+			buildWorkingDirectory = "$(SOURCE_ROOT)/deps";
+			dependencies = (
+			);
+			name = libbitcoin;
+			passBuildSettingsInEnvironment = 0;
+			productName = libbitcoin;
+		};
+/* End PBXLegacyTarget section */
+
+/* Begin PBXNativeTarget section */
+		3BD78080201430A000E44B14 /* CNBitcoinKit */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3BD78095201430A000E44B14 /* Build configuration list for PBXNativeTarget "CNBitcoinKit" */;
+			buildPhases = (
+				3BD7807C201430A000E44B14 /* Sources */,
+				3BD7807D201430A000E44B14 /* Frameworks */,
+				3BD7807E201430A000E44B14 /* Headers */,
+				3BD7807F201430A000E44B14 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3BE87CF92018C6E3001D4A65 /* PBXTargetDependency */,
+			);
+			name = CNBitcoinKit;
+			productName = CNBitcoinKit;
+			productReference = 3BD78081201430A000E44B14 /* CNBitcoinKit.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		3BD78089201430A000E44B14 /* CNBitcoinKitTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3BD78098201430A000E44B14 /* Build configuration list for PBXNativeTarget "CNBitcoinKitTests" */;
+			buildPhases = (
+				3BD78086201430A000E44B14 /* Sources */,
+				3BD78087201430A000E44B14 /* Frameworks */,
+				3BD78088201430A000E44B14 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3BD7808D201430A000E44B14 /* PBXTargetDependency */,
+			);
+			name = CNBitcoinKitTests;
+			productName = CNBitcoinKitTests;
+			productReference = 3BD7808A201430A000E44B14 /* CNBitcoinKitTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		3BD78078201430A000E44B14 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0940;
+				ORGANIZATIONNAME = "Coin Ninja, LLC";
+				TargetAttributes = {
+					3BD78080201430A000E44B14 = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+					};
+					3BD78089201430A000E44B14 = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+					};
+					3BE87CF42018C665001D4A65 = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 3BD7807B201430A000E44B14 /* Build configuration list for PBXProject "CNBitcoinKit" */;
+			compatibilityVersion = "Xcode 8.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 3BD78077201430A000E44B14;
+			productRefGroup = 3BD78082201430A000E44B14 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				3BD78080201430A000E44B14 /* CNBitcoinKit */,
+				3BD78089201430A000E44B14 /* CNBitcoinKitTests */,
+				3BE87CF42018C665001D4A65 /* libbitcoin */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		3BD7807F201430A000E44B14 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3BD78088201430A000E44B14 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		3BD7807C201430A000E44B14 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A216D78520AA2423005FBAC2 /* CNBTransactionBuilder.m in Sources */,
+				3B7F1D7D21FA13A100023759 /* cipher_key_vendor.cpp in Sources */,
+				3BE8AA1C21F20D4800A3F0C4 /* CNBCipherKeys.m in Sources */,
+				3B1C602F212C9627008211C5 /* CNBTransactionMetadata.m in Sources */,
+				3B5B7E28207E81A200785646 /* CNBBaseCoin.m in Sources */,
+				A216D77D20AA1C73005FBAC2 /* CNBUnspentTransactionOutput.m in Sources */,
+				3715FD0020AE1FA600D29BEB /* derivation_path.cpp in Sources */,
+				3BE8AA2721F78C6F00A3F0C4 /* cipher_keys.cpp in Sources */,
+				3B9A8E032151741100C78C2C /* Base58Check.cpp in Sources */,
+				3B29A2E221EE21DB00F72511 /* NSString+NSData.mm in Sources */,
+				A216D78120AA1EC7005FBAC2 /* CNBTransactionData.m in Sources */,
+				A216D77920AA19D5005FBAC2 /* CNBDerivationPath.m in Sources */,
+				3715FD0420AE21C100D29BEB /* usable_address.cpp in Sources */,
+				3B0F440620AC9CA80031DD34 /* CNBMetaAddress.m in Sources */,
+				3782A65A2098BA720023648E /* NSData+CNBitcoinKit.mm in Sources */,
+				3BE8AA2B21F78CBB00A3F0C4 /* encryption_cipher_keys.cpp in Sources */,
+				3BE8AA3021F794CC00A3F0C4 /* CNBEncryptionCipherKeys.m in Sources */,
+				3BD7B73D20D7E68C005057A7 /* CNBAddressResult.m in Sources */,
+				3BAA8BEE2017C677004D6F89 /* CNBHDWallet.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3BD78086201430A000E44B14 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3B9A8DFC215158B900C78C2C /* CNBHDWallet_Base58_Tests.m in Sources */,
+				3BD78090201430A000E44B14 /* CNBHDWalletTests.mm in Sources */,
+				3BDC16FA220E2ED000AA42F3 /* GeneratedWordsHelper.m in Sources */,
+				3B5B7E2B207E965900785646 /* MockBitcoinCoin.m in Sources */,
+				3BDC16F7220E257400AA42F3 /* GeneratedWords.m in Sources */,
+				3BC23EEE20BD9A2800877BB6 /* CNBTransactionDataTests.m in Sources */,
+				A216D78920AB4A85005FBAC2 /* CNBTransactionBuilderMainnetTests.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		3BD7808D201430A000E44B14 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3BD78080201430A000E44B14 /* CNBitcoinKit */;
+			targetProxy = 3BD7808C201430A000E44B14 /* PBXContainerItemProxy */;
+		};
+		3BE87CF92018C6E3001D4A65 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3BE87CF42018C665001D4A65 /* libbitcoin */;
+			targetProxy = 3BE87CF82018C6E3001D4A65 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		3BD78093201430A000E44B14 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		3BD78094201430A000E44B14 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		3BD78096201430A000E44B14 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = GV9ZP4A7U6;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				HEADER_SEARCH_PATHS = "$(SOURCE_ROOT)/deps/build/prefix/ios/arm64/include";
+				INFOPLIST_FILE = CNBitcoinKit/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/deps/build/libsecp256k1/ios-universal/lib",
+					"$(PROJECT_DIR)/deps/build/boost/ios-universal/lib",
+					"$(PROJECT_DIR)/deps/build/libbitcoin/ios-universal/lib",
+					"$(PROJECT_DIR)/deps/build/libbitcoin-protocol/ios-universal/lib",
+					"$(PROJECT_DIR)/deps/build/libbitcoin-client/ios-universal/lib",
+					"$(PROJECT_DIR)/deps/build/libzmq/ios-universal/lib",
+					"$(PROJECT_DIR)/deps/build/libsodium/ios-universal/lib",
+				);
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = (
+					"-lbitcoin",
+					"-lsecp256k1",
+					"-lboost_system",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.coinninja.CNBitcoinKit;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				USER_HEADER_SEARCH_PATHS = "$(SOURCE_ROOT)/deps/build/prefix/ios/arm64/include";
+				VALID_ARCHS = "arm64 armv7 armv7s x86_64";
+			};
+			name = Debug;
+		};
+		3BD78097201430A000E44B14 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = GV9ZP4A7U6;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				HEADER_SEARCH_PATHS = "$(SOURCE_ROOT)/deps/build/prefix/ios/arm64/include";
+				INFOPLIST_FILE = CNBitcoinKit/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/deps/build/libsecp256k1/ios-universal/lib",
+					"$(PROJECT_DIR)/deps/build/boost/ios-universal/lib",
+					"$(PROJECT_DIR)/deps/build/libbitcoin/ios-universal/lib",
+					"$(PROJECT_DIR)/deps/build/libbitcoin-protocol/ios-universal/lib",
+					"$(PROJECT_DIR)/deps/build/libbitcoin-client/ios-universal/lib",
+					"$(PROJECT_DIR)/deps/build/libzmq/ios-universal/lib",
+					"$(PROJECT_DIR)/deps/build/libsodium/ios-universal/lib",
+				);
+				OTHER_LDFLAGS = (
+					"-lbitcoin",
+					"-lsecp256k1",
+					"-lboost_system",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.coinninja.CNBitcoinKit;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				USER_HEADER_SEARCH_PATHS = "$(SOURCE_ROOT)/deps/build/prefix/ios/arm64/include";
+				VALID_ARCHS = "arm64 armv7 armv7s x86_64";
+			};
+			name = Release;
+		};
+		3BD78099201430A000E44B14 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = GV9ZP4A7U6;
+				HEADER_SEARCH_PATHS = "$(SOURCE_ROOT)/deps/build/prefix/ios/arm64/include";
+				INFOPLIST_FILE = CNBitcoinKitTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/deps/build/libsecp256k1/ios-universal/lib",
+					"$(PROJECT_DIR)/deps/build/boost/ios-universal/lib",
+					"$(PROJECT_DIR)/deps/build/libbitcoin/ios-universal/lib",
+				);
+				OTHER_LDFLAGS = (
+					"-lbitcoin",
+					"-lsecp256k1",
+					"-lboost_system",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.coinninja.CNBitcoinKitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				USER_HEADER_SEARCH_PATHS = "$(SOURCE_ROOT)/deps/build/prefix/ios/arm64/include";
+			};
+			name = Debug;
+		};
+		3BD7809A201430A000E44B14 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = GV9ZP4A7U6;
+				HEADER_SEARCH_PATHS = "$(SOURCE_ROOT)/deps/build/prefix/ios/arm64/include";
+				INFOPLIST_FILE = CNBitcoinKitTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/deps/build/libsecp256k1/ios-universal/lib",
+					"$(PROJECT_DIR)/deps/build/boost/ios-universal/lib",
+					"$(PROJECT_DIR)/deps/build/libbitcoin/ios-universal/lib",
+				);
+				OTHER_LDFLAGS = (
+					"-lbitcoin",
+					"-lsecp256k1",
+					"-lboost_system",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.coinninja.CNBitcoinKitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				USER_HEADER_SEARCH_PATHS = "$(SOURCE_ROOT)/deps/build/prefix/ios/arm64/include";
+			};
+			name = Release;
+		};
+		3BE87CF52018C665001D4A65 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEBUGGING_SYMBOLS = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = GV9ZP4A7U6;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		3BE87CF62018C665001D4A65 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = GV9ZP4A7U6;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		3BD7807B201430A000E44B14 /* Build configuration list for PBXProject "CNBitcoinKit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3BD78093201430A000E44B14 /* Debug */,
+				3BD78094201430A000E44B14 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3BD78095201430A000E44B14 /* Build configuration list for PBXNativeTarget "CNBitcoinKit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3BD78096201430A000E44B14 /* Debug */,
+				3BD78097201430A000E44B14 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3BD78098201430A000E44B14 /* Build configuration list for PBXNativeTarget "CNBitcoinKitTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3BD78099201430A000E44B14 /* Debug */,
+				3BD7809A201430A000E44B14 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3BE87CF72018C665001D4A65 /* Build configuration list for PBXLegacyTarget "libbitcoin" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3BE87CF52018C665001D4A65 /* Debug */,
+				3BE87CF62018C665001D4A65 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 3BD78078201430A000E44B14 /* Project object */;
+}

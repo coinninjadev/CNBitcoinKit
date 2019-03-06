@@ -1,0 +1,22 @@
+inherit lib
+
+version="1_63_0"
+source="https://sourceforge.net/projects/boost/files/boost/1.63.0/boost_$version.tar.bz2#9f1dd4fa364a3e3156a77dc17aa562ef06404ff6"
+
+build() {
+    LIBRARIES=--with-libraries=filesystem,chrono,date_time,iostreams,locale,log,program_options,regex,system,thread
+
+    cd boost_$version
+
+    cp $recipe_dir/user-config.jam tools/build/src/user-config.jam
+
+    echo Bootstrapping boost...
+    ./bootstrap.sh --prefix=$install_dir $LIBRARIES
+
+    echo Building boost...
+    export NO_BZIP2=1
+    ./b2 -q -d+2 -j$parallel_jobs toolset=gcc-env link=static threading=multi install
+}
+
+include="include/boost/*"
+lib="lib/libboost_*.a"

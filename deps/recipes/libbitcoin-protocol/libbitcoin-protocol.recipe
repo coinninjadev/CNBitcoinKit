@@ -1,0 +1,16 @@
+depends="libzmq libbitcoin"
+inherit lib
+
+source="https://github.com/libbitcoin/libbitcoin-protocol.git#012b3a62" # v0.1.0.13 tag
+
+build() {
+    echo Building...
+    autoreconf -i
+    ./configure --enable-static --disable-shared --host=$cross --prefix=$install_dir \
+        --without-tests --without-examples ${ENABLE_TESTNET:+--enable-testnet}
+    make -j $parallel_jobs
+    make install
+}
+
+include="include/bitcoin/*"
+lib="lib/libbitcoin-protocol.a"

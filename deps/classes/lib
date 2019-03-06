@@ -1,0 +1,4 @@
+if [ Darwin = $(uname -s) ]; then
+    inherit ios
+fi
+inherit native
