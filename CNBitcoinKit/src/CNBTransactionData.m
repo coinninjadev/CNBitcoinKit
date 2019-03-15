@@ -162,11 +162,12 @@
 
     NSUInteger numberOfInputsAndOutputs = unspentTransactionOutputs.count + 1;  // + 1 for the destination output
     _feeAmount = feeRate * numberOfInputsAndOutputs * [self bytesPerInputOrOutput];
-    _amount = totalFromUTXOs - _feeAmount;
 
     NSInteger signedAmountForValidation = (NSInteger)totalFromUTXOs - (NSInteger)_feeAmount;
     if (signedAmountForValidation < 0) {
       return nil;
+    } else {
+      _amount = totalFromUTXOs - _feeAmount;
     }
   }
 
