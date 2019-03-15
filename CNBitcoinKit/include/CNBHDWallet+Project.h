@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (CNBTransactionMetadata *)buildTransactionMetadataWithTransactionData:(CNBTransactionData *)data;
 - (void)broadcastTransactionFromData:(CNBTransactionData *)data
                              success:(void(^)(NSString *))success
-                          andFailure:(void(^)(NSError * _Nonull))failure;
+                          andFailure:(void(^)(NSError * _Nonnull))failure;
 
 @end
 
