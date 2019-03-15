@@ -27,16 +27,16 @@
 
 - (void)testSingleOutputWithSingleInputAndChangeSatisfies {
   // given
-  NSInteger paymentAmount = 50000000;
-  NSInteger utxoAmount = 100000000;
-  CNBDerivationPath *changePath = [[CNBDerivationPath alloc] initWithPurpose:49 coinType:0 account:0 change:1 index:0];
-  CNBDerivationPath *utxoPath = [[CNBDerivationPath alloc] initWithPurpose:49 coinType:0 account:0 change:0 index:0];
+  NSUInteger paymentAmount = 50000000;
+  NSUInteger utxoAmount = 100000000;
+  CNBDerivationPath *changePath = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:MainNet account:0 change:1 index:0];
+  CNBDerivationPath *utxoPath = [[CNBDerivationPath  alloc] initWithPurpose:BIP49 coinType:MainNet account:0 change:0 index:0];
   CNBUnspentTransactionOutput *utxo = [[CNBUnspentTransactionOutput alloc] initWithId:@"previous txid" index:0 amount:utxoAmount derivationPath:utxoPath isConfirmed:YES];
-  NSInteger feeRate = 30;
-  NSInteger numberOfInsAndOuts = 3;
-  NSInteger expectedFeeAmount = numberOfInsAndOuts * self.bytesPerInOrOut * feeRate;
-  NSInteger expectedChangeAmount = utxoAmount - paymentAmount - expectedFeeAmount;
-  NSInteger expectedNumberOfUTXOs = 1;
+  NSUInteger feeRate = 30;
+  NSUInteger numberOfInsAndOuts = 3;
+  NSUInteger expectedFeeAmount = numberOfInsAndOuts * self.bytesPerInOrOut * feeRate;
+  NSUInteger expectedChangeAmount = utxoAmount - paymentAmount - expectedFeeAmount;
+  NSUInteger expectedNumberOfUTXOs = 1;
   NSUInteger expectedLocktime = 500000;
 
   // when
@@ -57,21 +57,21 @@
 
 - (void)testSingleOutputWithDoubleInputAndChangeSatisfies {
   // given
-  NSInteger paymentAmount = 50000000;  // 0.5 BTC
-  NSInteger utxoAmount = 30000000;     // 0.3 BTC
-  CNBDerivationPath *changePath = [[CNBDerivationPath alloc] initWithPurpose:49 coinType:0 account:0 change:1 index:0];
-  CNBDerivationPath *utxoPath = [[CNBDerivationPath alloc] initWithPurpose:49 coinType:0 account:0 change:0 index:0];
+  NSUInteger paymentAmount = 50000000;  // 0.5 BTC
+  NSUInteger utxoAmount = 30000000;     // 0.3 BTC
+  CNBDerivationPath *changePath = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:MainNet account:0 change:1 index:0];
+  CNBDerivationPath *utxoPath = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:MainNet account:0 change:0 index:0];
   CNBUnspentTransactionOutput *utxo1 = [[CNBUnspentTransactionOutput alloc] initWithId:@"previous txid" index:0 amount:utxoAmount derivationPath:utxoPath isConfirmed:YES];
   CNBUnspentTransactionOutput *utxo2 = [[CNBUnspentTransactionOutput alloc] initWithId:@"previous txid" index:1 amount:utxoAmount derivationPath:utxoPath isConfirmed:YES];
-  NSInteger feeRate = 30;
-  NSInteger numberOfInsAndOuts = 4;
-  NSInteger expectedFeeAmount = numberOfInsAndOuts * self.bytesPerInOrOut * feeRate;
-  NSInteger amountFromUTXOs = 0;
+  NSUInteger feeRate = 30;
+  NSUInteger numberOfInsAndOuts = 4;
+  NSUInteger expectedFeeAmount = numberOfInsAndOuts * self.bytesPerInOrOut * feeRate;
+  NSUInteger amountFromUTXOs = 0;
   for (CNBUnspentTransactionOutput *utxo in @[utxo1, utxo2]) {
     amountFromUTXOs += utxo.amount;
   }
-  NSInteger expectedChangeAmount = amountFromUTXOs - paymentAmount - expectedFeeAmount;
-  NSInteger expectedNumberOfUTXOs = 2;
+  NSUInteger expectedChangeAmount = amountFromUTXOs - paymentAmount - expectedFeeAmount;
+  NSUInteger expectedNumberOfUTXOs = 2;
   NSUInteger expectedLocktime = 500000;
 
   // when
@@ -92,16 +92,16 @@
 
 - (void)testSingleOutputWithSingleInputAndNoChangeSatisfies {
   // given
-  NSInteger paymentAmount = 50000000;  // 0.5 BTC
-  NSInteger utxoAmount = 50006000;     // 0.50006000 BTC
-  CNBDerivationPath *changePath = [[CNBDerivationPath alloc] initWithPurpose:49 coinType:0 account:0 change:1 index:0];
-  CNBDerivationPath *utxoPath = [[CNBDerivationPath alloc] initWithPurpose:49 coinType:0 account:0 change:0 index:0];
+  NSUInteger paymentAmount = 50000000;  // 0.5 BTC
+  NSUInteger utxoAmount = 50006000;     // 0.50006000 BTC
+  CNBDerivationPath *changePath = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:MainNet account:0 change:1 index:0];
+  CNBDerivationPath *utxoPath = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:MainNet account:0 change:0 index:0];
   CNBUnspentTransactionOutput *utxo1 = [[CNBUnspentTransactionOutput alloc] initWithId:@"previous txid" index:0 amount:utxoAmount derivationPath:utxoPath isConfirmed:YES];
-  NSInteger feeRate = 30;
-  NSInteger numberOfInsAndOuts = 2;
-  NSInteger expectedFeeAmount = numberOfInsAndOuts * self.bytesPerInOrOut * feeRate;
-  NSInteger expectedChangeAmount = 0;
-  NSInteger expectedNumberOfUTXOs = 1;
+  NSUInteger feeRate = 30;
+  NSUInteger numberOfInsAndOuts = 2;
+  NSUInteger expectedFeeAmount = numberOfInsAndOuts * self.bytesPerInOrOut * feeRate;
+  NSUInteger expectedChangeAmount = 0;
+  NSUInteger expectedNumberOfUTXOs = 1;
   NSUInteger expectedLocktime = 500000;
 
   // when
@@ -122,18 +122,18 @@
 
 - (void)testSingleOutputWithDoubleInputAndNoChangeSatisfies {
   // given
-  NSInteger paymentAmount = 50000000;  // 0.5 BTC
-  NSInteger utxoAmount1 = 20006000;    // 0.20006000 BTC
-  NSInteger utxoAmount2 = 30003000;    // 0.30003000 BTC
-  CNBDerivationPath *changePath = [[CNBDerivationPath alloc] initWithPurpose:49 coinType:0 account:0 change:1 index:0];
-  CNBDerivationPath *utxoPath = [[CNBDerivationPath alloc] initWithPurpose:49 coinType:0 account:0 change:0 index:0];
+  NSUInteger paymentAmount = 50000000;  // 0.5 BTC
+  NSUInteger utxoAmount1 = 20006000;    // 0.20006000 BTC
+  NSUInteger utxoAmount2 = 30003000;    // 0.30003000 BTC
+  CNBDerivationPath *changePath = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:MainNet account:0 change:1 index:0];
+  CNBDerivationPath *utxoPath = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:MainNet account:0 change:0 index:0];
   CNBUnspentTransactionOutput *utxo1 = [[CNBUnspentTransactionOutput alloc] initWithId:@"previous txid" index:0 amount:utxoAmount1 derivationPath:utxoPath isConfirmed:YES];
   CNBUnspentTransactionOutput *utxo2 = [[CNBUnspentTransactionOutput alloc] initWithId:@"previous txid" index:1 amount:utxoAmount2 derivationPath:utxoPath isConfirmed:YES];
-  NSInteger feeRate = 30;
-  NSInteger numberOfInsAndOuts = 3;
-  NSInteger expectedFeeAmount = numberOfInsAndOuts * self.bytesPerInOrOut * feeRate;
-  NSInteger expectedChangeAmount = 0;
-  NSInteger expectedNumberOfUTXOs = 2;
+  NSUInteger feeRate = 30;
+  NSUInteger numberOfInsAndOuts = 3;
+  NSUInteger expectedFeeAmount = numberOfInsAndOuts * self.bytesPerInOrOut * feeRate;
+  NSUInteger expectedChangeAmount = 0;
+  NSUInteger expectedNumberOfUTXOs = 2;
   NSUInteger expectedLocktime = 500000;
 
   // when
@@ -154,14 +154,14 @@
 
 - (void)testSingleOutputWithDoubleInputAndInsufficientfundsReturnsNil {
   // given
-  NSInteger paymentAmount = 50000000;  // 0.5 BTC
-  NSInteger utxoAmount1 = 20000000;    // 0.2 BTC
-  NSInteger utxoAmount2 = 10000000;    // 0.1 BTC
-  CNBDerivationPath *changePath = [[CNBDerivationPath alloc] initWithPurpose:49 coinType:0 account:0 change:1 index:0];
-  CNBDerivationPath *utxoPath = [[CNBDerivationPath alloc] initWithPurpose:49 coinType:0 account:0 change:0 index:0];
+  NSUInteger paymentAmount = 50000000;  // 0.5 BTC
+  NSUInteger utxoAmount1 = 20000000;    // 0.2 BTC
+  NSUInteger utxoAmount2 = 10000000;    // 0.1 BTC
+  CNBDerivationPath *changePath = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:MainNet account:0 change:1 index:0];
+  CNBDerivationPath *utxoPath = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:MainNet account:0 change:0 index:0];
   CNBUnspentTransactionOutput *utxo1 = [[CNBUnspentTransactionOutput alloc] initWithId:@"previous txid" index:0 amount:utxoAmount1 derivationPath:utxoPath isConfirmed:YES];
   CNBUnspentTransactionOutput *utxo2 = [[CNBUnspentTransactionOutput alloc] initWithId:@"previous txid" index:1 amount:utxoAmount2 derivationPath:utxoPath isConfirmed:YES];
-  NSInteger feeRate = 30;
+  NSUInteger feeRate = 30;
 
   // when
   CNBTransactionData *txData = [[CNBTransactionData alloc] initWithAddress:@"test address"
@@ -315,7 +315,7 @@
   NSUInteger expectedAmount = inputAmount - expectedFeeAmount;
 
   // when
-  CNBTransactionData *txData = [[CNBTransactionData alloc] initWithAllUsableOutputs:@[out1, out2]
+  CNBTransactionData *txData = [[CNBTransactionData alloc] initWithAllUsableOutputs:utxos
                                                                 sendingMaxToAddress:address
                                                                             feeRate:feeRate
                                                                         blockHeight:500000];
@@ -339,13 +339,9 @@
                                                                        derivationPath:path1
                                                                           isConfirmed:YES];
   NSArray *utxos = @[out1];
-  NSUInteger inputAmount = out1.amount;
-  NSUInteger numOutputs = 1;
-  NSUInteger expectedFeeAmount = feeRate * (utxos.count + numOutputs) * self.bytesPerInOrOut;
-  NSUInteger expectedAmount = inputAmount - expectedFeeAmount;
 
   // when
-  CNBTransactionData *txData = [[CNBTransactionData alloc] initWithAllUsableOutputs:@[out1]
+  CNBTransactionData *txData = [[CNBTransactionData alloc] initWithAllUsableOutputs:utxos
                                                                 sendingMaxToAddress:address
                                                                             feeRate:feeRate
                                                                         blockHeight:500000];
@@ -371,7 +367,7 @@
   NSUInteger expectedAmount = inputAmount - expectedFeeAmount;
 
   // when
-  CNBTransactionData *txData = [[CNBTransactionData alloc] initWithAllUsableOutputs:@[out1]
+  CNBTransactionData *txData = [[CNBTransactionData alloc] initWithAllUsableOutputs:utxos
                                                                 sendingMaxToAddress:address
                                                                             feeRate:feeRate
                                                                         blockHeight:500000];
