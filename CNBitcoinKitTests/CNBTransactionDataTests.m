@@ -354,4 +354,35 @@
   XCTAssertNil(txData);
 }
 
+- (void)testSendMaxWithJustEnoughFundsReturnsObject {
+  // given
+  NSString *address = @"374Cb65dKaQj8sXHRcQybCFSCSDSNu6k6A";
+  NSUInteger feeRate = 5;
+  CNBDerivationPath *path1 = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:MainNet account:0 change:1 index:3];
+  CNBUnspentTransactionOutput *out1 = [[CNBUnspentTransactionOutput alloc] initWithId:@"909ac6e0a31c68fe345cc72d568bbab75afb5229b648753c486518f11c0d0009"
+                                                                                index:1
+                                                                               amount:1000
+                                                                       derivationPath:path1
+                                                                          isConfirmed:YES];
+  NSArray *utxos = @[out1];
+  NSUInteger inputAmount = out1.amount;
+  NSUInteger numOutputs = 1;
+  NSUInteger expectedFeeAmount = feeRate * (utxos.count + numOutputs) * self.bytesPerInOrOut;
+  NSUInteger expectedAmount = inputAmount - expectedFeeAmount;
+
+  // when
+  CNBTransactionData *txData = [[CNBTransactionData alloc] initWithAllUsableOutputs:@[out1]
+                                                                sendingMaxToAddress:address
+                                                                            feeRate:feeRate
+                                                                        blockHeight:500000];
+
+  // then
+  XCTAssertEqual([txData amount], expectedAmount);
+  XCTAssertEqual([txData amount], 0);
+  XCTAssertEqual([txData feeAmount], expectedFeeAmount);
+  XCTAssertEqual([txData feeAmount], 1000);
+  XCTAssertEqual([txData changeAmount], 0);
+  XCTAssertNil([txData changePath]);
+}
+
 @end
