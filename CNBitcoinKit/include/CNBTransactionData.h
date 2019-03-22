@@ -58,5 +58,20 @@
                               changePath:(nullable CNBDerivationPath *)changePath
                              blockHeight:(NSUInteger)blockHeight;
 
+/**
+ Send max amount to a given address, minus the calculated fee based on size of transaction times feeRate.
+
+ @param unspentTransactionOutputs All usable UTXOs in a wallet.
+ @param paymentAddress The address to which you want to send currency.
+ @param feeRate The fee rate to be multiplied by the estimated transaction size.
+ @param blockHeight The current block height, used to calculate the locktime (blockHeight + 1).
+ @return Returns an instantiated object if fully able to satisfy amount+fee with UTXOs, or nil if insufficient funds. This would only be
+ nil if the funding amount is less than the fee.
+ */
+- (nullable instancetype)initWithAllUsableOutputs:(nonnull NSArray<CNBUnspentTransactionOutput *> *)unspentTransactionOutputs
+                              sendingMaxToAddress:(nonnull NSString *)paymentAddress
+                                          feeRate:(NSUInteger)feeRate
+                                      blockHeight:(NSUInteger)blockHeight;
+
 @end
 

@@ -21,11 +21,6 @@ or alternatively using `brew cask install fastlane`
 fastlane ios autogen
 ```
 Autogenerate Swift code. Current working dir for Fastlane's context is ./fastlane
-### ios build_lib
-```
-fastlane ios build_lib
-```
-Build project
 ### ios test
 ```
 fastlane ios test

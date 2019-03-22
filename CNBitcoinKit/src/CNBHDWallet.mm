@@ -219,7 +219,7 @@ bc::wallet::hd_private childPrivateKey(bc::wallet::hd_private privKey, int index
 
 - (void)broadcastTransactionFromData:(CNBTransactionData *)data
                                  success:(void(^)(NSString *))success
-                              andFailure:(void(^)(NSError * _Nonull))failure {
+                              andFailure:(void(^)(NSError * _Nonnull))failure {
   bc::chain::transaction transaction = [self transactionFromData:data];
   CNBTransactionMetadata *metadata = [self buildTransactionMetadataWithTransactionData:data];
   NSString *encodedTx = [metadata encodedTx];

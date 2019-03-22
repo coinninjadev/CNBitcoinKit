@@ -46,7 +46,6 @@
     NSMutableArray<CNBUnspentTransactionOutput *> *mutableOutputsFromAll = [allUnspentTransactionOutputs mutableCopy];
     NSMutableArray<CNBUnspentTransactionOutput *> *outputsToUse = [@[] mutableCopy];
 
-    NSInteger bytesPerInputOrOutput = 100;
     NSInteger totalFromUTXOs = 0;
 
     NSInteger numberOfInputsAndOutputs = 1;  // assume already one output
@@ -63,7 +62,7 @@
       [outputsToUse addObject:output];
       numberOfInputsAndOutputs += 1;
 
-      _feeAmount = bytesPerInputOrOutput * numberOfInputsAndOutputs * feeRate;
+      _feeAmount = [self bytesPerInputOrOutput] * numberOfInputsAndOutputs * feeRate;
 
       totalFromUTXOs += output.amount;
 
@@ -73,7 +72,7 @@
 
       if (totalFromUTXOs >= amount && tempChangeAmount > 0 && _changePath == nil) {
         numberOfInputsAndOutputs += 1;
-        _feeAmount = bytesPerInputOrOutput * numberOfInputsAndOutputs * feeRate;
+        _feeAmount = [self bytesPerInputOrOutput] * numberOfInputsAndOutputs * feeRate;
         _changePath = changePath;
         _changeAmount = MAX(0, (totalFromUTXOs - (NSInteger)amount - (NSInteger)_feeAmount));
 
@@ -142,6 +141,41 @@
   }
 
   return self;
+}
+
+- (nullable instancetype)initWithAllUsableOutputs:(nonnull NSArray<CNBUnspentTransactionOutput *> *)unspentTransactionOutputs
+                              sendingMaxToAddress:(nonnull NSString *)paymentAddress
+                                          feeRate:(NSUInteger)feeRate
+                                      blockHeight:(NSUInteger)blockHeight {
+  if (self = [super init]) {
+    _paymentAddress = paymentAddress;
+    _unspentTransactionOutputs = unspentTransactionOutputs;
+    _feeAmount = 0;
+    _locktime = blockHeight;
+    _changeAmount = 0;
+    _changePath = nil;
+
+    NSUInteger __block totalFromUTXOs = 0;
+    [unspentTransactionOutputs enumerateObjectsUsingBlock:^(CNBUnspentTransactionOutput *obj, NSUInteger idx, BOOL *stop) {
+      totalFromUTXOs += obj.amount;
+    }];
+
+    NSUInteger numberOfInputsAndOutputs = unspentTransactionOutputs.count + 1;  // + 1 for the destination output
+    _feeAmount = feeRate * numberOfInputsAndOutputs * [self bytesPerInputOrOutput];
+
+    NSInteger signedAmountForValidation = (NSInteger)totalFromUTXOs - (NSInteger)_feeAmount;
+    if (signedAmountForValidation < 0) {
+      return nil;
+    } else {
+      _amount = totalFromUTXOs - _feeAmount;
+    }
+  }
+
+  return self;
+}
+
+- (NSUInteger)bytesPerInputOrOutput {
+  return 100;
 }
 
 - (BOOL)shouldAddChangeToTransaction {
