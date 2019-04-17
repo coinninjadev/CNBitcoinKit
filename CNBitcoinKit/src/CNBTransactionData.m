@@ -77,7 +77,7 @@
         _changeAmount = MAX(0, (totalFromUTXOs - (NSInteger)amount - (NSInteger)_feeAmount));
 
         NSUInteger feePerInput = feeRate * [self bytesPerInputOrOutput];
-        if ([self isEquitableToAddChangeForChangeAmount:_changeAmount feePerInput:feePerInput]) {
+        if ([self isBeneficialToAddChangeForChangeAmount:_changeAmount feePerInput:feePerInput]) {
           _changePath = nil;
           _changeAmount = 0;
           numberOfInputsAndOutputs -= 1;
@@ -135,7 +135,7 @@
         numberOfInputsAndOutputs += 1;
 
         NSUInteger feePerInput = numberOfInputsAndOutputs / flatFee;
-        if ([self isEquitableToAddChangeForChangeAmount:_changeAmount feePerInput:feePerInput]) {
+        if ([self isBeneficialToAddChangeForChangeAmount:_changeAmount feePerInput:feePerInput]) {
           _changePath = nil;
           _changeAmount = 0;
           numberOfInputsAndOutputs -= 1;
@@ -189,7 +189,7 @@
   return 1000;
 }
 
-- (BOOL)isEquitableToAddChangeForChangeAmount:(NSUInteger)changeAmount feePerInput:(NSUInteger)feePerInput {
+- (BOOL)isBeneficialToAddChangeForChangeAmount:(NSUInteger)changeAmount feePerInput:(NSUInteger)feePerInput {
   return changeAmount < (feePerInput + [self dustValue]);
 }
 
