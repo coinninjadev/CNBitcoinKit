@@ -220,6 +220,66 @@
   XCTAssertNil([txData changePath]);
 }
 
+- (void)testCostOfChangeIsEquitable {
+  // given
+  NSString *address = @"374Cb65dKaQj8sXHRcQybCFSCSDSNu6k6A";
+  CNBDerivationPath *path1 = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:MainNet account:0 change:1 index:3];
+  CNBUnspentTransactionOutput *out1 = [[CNBUnspentTransactionOutput alloc] initWithId:@"909ac6e0a31c68fe345cc72d568bbab75afb5229b648753c486518f11c0d0009"
+                                                                                index:1
+                                                                               amount:2221
+                                                                       derivationPath:path1
+                                                                          isConfirmed:YES];
+  CNBDerivationPath *path2 = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:MainNet account:0 change:0 index:2];
+  CNBUnspentTransactionOutput *out2 = [[CNBUnspentTransactionOutput alloc] initWithId:@"419a7a7d27e0c4341ca868d0b9744ae7babb18fd691e39be608b556961c00ade"
+                                                                                index:0
+                                                                               amount:15935
+                                                                       derivationPath:path2
+                                                                          isConfirmed:YES];
+  CNBDerivationPath *path3 = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:MainNet account:0 change:0 index:8];
+  CNBUnspentTransactionOutput *out3 = [[CNBUnspentTransactionOutput alloc] initWithId:@"3013fcd9ea8fd65a69709f07fed2c1fd765d57664486debcb72ef47f2ea415f6"
+                                                                                index:0
+                                                                               amount:15526
+                                                                       derivationPath:path3
+                                                                          isConfirmed:YES];
+  CNBDerivationPath *path4 = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:MainNet account:0 change:1 index:4];
+  CNBUnspentTransactionOutput *out4 = [[CNBUnspentTransactionOutput alloc] initWithId:@"4afc03bc6ca8b49e46990da8e7be0defc44e2b43b8981409c250659adef7314b"
+                                                                                index:1
+                                                                               amount:4044
+                                                                       derivationPath:path4
+                                                                          isConfirmed:YES];
+  CNBDerivationPath *changePath = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:MainNet account:0 change:1 index:5];
+
+  // when, with not enough to satisfy change threshold
+  CNBTransactionData *txData = [[CNBTransactionData alloc] initWithAddress:address
+                                                   fromAllAvailableOutputs:@[out1, out2, out3, out4]
+                                                             paymentAmount:26228
+                                                                   feeRate:15
+                                                                changePath:changePath
+                                                               blockHeight:500000];
+
+  // then
+  XCTAssertEqual([txData amount], 26228);
+  XCTAssertEqual([txData feeAmount], 9000);
+  XCTAssertEqual([[txData unspentTransactionOutputs] count], 4);
+  XCTAssertEqual([txData changeAmount], 0);
+  XCTAssertNil([txData changePath]);
+
+  // when again, with enough to satisfy change threshold
+  CNBTransactionData *goodTxData = [[CNBTransactionData alloc] initWithAddress:address
+                                                       fromAllAvailableOutputs:@[out1, out2, out3, out4]
+                                                                 paymentAmount:26226
+                                                                       feeRate:15
+                                                                    changePath:changePath
+                                                                   blockHeight:500000];
+
+  // and then
+  XCTAssertEqual([goodTxData amount], 26226);
+  XCTAssertEqual([goodTxData feeAmount], 9000);
+  XCTAssertEqual([[goodTxData unspentTransactionOutputs] count], 4);
+  XCTAssertEqual([goodTxData changeAmount], 2500);
+  XCTAssertEqualObjects([goodTxData changePath], changePath);
+}
+
 // MARK: flat fee tests
 - (void)testTransactionDataWithFlatFeeCalculatesUTXOsAndChangeProperly {
   // given

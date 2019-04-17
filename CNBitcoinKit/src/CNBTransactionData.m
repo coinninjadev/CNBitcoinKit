@@ -76,9 +76,11 @@
         _changePath = changePath;
         _changeAmount = MAX(0, (totalFromUTXOs - (NSInteger)amount - (NSInteger)_feeAmount));
 
-        if (_changeAmount < 1000) {
+        NSUInteger feePerInput = feeRate * [self bytesPerInputOrOutput];
+        if ([self isBeneficialToAddChangeForChangeAmount:_changeAmount feePerInput:feePerInput]) {
           _changePath = nil;
           _changeAmount = 0;
+          numberOfInputsAndOutputs -= 1;
         }
       }
 
@@ -107,6 +109,7 @@
     NSMutableArray<CNBUnspentTransactionOutput *> *outputsToUse = [@[] mutableCopy];
 
     NSInteger totalFromUTXOs = 0;
+    NSUInteger numberOfInputsAndOutputs = 1;  // assume one output to address
 
     do {
       // early exit if insufficient funds
@@ -118,6 +121,7 @@
       CNBUnspentTransactionOutput *output = [mutableOutputsFromAll objectAtIndex:0];
       [mutableOutputsFromAll removeObjectAtIndex:0];
       [outputsToUse addObject:output];
+      numberOfInputsAndOutputs += 1;
 
       totalFromUTXOs += output.amount;
 
@@ -128,10 +132,13 @@
       if (totalFromUTXOs >= amount && tempChangeAmount > 0 && _changePath == nil) {
         _changePath = changePath;
         _changeAmount = MAX(0, (totalFromUTXOs - (NSInteger)amount - (NSInteger)_feeAmount));
+        numberOfInputsAndOutputs += 1;
 
-        if (_changeAmount < 1000) {
+        NSUInteger feePerInput = numberOfInputsAndOutputs / flatFee;
+        if ([self isBeneficialToAddChangeForChangeAmount:_changeAmount feePerInput:feePerInput]) {
           _changePath = nil;
           _changeAmount = 0;
+          numberOfInputsAndOutputs -= 1;
         }
       }
 
@@ -176,6 +183,14 @@
 
 - (NSUInteger)bytesPerInputOrOutput {
   return 100;
+}
+
+- (NSUInteger)dustValue {
+  return 1000;
+}
+
+- (BOOL)isBeneficialToAddChangeForChangeAmount:(NSUInteger)changeAmount feePerInput:(NSUInteger)feePerInput {
+  return changeAmount < (feePerInput + [self dustValue]);
 }
 
 - (BOOL)shouldAddChangeToTransaction {
