@@ -43,52 +43,52 @@
     _unspentTransactionOutputs = @[];
     _feeAmount = 0;
     _locktime = blockHeight;
-    NSMutableArray<CNBUnspentTransactionOutput *> *mutableOutputsFromAll = [allUnspentTransactionOutputs mutableCopy];
-    NSMutableArray<CNBUnspentTransactionOutput *> *outputsToUse = [@[] mutableCopy];
 
-    NSInteger totalFromUTXOs = 0;
+    NSMutableArray<CNBUnspentTransactionOutput *> *requiredInputs = [@[] mutableCopy];
+    NSInteger totalFromUTXOs = 0;  // inputsValue
+    NSInteger numberOfInputsAndOutputs = 1;  // start with one as the destination output
+    NSInteger totalSendingValue = 0;
+    NSInteger currentFee = 0;
+    NSInteger feePerInput = feeRate * [self bytesPerInputOrOutput];
 
-    NSInteger numberOfInputsAndOutputs = 1;  // assume already one output
+    for (CNBUnspentTransactionOutput *output in allUnspentTransactionOutputs) {
+      totalSendingValue = amount + currentFee;
 
-    do {
-      // early exit if insufficient funds
-      if (mutableOutputsFromAll.count == 0) {
-        return nil;
-      }
-
-      // get a utxo
-      CNBUnspentTransactionOutput *output = [mutableOutputsFromAll objectAtIndex:0];
-      [mutableOutputsFromAll removeObjectAtIndex:0];
-      [outputsToUse addObject:output];
-      numberOfInputsAndOutputs += 1;
-
-      _feeAmount = [self bytesPerInputOrOutput] * numberOfInputsAndOutputs * feeRate;
-
-      totalFromUTXOs += output.amount;
-
-      NSInteger possibleChange = totalFromUTXOs - (NSInteger)amount - (NSInteger)_feeAmount;
-      NSInteger tempChangeAmount = MAX(0, possibleChange);
-      _changeAmount = (NSUInteger)tempChangeAmount;
-
-      if (totalFromUTXOs >= amount && tempChangeAmount > 0 && _changePath == nil) {
+      if (totalSendingValue > totalFromUTXOs) {
+        [requiredInputs addObject:output];
         numberOfInputsAndOutputs += 1;
-        _feeAmount = [self bytesPerInputOrOutput] * numberOfInputsAndOutputs * feeRate;
-        _changePath = changePath;
-        _changeAmount = MAX(0, (totalFromUTXOs - (NSInteger)amount - (NSInteger)_feeAmount));
+        totalFromUTXOs += [output amount];
+        currentFee = feePerInput * numberOfInputsAndOutputs;
+        totalSendingValue = amount + currentFee;
 
-        NSUInteger feePerInput = feeRate * [self bytesPerInputOrOutput];
-        if ([self isBeneficialToAddChangeForChangeAmount:_changeAmount feePerInput:feePerInput]) {
-          _changePath = nil;
-          _changeAmount = 0;
-          numberOfInputsAndOutputs -= 1;
+        NSInteger changeValue = totalFromUTXOs - totalSendingValue;
+
+        if ((totalFromUTXOs < amount + currentFee) || changeValue < 0) {
+          continue;
         }
+
+        if (changeValue > 0 && changeValue < (feePerInput + [self dustValue])) {
+          currentFee += changeValue;
+          break;
+        } else if (changeValue > 0) {
+          currentFee += feePerInput;
+          changeValue -= feePerInput;
+          _changeAmount = changeValue;
+          _changePath = changePath;
+          break;
+        }
+      } else {
+        break;
       }
+    }
 
-    } while (totalFromUTXOs < (_feeAmount + amount));
+    _feeAmount = currentFee;
+    _unspentTransactionOutputs = [requiredInputs copy];
 
-    _unspentTransactionOutputs = [outputsToUse copy];
+    if (totalFromUTXOs < totalSendingValue) {
+      return nil;
+    }
   }
-
   return self;
 }
 
@@ -134,8 +134,7 @@
         _changeAmount = MAX(0, (totalFromUTXOs - (NSInteger)amount - (NSInteger)_feeAmount));
         numberOfInputsAndOutputs += 1;
 
-        NSUInteger feePerInput = numberOfInputsAndOutputs / flatFee;
-        if ([self isBeneficialToAddChangeForChangeAmount:_changeAmount feePerInput:feePerInput]) {
+        if (_changeAmount < [self dustValue]) {
           _changePath = nil;
           _changeAmount = 0;
           numberOfInputsAndOutputs -= 1;
@@ -187,10 +186,6 @@
 
 - (NSUInteger)dustValue {
   return 1000;
-}
-
-- (BOOL)isBeneficialToAddChangeForChangeAmount:(NSUInteger)changeAmount feePerInput:(NSUInteger)feePerInput {
-  return changeAmount < (feePerInput + [self dustValue]);
 }
 
 - (BOOL)shouldAddChangeToTransaction {
