@@ -214,13 +214,13 @@
 
   // then
   XCTAssertEqual([txData amount], 28273);
-  XCTAssertEqual([txData feeAmount], 9000);
+  XCTAssertEqual([txData feeAmount], 9453);
   XCTAssertEqual([[txData unspentTransactionOutputs] count], 4);
   XCTAssertEqual([txData changeAmount], 0);
   XCTAssertNil([txData changePath]);
 }
 
-- (void)testCostOfChangeIsEquitable {
+- (void)testCostOfChangeIsBeneficial {
   // given
   NSString *address = @"374Cb65dKaQj8sXHRcQybCFSCSDSNu6k6A";
   CNBDerivationPath *path1 = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:MainNet account:0 change:1 index:3];
@@ -257,26 +257,26 @@
                                                                 changePath:changePath
                                                                blockHeight:500000];
 
-  // then
+  // then when change would only be 1454, so cost to add change would not be beneficial, let miner have dust
   XCTAssertEqual([txData amount], 26228);
-  XCTAssertEqual([txData feeAmount], 9000);
-  XCTAssertEqual([[txData unspentTransactionOutputs] count], 4);
+  XCTAssertEqual([txData feeAmount], 7454);
+  XCTAssertEqual([[txData unspentTransactionOutputs] count], 3);
   XCTAssertEqual([txData changeAmount], 0);
   XCTAssertNil([txData changePath]);
 
   // when again, with enough to satisfy change threshold
   CNBTransactionData *goodTxData = [[CNBTransactionData alloc] initWithAddress:address
-                                                       fromAllAvailableOutputs:@[out1, out2, out3, out4]
-                                                                 paymentAmount:26226
+                                                       fromAllAvailableOutputs:@[out1, out4, out2, out3]
+                                                                 paymentAmount:26200
                                                                        feeRate:15
                                                                     changePath:changePath
                                                                    blockHeight:500000];
 
   // and then
-  XCTAssertEqual([goodTxData amount], 26226);
+  XCTAssertEqual([goodTxData amount], 26200);
   XCTAssertEqual([goodTxData feeAmount], 9000);
   XCTAssertEqual([[goodTxData unspentTransactionOutputs] count], 4);
-  XCTAssertEqual([goodTxData changeAmount], 2500);
+  XCTAssertEqual([goodTxData changeAmount], 2526);
   XCTAssertEqualObjects([goodTxData changePath], changePath);
 }
 
