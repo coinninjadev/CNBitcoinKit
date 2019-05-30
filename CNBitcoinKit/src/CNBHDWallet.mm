@@ -14,6 +14,7 @@
 #import "CNBTransactionMetadata.h"
 #import "CNBDerivationPath.h"
 #import "NSData+CNBitcoinKit.h"
+#import "CNBAddressHelper.h"
 #include "usable_address.hpp"
 #include "Base58Check.hpp"
 #import "sodium.h"
@@ -280,9 +281,10 @@ bc::wallet::hd_private childPrivateKey(bc::wallet::hd_private privKey, int index
 }
 
 - (bc::chain::output)outputWithAddress:(bc::wallet::payment_address)address amount:(uint64_t)amount {
-  if ([self addressVersionIsP2KH:address.version()]) {
+  CNBAddressHelper *helper = [[CNBAddressHelper alloc] init];
+  if ([helper addressIsP2KH:address]) {
     return [self createPayToKeyOutputWithAddress:address amount:amount];
-  } else if ([self addressVersionIsP2SH:address.version()]) {
+  } else if ([helper addressIsP2SH:address]) {
     return [self createPayToScriptOutputWithAddress:address amount:amount];
   } else {
     throw "Illegal payment address";
@@ -450,16 +452,6 @@ bc::wallet::hd_private childPrivateKey(bc::wallet::hd_private privKey, int index
   return transaction;
 }
 
-- (BOOL)addressVersionIsP2KH:(uint8_t)version {
-  return version == bc::wallet::payment_address::mainnet_p2kh ||
-  version == bc::wallet::payment_address::testnet_p2kh;
-}
-
-- (BOOL)addressVersionIsP2SH:(uint8_t)version {
-  return version == bc::wallet::payment_address::mainnet_p2sh ||
-  version == bc::wallet::payment_address::testnet_p2sh;
-}
-
 // MARK: ECDH
 - (CNBEncryptionCipherKeys *)encryptionCipherKeysForPublicKey:(NSData *)publicKeyData {
   data_chunk public_key_data([publicKeyData dataChunk]);
@@ -469,9 +461,9 @@ bc::wallet::hd_private childPrivateKey(bc::wallet::hd_private privKey, int index
   NSData *ephPubKey = [NSData dataWithBytes:keys.get_ephemeral_public_key().data() length:keys.get_ephemeral_public_key().size()];
 
   CNBEncryptionCipherKeys *cipherKeys = [[CNBEncryptionCipherKeys alloc] initWithEncryptionKey:encryptionKey
-                                                                   hmacKey:hmacKey
-                                                        ephemeralPublicKey:ephPubKey
-                               ];
+                                                                                       hmacKey:hmacKey
+                                                                            ephemeralPublicKey:ephPubKey
+                                         ];
   return cipherKeys;
 }
 
