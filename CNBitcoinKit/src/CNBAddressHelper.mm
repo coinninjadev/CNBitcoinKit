@@ -31,6 +31,24 @@
   return [self addressVersionIsP2SH:version];
 }
 
+- (NSUInteger)bytesPerChangeOutput {
+  return kP2SHOutputSize;
+}
+
+- (NSUInteger)bytesPerInput {
+  return kP2SHSegWitInputSize;
+}
+
+- (NSUInteger)totalBytesWithInputCount:(NSUInteger)inputCount
+                        paymentAddress:(bc::wallet::payment_address)paymentAddress
+                  includeChangeAddress:(BOOL)includeChangeAddress {
+  return (kP2SHSegWitInputSize * inputCount) +
+  [self bytesPerOutputAddress:paymentAddress] +
+  (includeChangeAddress ? kP2SHOutputSize : 0) +
+  kBaseTxBytes;
+}
+
+// MARK: private
 - (NSUInteger)bytesPerOutputAddress:(bc::wallet::payment_address)address {
   if ([self addressIsP2KH:address]) {
     return kP2KHOutputSize;
@@ -41,19 +59,6 @@
   }
 }
 
-- (NSUInteger)bytesPerChangeOutput {
-  return kP2SHOutputSize;
-}
-
-- (NSUInteger)bytesPerInputCount:(NSUInteger)count {
-  return count * kP2SHSegWitInputSize;
-}
-
-- (NSUInteger)baseTransactionBytes {
-  return kBaseTxBytes;
-}
-
-// MARK: private
 - (BOOL)addressVersionIsP2KH:(uint8_t)version {
   return version == bc::wallet::payment_address::mainnet_p2kh ||
   version == bc::wallet::payment_address::testnet_p2kh;

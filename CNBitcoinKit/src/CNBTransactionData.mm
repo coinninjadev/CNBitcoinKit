@@ -52,7 +52,7 @@
     NSUInteger numberOfInputs = 0;
     NSInteger totalSendingValue = 0;
     NSInteger currentFee = 0;
-    NSInteger feePerInput = feeRate * [helper bytesPerInputCount:1];
+    NSInteger feePerInput = feeRate * [helper bytesPerInput];
 
     for (CNBUnspentTransactionOutput *output in allUnspentTransactionOutputs) {
       totalSendingValue = amount + currentFee;
@@ -164,8 +164,6 @@
     _changePath = nil;
 
     CNBAddressHelper *helper = [[CNBAddressHelper alloc] init];
-    NSUInteger inputBytes = [helper bytesPerInputCount:[unspentTransactionOutputs count]];
-    NSUInteger baseBytes = [helper baseTransactionBytes];
 
     NSUInteger __block totalFromUTXOs = 0;
     [unspentTransactionOutputs enumerateObjectsUsingBlock:^(CNBUnspentTransactionOutput *obj, NSUInteger idx, BOOL *stop) {
@@ -173,7 +171,9 @@
     }];
 
     bc::wallet::payment_address payment_address = [helper paymentAddressFromString:paymentAddress];
-    _feeAmount = feeRate * (inputBytes + [helper bytesPerOutputAddress:payment_address] + baseBytes);
+    _feeAmount = feeRate * [helper totalBytesWithInputCount:[unspentTransactionOutputs count]
+                                             paymentAddress:payment_address
+                                       includeChangeAddress:NO];
 
     NSInteger signedAmountForValidation = (NSInteger)totalFromUTXOs - (NSInteger)_feeAmount;
     if (signedAmountForValidation < 0) {
@@ -188,15 +188,8 @@
 
 - (NSUInteger)bytesForInputCount:(NSUInteger)inputCount paymentAddress:(NSString *)address includeChangeOutput:(BOOL)includeChange {
   CNBAddressHelper *helper = [[CNBAddressHelper alloc] init];
-  NSUInteger baseBytes = [helper baseTransactionBytes];
-  NSUInteger inputBytes = [helper bytesPerInputCount:inputCount];
   bc::wallet::payment_address payment_address = [helper paymentAddressFromString:address];
-  NSUInteger outputBytes = [helper bytesPerOutputAddress:payment_address];
-  NSUInteger changeBytes = 0;
-  if (includeChange) {
-    changeBytes = [helper bytesPerChangeOutput];
-  }
-  return baseBytes + inputBytes + outputBytes + changeBytes;
+  return [helper totalBytesWithInputCount:inputCount paymentAddress:payment_address includeChangeAddress:includeChange];
 }
 
 - (NSUInteger)dustThreshold {
