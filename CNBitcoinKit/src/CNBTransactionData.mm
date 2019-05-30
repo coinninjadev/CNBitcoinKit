@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "CNBTransactionData.h"
+#import "CNBAddressHelper.h"
 
 @implementation CNBTransactionData
 
@@ -44,21 +45,25 @@
     _feeAmount = 0;
     _locktime = blockHeight;
 
+    CNBAddressHelper *helper = [[CNBAddressHelper alloc] init];
+
     NSMutableArray<CNBUnspentTransactionOutput *> *requiredInputs = [@[] mutableCopy];
-    NSInteger totalFromUTXOs = 0;  // inputsValue
-    NSInteger numberOfInputsAndOutputs = 1;  // start with one as the destination output
+    NSInteger totalFromUTXOs = 0;
+    NSUInteger numberOfInputs = 0;
     NSInteger totalSendingValue = 0;
     NSInteger currentFee = 0;
-    NSInteger feePerInput = feeRate * [self bytesPerInputOrOutput];
+    NSInteger feePerInput = feeRate * [helper bytesPerInput];
 
     for (CNBUnspentTransactionOutput *output in allUnspentTransactionOutputs) {
       totalSendingValue = amount + currentFee;
 
       if (totalSendingValue > totalFromUTXOs) {
         [requiredInputs addObject:output];
-        numberOfInputsAndOutputs += 1;
+        numberOfInputs += 1;
         totalFromUTXOs += [output amount];
-        currentFee = feePerInput * numberOfInputsAndOutputs;
+        BOOL includeChangeOutput = (_changePath != nil);
+        NSUInteger totalBytes = [self bytesForInputCount:numberOfInputs paymentAddress:paymentAddress includeChangeOutput:includeChangeOutput];
+        currentFee = feeRate * totalBytes;
         totalSendingValue = amount + currentFee;
 
         NSInteger changeValue = totalFromUTXOs - totalSendingValue;
@@ -67,12 +72,13 @@
           continue;
         }
 
-        if (changeValue > 0 && changeValue < (feePerInput + [self dustValue])) {
+        if (changeValue > 0 && changeValue < (feePerInput + [self dustThreshold])) {  // not beneficial to add change
           currentFee += changeValue;
           break;
         } else if (changeValue > 0) {
-          currentFee += feePerInput;
-          changeValue -= feePerInput;
+          totalBytes = [self bytesForInputCount:numberOfInputs paymentAddress:paymentAddress includeChangeOutput:YES];
+          currentFee = feeRate * totalBytes;
+          changeValue -= (feeRate * [helper bytesPerChangeOutput]);
           _changeAmount = changeValue;
           _changePath = changePath;
           break;
@@ -109,7 +115,6 @@
     NSMutableArray<CNBUnspentTransactionOutput *> *outputsToUse = [@[] mutableCopy];
 
     NSInteger totalFromUTXOs = 0;
-    NSUInteger numberOfInputsAndOutputs = 1;  // assume one output to address
 
     do {
       // early exit if insufficient funds
@@ -121,7 +126,6 @@
       CNBUnspentTransactionOutput *output = [mutableOutputsFromAll objectAtIndex:0];
       [mutableOutputsFromAll removeObjectAtIndex:0];
       [outputsToUse addObject:output];
-      numberOfInputsAndOutputs += 1;
 
       totalFromUTXOs += output.amount;
 
@@ -132,12 +136,10 @@
       if (totalFromUTXOs >= amount && tempChangeAmount > 0 && _changePath == nil) {
         _changePath = changePath;
         _changeAmount = MAX(0, (totalFromUTXOs - (NSInteger)amount - (NSInteger)_feeAmount));
-        numberOfInputsAndOutputs += 1;
 
-        if (_changeAmount < [self dustValue]) {
+        if (_changeAmount < [self dustThreshold]) {
           _changePath = nil;
           _changeAmount = 0;
-          numberOfInputsAndOutputs -= 1;
         }
       }
 
@@ -161,13 +163,17 @@
     _changeAmount = 0;
     _changePath = nil;
 
+    CNBAddressHelper *helper = [[CNBAddressHelper alloc] init];
+
     NSUInteger __block totalFromUTXOs = 0;
     [unspentTransactionOutputs enumerateObjectsUsingBlock:^(CNBUnspentTransactionOutput *obj, NSUInteger idx, BOOL *stop) {
       totalFromUTXOs += obj.amount;
     }];
 
-    NSUInteger numberOfInputsAndOutputs = unspentTransactionOutputs.count + 1;  // + 1 for the destination output
-    _feeAmount = feeRate * numberOfInputsAndOutputs * [self bytesPerInputOrOutput];
+    bc::wallet::payment_address payment_address = [helper paymentAddressFromString:paymentAddress];
+    _feeAmount = feeRate * [helper totalBytesWithInputCount:[unspentTransactionOutputs count]
+                                             paymentAddress:payment_address
+                                       includeChangeAddress:NO];
 
     NSInteger signedAmountForValidation = (NSInteger)totalFromUTXOs - (NSInteger)_feeAmount;
     if (signedAmountForValidation < 0) {
@@ -180,11 +186,13 @@
   return self;
 }
 
-- (NSUInteger)bytesPerInputOrOutput {
-  return 100;
+- (NSUInteger)bytesForInputCount:(NSUInteger)inputCount paymentAddress:(NSString *)address includeChangeOutput:(BOOL)includeChange {
+  CNBAddressHelper *helper = [[CNBAddressHelper alloc] init];
+  bc::wallet::payment_address payment_address = [helper paymentAddressFromString:address];
+  return [helper totalBytesWithInputCount:inputCount paymentAddress:payment_address includeChangeAddress:includeChange];
 }
 
-- (NSUInteger)dustValue {
+- (NSUInteger)dustThreshold {
   return 1000;
 }
 

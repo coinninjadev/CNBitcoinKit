@@ -8,20 +8,23 @@
 
 #import <XCTest/XCTest.h>
 #import "CNBTransactionData.h"
+#import "CNBAddressHelper.h"
 
 @interface CNBTransactionDataTests : XCTestCase
-@property (nonatomic) NSInteger bytesPerInOrOut;
+@property (nonatomic) CNBAddressHelper *helper;
+@property (nonatomic) NSString *testAddress;
 @end
 
 @implementation CNBTransactionDataTests
 
 - (void)setUp {
   [super setUp];
-  self.bytesPerInOrOut = 100;
+  self.testAddress = @"37VucYSaXLCAsxYyAPfbSi9eh4iEcbShgf";
+  self.helper = [[CNBAddressHelper alloc] init];
 }
 
 - (void)tearDown {
-  // Put teardown code here. This method is called after the invocation of each test method in the class.
+  self.helper = nil;
   [super tearDown];
 }
 
@@ -33,14 +36,16 @@
   CNBDerivationPath *utxoPath = [[CNBDerivationPath  alloc] initWithPurpose:BIP49 coinType:MainNet account:0 change:0 index:0];
   CNBUnspentTransactionOutput *utxo = [[CNBUnspentTransactionOutput alloc] initWithId:@"previous txid" index:0 amount:utxoAmount derivationPath:utxoPath isConfirmed:YES];
   NSUInteger feeRate = 30;
-  NSUInteger numberOfInsAndOuts = 3;
-  NSUInteger expectedFeeAmount = numberOfInsAndOuts * self.bytesPerInOrOut * feeRate;
+
+  bc::wallet::payment_address payment_address = [[self helper] paymentAddressFromString:[self testAddress]];
+  NSUInteger totalBytes = [[self helper] totalBytesWithInputCount:1 paymentAddress:payment_address includeChangeAddress:YES];
+  NSUInteger expectedFeeAmount = feeRate * totalBytes; // 4,980
   NSUInteger expectedChangeAmount = utxoAmount - paymentAmount - expectedFeeAmount;
   NSUInteger expectedNumberOfUTXOs = 1;
   NSUInteger expectedLocktime = 500000;
 
   // when
-  CNBTransactionData *txData = [[CNBTransactionData alloc] initWithAddress:@"test address"
+  CNBTransactionData *txData = [[CNBTransactionData alloc] initWithAddress:[self testAddress]
                                                    fromAllAvailableOutputs:@[utxo]
                                                              paymentAmount:paymentAmount
                                                                    feeRate:feeRate
@@ -63,11 +68,15 @@
   CNBDerivationPath *utxoPath = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:MainNet account:0 change:0 index:0];
   CNBUnspentTransactionOutput *utxo1 = [[CNBUnspentTransactionOutput alloc] initWithId:@"previous txid" index:0 amount:utxoAmount derivationPath:utxoPath isConfirmed:YES];
   CNBUnspentTransactionOutput *utxo2 = [[CNBUnspentTransactionOutput alloc] initWithId:@"previous txid" index:1 amount:utxoAmount derivationPath:utxoPath isConfirmed:YES];
+  NSArray *utxos = @[utxo1, utxo2];
   NSUInteger feeRate = 30;
-  NSUInteger numberOfInsAndOuts = 4;
-  NSUInteger expectedFeeAmount = numberOfInsAndOuts * self.bytesPerInOrOut * feeRate;
+
+  bc::wallet::payment_address payment_address = [[self helper] paymentAddressFromString:[self testAddress]];
+  NSUInteger totalBytes = [[self helper] totalBytesWithInputCount:[utxos count] paymentAddress:payment_address includeChangeAddress:YES];
+  NSUInteger expectedFeeAmount = feeRate * totalBytes; // 7,710
+
   NSUInteger amountFromUTXOs = 0;
-  for (CNBUnspentTransactionOutput *utxo in @[utxo1, utxo2]) {
+  for (CNBUnspentTransactionOutput *utxo in utxos) {
     amountFromUTXOs += utxo.amount;
   }
   NSUInteger expectedChangeAmount = amountFromUTXOs - paymentAmount - expectedFeeAmount;
@@ -75,8 +84,8 @@
   NSUInteger expectedLocktime = 500000;
 
   // when
-  CNBTransactionData *txData = [[CNBTransactionData alloc] initWithAddress:@"test address"
-                                                   fromAllAvailableOutputs:@[utxo1, utxo2]
+  CNBTransactionData *txData = [[CNBTransactionData alloc] initWithAddress:[self testAddress]
+                                                   fromAllAvailableOutputs:utxos
                                                              paymentAmount:paymentAmount
                                                                    feeRate:feeRate
                                                                 changePath:changePath
@@ -93,19 +102,23 @@
 - (void)testSingleOutputWithSingleInputAndNoChangeSatisfies {
   // given
   NSUInteger paymentAmount = 50000000;  // 0.5 BTC
-  NSUInteger utxoAmount = 50006000;     // 0.50006000 BTC
+  NSUInteger utxoAmount = 50004020;     // 0.50004020 BTC
   CNBDerivationPath *changePath = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:MainNet account:0 change:1 index:0];
   CNBDerivationPath *utxoPath = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:MainNet account:0 change:0 index:0];
   CNBUnspentTransactionOutput *utxo1 = [[CNBUnspentTransactionOutput alloc] initWithId:@"previous txid" index:0 amount:utxoAmount derivationPath:utxoPath isConfirmed:YES];
+  NSArray *utxos = @[utxo1];
   NSUInteger feeRate = 30;
-  NSUInteger numberOfInsAndOuts = 2;
-  NSUInteger expectedFeeAmount = numberOfInsAndOuts * self.bytesPerInOrOut * feeRate;
+
+  bc::wallet::payment_address payment_address = [[self helper] paymentAddressFromString:[self testAddress]];
+  NSUInteger totalBytes = [[self helper] totalBytesWithInputCount:[utxos count] paymentAddress:payment_address includeChangeAddress:NO];
+  NSUInteger expectedFeeAmount = feeRate * totalBytes; // 4,020
+
   NSUInteger expectedChangeAmount = 0;
   NSUInteger expectedNumberOfUTXOs = 1;
   NSUInteger expectedLocktime = 500000;
 
   // when
-  CNBTransactionData *txData = [[CNBTransactionData alloc] initWithAddress:@"test address"
+  CNBTransactionData *txData = [[CNBTransactionData alloc] initWithAddress:[self testAddress]
                                                    fromAllAvailableOutputs:@[utxo1]
                                                              paymentAmount:paymentAmount
                                                                    feeRate:feeRate
@@ -123,22 +136,27 @@
 - (void)testSingleOutputWithDoubleInputAndNoChangeSatisfies {
   // given
   NSUInteger paymentAmount = 50000000;  // 0.5 BTC
-  NSUInteger utxoAmount1 = 20006000;    // 0.20006000 BTC
-  NSUInteger utxoAmount2 = 30003000;    // 0.30003000 BTC
+  NSUInteger utxoAmount1 = 20001750;    // 0.20001750 BTC
+  NSUInteger utxoAmount2 = 30005000;    // 0.30005000 BTC
   CNBDerivationPath *changePath = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:MainNet account:0 change:1 index:0];
   CNBDerivationPath *utxoPath = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:MainNet account:0 change:0 index:0];
   CNBUnspentTransactionOutput *utxo1 = [[CNBUnspentTransactionOutput alloc] initWithId:@"previous txid" index:0 amount:utxoAmount1 derivationPath:utxoPath isConfirmed:YES];
   CNBUnspentTransactionOutput *utxo2 = [[CNBUnspentTransactionOutput alloc] initWithId:@"previous txid" index:1 amount:utxoAmount2 derivationPath:utxoPath isConfirmed:YES];
+
+  NSArray *utxos = @[utxo1, utxo2];
   NSUInteger feeRate = 30;
-  NSUInteger numberOfInsAndOuts = 3;
-  NSUInteger expectedFeeAmount = numberOfInsAndOuts * self.bytesPerInOrOut * feeRate;
+
+  bc::wallet::payment_address payment_address = [[self helper] paymentAddressFromString:[self testAddress]];
+  NSUInteger totalBytes = [[self helper] totalBytesWithInputCount:[utxos count] paymentAddress:payment_address includeChangeAddress:NO];
+  NSUInteger expectedFeeAmount = feeRate * totalBytes; // 6,750
+
   NSUInteger expectedChangeAmount = 0;
   NSUInteger expectedNumberOfUTXOs = 2;
   NSUInteger expectedLocktime = 500000;
 
   // when
-  CNBTransactionData *txData = [[CNBTransactionData alloc] initWithAddress:@"test address"
-                                                   fromAllAvailableOutputs:@[utxo1, utxo2]
+  CNBTransactionData *txData = [[CNBTransactionData alloc] initWithAddress:[self testAddress]
+                                                   fromAllAvailableOutputs:utxos
                                                              paymentAmount:paymentAmount
                                                                    feeRate:feeRate
                                                                 changePath:changePath
@@ -161,11 +179,12 @@
   CNBDerivationPath *utxoPath = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:MainNet account:0 change:0 index:0];
   CNBUnspentTransactionOutput *utxo1 = [[CNBUnspentTransactionOutput alloc] initWithId:@"previous txid" index:0 amount:utxoAmount1 derivationPath:utxoPath isConfirmed:YES];
   CNBUnspentTransactionOutput *utxo2 = [[CNBUnspentTransactionOutput alloc] initWithId:@"previous txid" index:1 amount:utxoAmount2 derivationPath:utxoPath isConfirmed:YES];
+  NSArray *utxos = @[utxo1, utxo2];
   NSUInteger feeRate = 30;
 
   // when
-  CNBTransactionData *txData = [[CNBTransactionData alloc] initWithAddress:@"test address"
-                                                   fromAllAvailableOutputs:@[utxo1, utxo2]
+  CNBTransactionData *txData = [[CNBTransactionData alloc] initWithAddress:[self testAddress]
+                                                   fromAllAvailableOutputs:utxos
                                                              paymentAmount:paymentAmount
                                                                    feeRate:feeRate
                                                                 changePath:changePath
@@ -175,115 +194,68 @@
   XCTAssertNil(txData);
 }
 
-- (void)testDustyChangeShouldBeRemoved {
+- (void)testCostOfChangeBeneficial {
   // given
-  NSString *address = @"374Cb65dKaQj8sXHRcQybCFSCSDSNu6k6A";
   CNBDerivationPath *path1 = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:MainNet account:0 change:1 index:3];
   CNBUnspentTransactionOutput *out1 = [[CNBUnspentTransactionOutput alloc] initWithId:@"909ac6e0a31c68fe345cc72d568bbab75afb5229b648753c486518f11c0d0009"
                                                                                 index:1
-                                                                               amount:2221
+                                                                               amount:100000
                                                                        derivationPath:path1
                                                                           isConfirmed:YES];
   CNBDerivationPath *path2 = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:MainNet account:0 change:0 index:2];
   CNBUnspentTransactionOutput *out2 = [[CNBUnspentTransactionOutput alloc] initWithId:@"419a7a7d27e0c4341ca868d0b9744ae7babb18fd691e39be608b556961c00ade"
                                                                                 index:0
-                                                                               amount:15935
+                                                                               amount:100000
                                                                        derivationPath:path2
                                                                           isConfirmed:YES];
-  CNBDerivationPath *path3 = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:MainNet account:0 change:0 index:8];
-  CNBUnspentTransactionOutput *out3 = [[CNBUnspentTransactionOutput alloc] initWithId:@"3013fcd9ea8fd65a69709f07fed2c1fd765d57664486debcb72ef47f2ea415f6"
-                                                                                index:0
-                                                                               amount:15526
-                                                                       derivationPath:path3
-                                                                          isConfirmed:YES];
-  CNBDerivationPath *path4 = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:MainNet account:0 change:1 index:4];
-  CNBUnspentTransactionOutput *out4 = [[CNBUnspentTransactionOutput alloc] initWithId:@"4afc03bc6ca8b49e46990da8e7be0defc44e2b43b8981409c250659adef7314b"
-                                                                                index:1
-                                                                               amount:4044
-                                                                       derivationPath:path4
-                                                                          isConfirmed:YES];
+  NSArray *utxos = @[out1, out2];
   CNBDerivationPath *changePath = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:MainNet account:0 change:1 index:5];
 
-  // when
-  CNBTransactionData *txData = [[CNBTransactionData alloc] initWithAddress:address
-                                                   fromAllAvailableOutputs:@[out1, out2, out3, out4]
-                                                             paymentAmount:28273
-                                                                   feeRate:15
+  NSUInteger feeRate = 10;
+  bc::wallet::payment_address payment_address = [[self helper] paymentAddressFromString:[self testAddress]];
+  NSUInteger totalBytes = [[self helper] totalBytesWithInputCount:[utxos count] paymentAddress:payment_address includeChangeAddress:NO];
+  NSUInteger dustyChange = 1100;
+  NSUInteger expectedFeeAmount = feeRate * totalBytes + dustyChange; // 2,250 + 1,100 = 3,350
+  NSUInteger paymentAmount = out1.amount + out2.amount - expectedFeeAmount; // 200,000 - 3,350 = 196,650
+
+  // when, with not enough to satisfy change threshold
+  CNBTransactionData *txData = [[CNBTransactionData alloc] initWithAddress:[self testAddress]
+                                                   fromAllAvailableOutputs:utxos
+                                                             paymentAmount:paymentAmount
+                                                                   feeRate:feeRate
                                                                 changePath:changePath
                                                                blockHeight:500000];
 
   // then
-  XCTAssertEqual([txData amount], 28273);
-  XCTAssertEqual([txData feeAmount], 9453);
-  XCTAssertEqual([[txData unspentTransactionOutputs] count], 4);
-  XCTAssertEqual([txData changeAmount], 0);
-  XCTAssertNil([txData changePath]);
-}
-
-- (void)testCostOfChangeIsBeneficial {
-  // given
-  NSString *address = @"374Cb65dKaQj8sXHRcQybCFSCSDSNu6k6A";
-  CNBDerivationPath *path1 = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:MainNet account:0 change:1 index:3];
-  CNBUnspentTransactionOutput *out1 = [[CNBUnspentTransactionOutput alloc] initWithId:@"909ac6e0a31c68fe345cc72d568bbab75afb5229b648753c486518f11c0d0009"
-                                                                                index:1
-                                                                               amount:2221
-                                                                       derivationPath:path1
-                                                                          isConfirmed:YES];
-  CNBDerivationPath *path2 = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:MainNet account:0 change:0 index:2];
-  CNBUnspentTransactionOutput *out2 = [[CNBUnspentTransactionOutput alloc] initWithId:@"419a7a7d27e0c4341ca868d0b9744ae7babb18fd691e39be608b556961c00ade"
-                                                                                index:0
-                                                                               amount:15935
-                                                                       derivationPath:path2
-                                                                          isConfirmed:YES];
-  CNBDerivationPath *path3 = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:MainNet account:0 change:0 index:8];
-  CNBUnspentTransactionOutput *out3 = [[CNBUnspentTransactionOutput alloc] initWithId:@"3013fcd9ea8fd65a69709f07fed2c1fd765d57664486debcb72ef47f2ea415f6"
-                                                                                index:0
-                                                                               amount:15526
-                                                                       derivationPath:path3
-                                                                          isConfirmed:YES];
-  CNBDerivationPath *path4 = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:MainNet account:0 change:1 index:4];
-  CNBUnspentTransactionOutput *out4 = [[CNBUnspentTransactionOutput alloc] initWithId:@"4afc03bc6ca8b49e46990da8e7be0defc44e2b43b8981409c250659adef7314b"
-                                                                                index:1
-                                                                               amount:4044
-                                                                       derivationPath:path4
-                                                                          isConfirmed:YES];
-  CNBDerivationPath *changePath = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:MainNet account:0 change:1 index:5];
-
-  // when, with not enough to satisfy change threshold
-  CNBTransactionData *txData = [[CNBTransactionData alloc] initWithAddress:address
-                                                   fromAllAvailableOutputs:@[out1, out2, out3, out4]
-                                                             paymentAmount:26228
-                                                                   feeRate:15
-                                                                changePath:changePath
-                                                               blockHeight:500000];
-
-  // then when change would only be 1454, so cost to add change would not be beneficial, let miner have dust
-  XCTAssertEqual([txData amount], 26228);
-  XCTAssertEqual([txData feeAmount], 7454);
-  XCTAssertEqual([[txData unspentTransactionOutputs] count], 3);
+  // NOT ANYMORE when change would only be 1454, so cost to add change would not be beneficial, let miner have dust
+  XCTAssertEqual([txData amount], paymentAmount);
+  XCTAssertEqual([txData feeAmount], expectedFeeAmount);
+  XCTAssertEqual([[txData unspentTransactionOutputs] count], [utxos count]);
   XCTAssertEqual([txData changeAmount], 0);
   XCTAssertNil([txData changePath]);
 
   // when again, with enough to satisfy change threshold
-  CNBTransactionData *goodTxData = [[CNBTransactionData alloc] initWithAddress:address
-                                                       fromAllAvailableOutputs:@[out1, out4, out2, out3]
-                                                                 paymentAmount:26200
-                                                                       feeRate:15
+  paymentAmount = 194000;
+  expectedFeeAmount = 2570;
+  NSUInteger expectedChange = 3430;
+  CNBTransactionData *goodTxData = [[CNBTransactionData alloc] initWithAddress:[self testAddress]
+                                                       fromAllAvailableOutputs:utxos
+                                                                 paymentAmount:paymentAmount
+                                                                       feeRate:feeRate
                                                                     changePath:changePath
                                                                    blockHeight:500000];
 
   // and then
-  XCTAssertEqual([goodTxData amount], 26200);
-  XCTAssertEqual([goodTxData feeAmount], 9000);
-  XCTAssertEqual([[goodTxData unspentTransactionOutputs] count], 4);
-  XCTAssertEqual([goodTxData changeAmount], 2526);
+  XCTAssertEqual([goodTxData amount], paymentAmount);
+  XCTAssertEqual([goodTxData feeAmount], expectedFeeAmount);
+  XCTAssertEqual([[goodTxData unspentTransactionOutputs] count], [utxos count]);
+  XCTAssertEqual([goodTxData changeAmount], expectedChange);
   XCTAssertEqualObjects([goodTxData changePath], changePath);
 }
 
 // MARK: flat fee tests
 - (void)testTransactionDataWithFlatFeeCalculatesUTXOsAndChangeProperly {
   // given
-  NSString *address = @"374Cb65dKaQj8sXHRcQybCFSCSDSNu6k6A";
   CNBDerivationPath *path1 = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:MainNet account:0 change:1 index:3];
   CNBUnspentTransactionOutput *out1 = [[CNBUnspentTransactionOutput alloc] initWithId:@"909ac6e0a31c68fe345cc72d568bbab75afb5229b648753c486518f11c0d0009"
                                                                                 index:1
@@ -302,26 +274,29 @@
                                                                                amount:15526
                                                                        derivationPath:path3
                                                                           isConfirmed:YES];
+  NSArray *utxos = @[out1, out2, out3];
   CNBDerivationPath *changePath = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:MainNet account:0 change:1 index:5];
+  NSUInteger paymentAmount = 20000;
+  NSUInteger flatFeeAmount = 10000;
+  NSUInteger expectedChange = 3682;
 
   // when
-  CNBTransactionData *txData = [[CNBTransactionData alloc] initWithAddress:address
-                                                   fromAllAvailableOutputs:@[out1, out2, out3]
-                                                             paymentAmount:20000
-                                                                   flatFee:10000
+  CNBTransactionData *txData = [[CNBTransactionData alloc] initWithAddress:[self testAddress]
+                                                   fromAllAvailableOutputs:utxos
+                                                             paymentAmount:paymentAmount
+                                                                   flatFee:flatFeeAmount
                                                                 changePath:changePath
                                                                blockHeight:500000];
 
   // then
-  XCTAssertEqual([txData amount], 20000);
-  XCTAssertEqual([txData feeAmount], 10000);
-  XCTAssertEqual([txData changeAmount], 3682);
+  XCTAssertEqual([txData amount], paymentAmount);
+  XCTAssertEqual([txData feeAmount], flatFeeAmount);
+  XCTAssertEqual([txData changeAmount], expectedChange);
   XCTAssertNotNil([txData changePath]);
 }
 
 - (void)testDustyTransactionDataWithFlatFeeCalculatesUTXOsAndNoChangeProperly {
   // given
-  NSString *address = @"374Cb65dKaQj8sXHRcQybCFSCSDSNu6k6A";
   CNBDerivationPath *path1 = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:MainNet account:0 change:1 index:3];
   CNBUnspentTransactionOutput *out1 = [[CNBUnspentTransactionOutput alloc] initWithId:@"909ac6e0a31c68fe345cc72d568bbab75afb5229b648753c486518f11c0d0009"
                                                                                 index:1
@@ -334,19 +309,22 @@
                                                                                amount:10100
                                                                        derivationPath:path2
                                                                           isConfirmed:YES];
+  NSArray *utxos = @[out1, out2];
   CNBDerivationPath *changePath = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:MainNet account:0 change:1 index:5];
+  NSUInteger paymentAmount = 20000;
+  NSUInteger expectedFeeAmount = 10000;
 
   // when
-  CNBTransactionData *txData = [[CNBTransactionData alloc] initWithAddress:address
-                                                   fromAllAvailableOutputs:@[out1, out2]
-                                                             paymentAmount:20000
-                                                                   flatFee:10000
+  CNBTransactionData *txData = [[CNBTransactionData alloc] initWithAddress:[self testAddress]
+                                                   fromAllAvailableOutputs:utxos
+                                                             paymentAmount:paymentAmount
+                                                                   flatFee:expectedFeeAmount
                                                                 changePath:changePath
                                                                blockHeight:500000];
 
   // then
-  XCTAssertEqual([txData amount], 20000);
-  XCTAssertEqual([txData feeAmount], 10000);
+  XCTAssertEqual([txData amount], paymentAmount);
+  XCTAssertEqual([txData feeAmount], expectedFeeAmount);
   XCTAssertEqual([txData changeAmount], 0);
   XCTAssertNil([txData changePath]);
 }
@@ -354,7 +332,6 @@
 // MARK: send max
 - (void)testSendMaxUsesAllUTXOsAndAmountIsTotalValueMinusFee {
   // given
-  NSString *address = @"374Cb65dKaQj8sXHRcQybCFSCSDSNu6k6A";
   NSUInteger feeRate = 5;
   CNBDerivationPath *path1 = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:MainNet account:0 change:1 index:3];
   CNBUnspentTransactionOutput *out1 = [[CNBUnspentTransactionOutput alloc] initWithId:@"909ac6e0a31c68fe345cc72d568bbab75afb5229b648753c486518f11c0d0009"
@@ -370,27 +347,26 @@
                                                                           isConfirmed:YES];
   NSArray *utxos = @[out1, out2];
   NSUInteger inputAmount = out1.amount + out2.amount;
-  NSUInteger numOutputs = 1;
-  NSUInteger expectedFeeAmount = feeRate * (utxos.count + numOutputs) * self.bytesPerInOrOut;
+  bc::wallet::payment_address payment_address = [[self helper] paymentAddressFromString:[self testAddress]];
+  NSUInteger totalBytes = [[self helper] totalBytesWithInputCount:[utxos count] paymentAddress:payment_address includeChangeAddress:NO];
+  NSUInteger expectedFeeAmount = feeRate * totalBytes; // 1,125
   NSUInteger expectedAmount = inputAmount - expectedFeeAmount;
 
   // when
   CNBTransactionData *txData = [[CNBTransactionData alloc] initWithAllUsableOutputs:utxos
-                                                                sendingMaxToAddress:address
+                                                                sendingMaxToAddress:[self testAddress]
                                                                             feeRate:feeRate
                                                                         blockHeight:500000];
 
   // then
   XCTAssertEqual([txData amount], expectedAmount);
   XCTAssertEqual([txData feeAmount], expectedFeeAmount);
-  XCTAssertEqual([txData feeAmount], 1500);
   XCTAssertEqual([txData changeAmount], 0);
   XCTAssertNil([txData changePath]);
 }
 
 - (void)testSendMaxWithInsufficientFundsReturnsNil {
   // given
-  NSString *address = @"374Cb65dKaQj8sXHRcQybCFSCSDSNu6k6A";
   NSUInteger feeRate = 5;
   CNBDerivationPath *path1 = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:MainNet account:0 change:1 index:3];
   CNBUnspentTransactionOutput *out1 = [[CNBUnspentTransactionOutput alloc] initWithId:@"909ac6e0a31c68fe345cc72d568bbab75afb5229b648753c486518f11c0d0009"
@@ -402,7 +378,7 @@
 
   // when
   CNBTransactionData *txData = [[CNBTransactionData alloc] initWithAllUsableOutputs:utxos
-                                                                sendingMaxToAddress:address
+                                                                sendingMaxToAddress:[self testAddress]
                                                                             feeRate:feeRate
                                                                         blockHeight:500000];
 
@@ -412,23 +388,23 @@
 
 - (void)testSendMaxWithJustEnoughFundsReturnsObject {
   // given
-  NSString *address = @"374Cb65dKaQj8sXHRcQybCFSCSDSNu6k6A";
   NSUInteger feeRate = 5;
   CNBDerivationPath *path1 = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:MainNet account:0 change:1 index:3];
   CNBUnspentTransactionOutput *out1 = [[CNBUnspentTransactionOutput alloc] initWithId:@"909ac6e0a31c68fe345cc72d568bbab75afb5229b648753c486518f11c0d0009"
                                                                                 index:1
-                                                                               amount:1000
+                                                                               amount:670
                                                                        derivationPath:path1
                                                                           isConfirmed:YES];
   NSArray *utxos = @[out1];
   NSUInteger inputAmount = out1.amount;
-  NSUInteger numOutputs = 1;
-  NSUInteger expectedFeeAmount = feeRate * (utxos.count + numOutputs) * self.bytesPerInOrOut;
+  bc::wallet::payment_address payment_address = [[self helper] paymentAddressFromString:[self testAddress]];
+  NSUInteger totalBytes = [[self helper] totalBytesWithInputCount:[utxos count] paymentAddress:payment_address includeChangeAddress:NO];
+  NSUInteger expectedFeeAmount = feeRate * totalBytes; // 670
   NSUInteger expectedAmount = inputAmount - expectedFeeAmount;
 
   // when
   CNBTransactionData *txData = [[CNBTransactionData alloc] initWithAllUsableOutputs:utxos
-                                                                sendingMaxToAddress:address
+                                                                sendingMaxToAddress:[self testAddress]
                                                                             feeRate:feeRate
                                                                         blockHeight:500000];
 
@@ -436,7 +412,7 @@
   XCTAssertEqual([txData amount], expectedAmount);
   XCTAssertEqual([txData amount], 0);
   XCTAssertEqual([txData feeAmount], expectedFeeAmount);
-  XCTAssertEqual([txData feeAmount], 1000);
+  XCTAssertEqual([txData feeAmount], 670);
   XCTAssertEqual([txData changeAmount], 0);
   XCTAssertNil([txData changePath]);
 }
