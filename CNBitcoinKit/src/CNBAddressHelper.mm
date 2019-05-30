@@ -10,6 +10,8 @@
 
 #define kP2KHOutputSize 34
 #define kP2SHOutputSize 32
+#define kP2SHSegWitInputSize 91
+#define kBaseTxBytes 11
 
 @implementation CNBAddressHelper
 
@@ -37,6 +39,18 @@
   } else {
     return 32; // default
   }
+}
+
+- (NSUInteger)bytesPerChangeOutput {
+  return kP2SHOutputSize;
+}
+
+- (NSUInteger)bytesPerInputCount:(NSUInteger)count {
+  return count * kP2SHSegWitInputSize;
+}
+
+- (NSUInteger)baseTransactionBytes {
+  return kBaseTxBytes;
 }
 
 // MARK: private

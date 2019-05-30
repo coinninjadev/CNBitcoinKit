@@ -52,7 +52,7 @@
 		3BB593392018ED2C00B84626 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB5932E2018ED2C00B84626 /* libboost_system.a */; };
 		3BB5934120190A4400B84626 /* libbitcoin-protocol.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB5934020190A4400B84626 /* libbitcoin-protocol.a */; };
 		3BB5934320190A5000B84626 /* libbitcoin-client.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB5934220190A5000B84626 /* libbitcoin-client.a */; };
-		3BC23EEE20BD9A2800877BB6 /* CNBTransactionDataTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BC23EED20BD9A2800877BB6 /* CNBTransactionDataTests.m */; };
+		3BC23EEE20BD9A2800877BB6 /* CNBTransactionDataTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3BC23EED20BD9A2800877BB6 /* CNBTransactionDataTests.mm */; };
 		3BC23EF020BDC57B00877BB6 /* CNBTransactionData+Project.h in Headers */ = {isa = PBXBuildFile; fileRef = 3BC23EEF20BDC52D00877BB6 /* CNBTransactionData+Project.h */; };
 		3BD51D312018C0960095B3C0 /* bitcoin.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D2F2018C0960095B3C0 /* bitcoin.hpp */; };
 		3BD51E1E2018C0E00095B3C0 /* integer_fwd.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3BD51D342018C0C90095B3C0 /* integer_fwd.hpp */; };
@@ -208,7 +208,7 @@
 		A216D77B20AA19FE005FBAC2 /* CNBDerivationPath.h in Headers */ = {isa = PBXBuildFile; fileRef = A216D77A20AA19FE005FBAC2 /* CNBDerivationPath.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A216D77D20AA1C73005FBAC2 /* CNBUnspentTransactionOutput.m in Sources */ = {isa = PBXBuildFile; fileRef = A216D77C20AA1C73005FBAC2 /* CNBUnspentTransactionOutput.m */; };
 		A216D77F20AA1C8F005FBAC2 /* CNBUnspentTransactionOutput.h in Headers */ = {isa = PBXBuildFile; fileRef = A216D77E20AA1C8F005FBAC2 /* CNBUnspentTransactionOutput.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		A216D78120AA1EC7005FBAC2 /* CNBTransactionData.m in Sources */ = {isa = PBXBuildFile; fileRef = A216D78020AA1EC7005FBAC2 /* CNBTransactionData.m */; };
+		A216D78120AA1EC7005FBAC2 /* CNBTransactionData.mm in Sources */ = {isa = PBXBuildFile; fileRef = A216D78020AA1EC7005FBAC2 /* CNBTransactionData.mm */; };
 		A216D78320AA1ED9005FBAC2 /* CNBTransactionData.h in Headers */ = {isa = PBXBuildFile; fileRef = A216D78220AA1ED9005FBAC2 /* CNBTransactionData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A216D78520AA2423005FBAC2 /* CNBTransactionBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = A216D78420AA2423005FBAC2 /* CNBTransactionBuilder.m */; };
 		A216D78720AA2430005FBAC2 /* CNBTransactionBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = A216D78620AA2430005FBAC2 /* CNBTransactionBuilder.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -279,7 +279,7 @@
 		3BB5932E2018ED2C00B84626 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = "deps/build/boost/ios-universal/lib/libboost_system.a"; sourceTree = "<group>"; };
 		3BB5934020190A4400B84626 /* libbitcoin-protocol.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libbitcoin-protocol.a"; path = "deps/build/libbitcoin-protocol/ios-universal/lib/libbitcoin-protocol.a"; sourceTree = "<group>"; };
 		3BB5934220190A5000B84626 /* libbitcoin-client.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libbitcoin-client.a"; path = "deps/build/libbitcoin-client/ios-universal/lib/libbitcoin-client.a"; sourceTree = "<group>"; };
-		3BC23EED20BD9A2800877BB6 /* CNBTransactionDataTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CNBTransactionDataTests.m; sourceTree = "<group>"; };
+		3BC23EED20BD9A2800877BB6 /* CNBTransactionDataTests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CNBTransactionDataTests.mm; sourceTree = "<group>"; };
 		3BC23EEF20BDC52D00877BB6 /* CNBTransactionData+Project.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CNBTransactionData+Project.h"; sourceTree = "<group>"; };
 		3BD51D2F2018C0960095B3C0 /* bitcoin.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = bitcoin.hpp; path = deps/build/prefix/ios/arm64/include/bitcoin/bitcoin.hpp; sourceTree = SOURCE_ROOT; };
 		3BD51D302018C0960095B3C0 /* bitcoin */ = {isa = PBXFileReference; lastKnownFileType = folder; name = bitcoin; path = deps/build/prefix/ios/arm64/include/bitcoin/bitcoin; sourceTree = SOURCE_ROOT; };
@@ -545,7 +545,7 @@
 		A216D77A20AA19FE005FBAC2 /* CNBDerivationPath.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CNBDerivationPath.h; sourceTree = "<group>"; };
 		A216D77C20AA1C73005FBAC2 /* CNBUnspentTransactionOutput.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CNBUnspentTransactionOutput.m; sourceTree = "<group>"; };
 		A216D77E20AA1C8F005FBAC2 /* CNBUnspentTransactionOutput.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CNBUnspentTransactionOutput.h; sourceTree = "<group>"; };
-		A216D78020AA1EC7005FBAC2 /* CNBTransactionData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CNBTransactionData.m; sourceTree = "<group>"; };
+		A216D78020AA1EC7005FBAC2 /* CNBTransactionData.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CNBTransactionData.mm; sourceTree = "<group>"; };
 		A216D78220AA1ED9005FBAC2 /* CNBTransactionData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CNBTransactionData.h; sourceTree = "<group>"; };
 		A216D78420AA2423005FBAC2 /* CNBTransactionBuilder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CNBTransactionBuilder.m; sourceTree = "<group>"; };
 		A216D78620AA2430005FBAC2 /* CNBTransactionBuilder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CNBTransactionBuilder.h; sourceTree = "<group>"; };
@@ -919,7 +919,7 @@
 				3BD78091201430A000E44B14 /* Info.plist */,
 				3B5B7E29207E965900785646 /* MockBitcoinCoin.h */,
 				3B5B7E2A207E965900785646 /* MockBitcoinCoin.m */,
-				3BC23EED20BD9A2800877BB6 /* CNBTransactionDataTests.m */,
+				3BC23EED20BD9A2800877BB6 /* CNBTransactionDataTests.mm */,
 				3BDC16F5220E257400AA42F3 /* GeneratedWords.h */,
 				3BDC16F6220E257400AA42F3 /* GeneratedWords.m */,
 				3BDC16F8220E2ED000AA42F3 /* GeneratedWordsHelper.h */,
@@ -983,7 +983,7 @@
 				3782A6572098BA720023648E /* NSData+CNBitcoinKit.h */,
 				3782A6582098BA720023648E /* NSData+CNBitcoinKit.mm */,
 				A216D77C20AA1C73005FBAC2 /* CNBUnspentTransactionOutput.m */,
-				A216D78020AA1EC7005FBAC2 /* CNBTransactionData.m */,
+				A216D78020AA1EC7005FBAC2 /* CNBTransactionData.mm */,
 				A216D78420AA2423005FBAC2 /* CNBTransactionBuilder.m */,
 				3B0F440420AC9CA80031DD34 /* CNBMetaAddress.m */,
 				3715FCFE20AE1FA600D29BEB /* derivation_path.cpp */,
@@ -1311,7 +1311,7 @@
 				3BE8AA2721F78C6F00A3F0C4 /* cipher_keys.cpp in Sources */,
 				3B9A8E032151741100C78C2C /* Base58Check.cpp in Sources */,
 				3B29A2E221EE21DB00F72511 /* NSString+NSData.mm in Sources */,
-				A216D78120AA1EC7005FBAC2 /* CNBTransactionData.m in Sources */,
+				A216D78120AA1EC7005FBAC2 /* CNBTransactionData.mm in Sources */,
 				A216D77920AA19D5005FBAC2 /* CNBDerivationPath.m in Sources */,
 				3715FD0420AE21C100D29BEB /* usable_address.cpp in Sources */,
 				3B0F440620AC9CA80031DD34 /* CNBMetaAddress.m in Sources */,
@@ -1333,7 +1333,7 @@
 				3BDC16FA220E2ED000AA42F3 /* GeneratedWordsHelper.m in Sources */,
 				3B5B7E2B207E965900785646 /* MockBitcoinCoin.m in Sources */,
 				3BDC16F7220E257400AA42F3 /* GeneratedWords.m in Sources */,
-				3BC23EEE20BD9A2800877BB6 /* CNBTransactionDataTests.m in Sources */,
+				3BC23EEE20BD9A2800877BB6 /* CNBTransactionDataTests.mm in Sources */,
 				A216D78920AB4A85005FBAC2 /* CNBTransactionBuilderMainnetTests.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

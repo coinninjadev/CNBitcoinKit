@@ -19,6 +19,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)addressIsP2KH:(bc::wallet::payment_address)address;
 - (BOOL)addressIsP2SH:(bc::wallet::payment_address)address;
 - (NSUInteger)bytesPerOutputAddress:(bc::wallet::payment_address)address;
+- (NSUInteger)bytesPerChangeOutput;
+- (NSUInteger)bytesPerInputCount:(NSUInteger)count;
+- (NSUInteger)baseTransactionBytes;
 
 @end
 
