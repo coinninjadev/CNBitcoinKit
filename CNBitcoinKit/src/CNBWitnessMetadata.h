@@ -11,7 +11,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface CNBWitnessMetadata : NSObject
-
+@property (nonatomic, assign) NSInteger witver;
+@property (nonatomic, retain) NSData *witprog;
 @end
 
 NS_ASSUME_NONNULL_END
