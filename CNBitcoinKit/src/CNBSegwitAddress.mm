@@ -13,7 +13,7 @@
 
 @implementation CNBSegwitAddress
 
-- (CNBWitnessMetadata *)decodeSegwitAddressWithHRP:(NSString *)hrpString address:(NSString *)addressString {
++ (CNBWitnessMetadata *)decodeSegwitAddressWithHRP:(NSString *)hrpString address:(NSString *)addressString {
   std::string hrp = [hrpString cStringUsingEncoding:[NSString defaultCStringEncoding]];
   std::string addr = [addressString cStringUsingEncoding:[NSString defaultCStringEncoding]];
   std::pair<int, std::vector<uint8_t>> dec(segwit_addr::decode(hrp, addr));
@@ -23,7 +23,7 @@
   return metadata;
 }
 
-- (NSString *)encodeSegwitAddressWithHRP:(NSString *)hrpString witnessMetadata:(CNBWitnessMetadata *)metadata {
++ (NSString *)encodeSegwitAddressWithHRP:(NSString *)hrpString witnessMetadata:(CNBWitnessMetadata *)metadata {
   std::string hrp = [hrpString cStringUsingEncoding:[NSString defaultCStringEncoding]];
   std::vector<uint8_t> witprog = [[metadata witprog] dataChunk];
   std::string encoded = segwit_addr::encode(hrp, (int)metadata.witver, witprog);

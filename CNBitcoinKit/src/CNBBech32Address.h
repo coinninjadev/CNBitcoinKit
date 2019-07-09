@@ -14,8 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CNBBech32Address : NSObject
 
-- (NSString *)encodeBech32AddressWithHRP:(NSString *)hrpString values:(NSData *)values;
-- (CNBBech32Metadata *)decodeBech32Address:(NSString *)addressString;
++ (NSString *)encodeBech32AddressWithHRP:(NSString *)hrpString values:(NSData *)values;
++ (CNBBech32Metadata *)decodeBech32Address:(NSString *)addressString;
 
 @end
 

@@ -13,14 +13,14 @@
 
 @implementation CNBBech32Address
 
-- (NSString *)encodeBech32AddressWithHRP:(NSString *)hrpString values:(NSData *)values {
++ (NSString *)encodeBech32AddressWithHRP:(NSString *)hrpString values:(NSData *)values {
   std::string hrp = [hrpString cStringUsingEncoding:[NSString defaultCStringEncoding]];
   std::vector<uint8_t> pubkey = [values dataChunk];
   std::string encoded = bech32::encode(hrp, pubkey);
   return [NSString stringWithCString:encoded.c_str() encoding:[NSString defaultCStringEncoding]];
 }
 
-- (CNBBech32Metadata *)decodeBech32Address:(NSString *)addressString {
++ (CNBBech32Metadata *)decodeBech32Address:(NSString *)addressString {
   NSStringEncoding cEncoding = [NSString defaultCStringEncoding];
   std::string bech32String = [addressString cStringUsingEncoding:cEncoding];
   auto pair = bech32::decode(bech32String);

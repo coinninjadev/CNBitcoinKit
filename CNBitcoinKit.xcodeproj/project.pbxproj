@@ -50,6 +50,7 @@
 		3BB0B4F322D4DEAA0042D29C /* CNBBech32Address.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3BB0B4F122D4DEAA0042D29C /* CNBBech32Address.mm */; };
 		3BB0B4F622D4DF3C0042D29C /* CNBBech32Metadata.h in Headers */ = {isa = PBXBuildFile; fileRef = 3BB0B4F422D4DF3C0042D29C /* CNBBech32Metadata.h */; };
 		3BB0B4F722D4DF3C0042D29C /* CNBBech32Metadata.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BB0B4F522D4DF3C0042D29C /* CNBBech32Metadata.m */; };
+		3BB0B4F922D4E3C80042D29C /* SegwitAddressTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3BB0B4F822D4E3C80042D29C /* SegwitAddressTests.mm */; };
 		3BB593212018ED0E00B84626 /* libbitcoin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB593202018ED0E00B84626 /* libbitcoin.a */; };
 		3BB593232018ED1C00B84626 /* libsecp256k1.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB593222018ED1C00B84626 /* libsecp256k1.a */; };
 		3BB5932F2018ED2C00B84626 /* libboost_date_time.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB593242018ED2B00B84626 /* libboost_date_time.a */; };
@@ -290,6 +291,7 @@
 		3BB0B4F122D4DEAA0042D29C /* CNBBech32Address.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CNBBech32Address.mm; sourceTree = "<group>"; };
 		3BB0B4F422D4DF3C0042D29C /* CNBBech32Metadata.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CNBBech32Metadata.h; sourceTree = "<group>"; };
 		3BB0B4F522D4DF3C0042D29C /* CNBBech32Metadata.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CNBBech32Metadata.m; sourceTree = "<group>"; };
+		3BB0B4F822D4E3C80042D29C /* SegwitAddressTests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = SegwitAddressTests.mm; sourceTree = "<group>"; };
 		3BB593202018ED0E00B84626 /* libbitcoin.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libbitcoin.a; path = "deps/build/libbitcoin/ios-universal/lib/libbitcoin.a"; sourceTree = "<group>"; };
 		3BB593222018ED1C00B84626 /* libsecp256k1.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsecp256k1.a; path = "deps/build/libsecp256k1/ios-universal/lib/libsecp256k1.a"; sourceTree = "<group>"; };
 		3BB593242018ED2B00B84626 /* libboost_date_time.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_date_time.a; path = "deps/build/boost/ios-universal/lib/libboost_date_time.a"; sourceTree = "<group>"; };
@@ -950,6 +952,7 @@
 				3BDC16F6220E257400AA42F3 /* GeneratedWords.m */,
 				3BDC16F8220E2ED000AA42F3 /* GeneratedWordsHelper.h */,
 				3BDC16F9220E2ED000AA42F3 /* GeneratedWordsHelper.m */,
+				3BB0B4F822D4E3C80042D29C /* SegwitAddressTests.mm */,
 			);
 			path = CNBitcoinKitTests;
 			sourceTree = "<group>";
@@ -1383,6 +1386,7 @@
 				3B9A8DFC215158B900C78C2C /* CNBHDWallet_Base58_Tests.m in Sources */,
 				3BD78090201430A000E44B14 /* CNBHDWalletTests.mm in Sources */,
 				3BDC16FA220E2ED000AA42F3 /* GeneratedWordsHelper.m in Sources */,
+				3BB0B4F922D4E3C80042D29C /* SegwitAddressTests.mm in Sources */,
 				3B5B7E2B207E965900785646 /* MockBitcoinCoin.m in Sources */,
 				3BDC16F7220E257400AA42F3 /* GeneratedWords.m in Sources */,
 				3BC23EEE20BD9A2800877BB6 /* CNBTransactionDataTests.mm in Sources */,
