@@ -44,4 +44,19 @@
 	return self;
 }
 
+- (NSString  * _Nullable)bech32HRP {
+  switch (self.coin) {
+    case MainNet:
+      return @"bc";
+      break;
+    case TestNet:
+      return @"tb";
+      break;
+
+    default:
+      return nil;
+      break;
+  }
+}
+
 @end
