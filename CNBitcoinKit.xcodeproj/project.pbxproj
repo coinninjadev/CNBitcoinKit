@@ -46,6 +46,10 @@
 		3BB0B4E822D4CB630042D29C /* CNBSegwitAddress.h in Headers */ = {isa = PBXBuildFile; fileRef = 3BB0B4E622D4CB630042D29C /* CNBSegwitAddress.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3BB0B4E922D4CB630042D29C /* CNBSegwitAddress.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3BB0B4E722D4CB630042D29C /* CNBSegwitAddress.mm */; };
 		3BB0B4EE22D4DDF30042D29C /* CNBBaseCoin+Project.h in Headers */ = {isa = PBXBuildFile; fileRef = 3BB0B4EC22D4DDF30042D29C /* CNBBaseCoin+Project.h */; };
+		3BB0B4F222D4DEAA0042D29C /* CNBBech32Address.h in Headers */ = {isa = PBXBuildFile; fileRef = 3BB0B4F022D4DEAA0042D29C /* CNBBech32Address.h */; };
+		3BB0B4F322D4DEAA0042D29C /* CNBBech32Address.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3BB0B4F122D4DEAA0042D29C /* CNBBech32Address.mm */; };
+		3BB0B4F622D4DF3C0042D29C /* CNBBech32Metadata.h in Headers */ = {isa = PBXBuildFile; fileRef = 3BB0B4F422D4DF3C0042D29C /* CNBBech32Metadata.h */; };
+		3BB0B4F722D4DF3C0042D29C /* CNBBech32Metadata.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BB0B4F522D4DF3C0042D29C /* CNBBech32Metadata.m */; };
 		3BB593212018ED0E00B84626 /* libbitcoin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB593202018ED0E00B84626 /* libbitcoin.a */; };
 		3BB593232018ED1C00B84626 /* libsecp256k1.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB593222018ED1C00B84626 /* libsecp256k1.a */; };
 		3BB5932F2018ED2C00B84626 /* libboost_date_time.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB593242018ED2B00B84626 /* libboost_date_time.a */; };
@@ -282,6 +286,10 @@
 		3BB0B4E622D4CB630042D29C /* CNBSegwitAddress.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CNBSegwitAddress.h; sourceTree = "<group>"; };
 		3BB0B4E722D4CB630042D29C /* CNBSegwitAddress.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CNBSegwitAddress.mm; sourceTree = "<group>"; };
 		3BB0B4EC22D4DDF30042D29C /* CNBBaseCoin+Project.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CNBBaseCoin+Project.h"; sourceTree = "<group>"; };
+		3BB0B4F022D4DEAA0042D29C /* CNBBech32Address.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CNBBech32Address.h; sourceTree = "<group>"; };
+		3BB0B4F122D4DEAA0042D29C /* CNBBech32Address.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CNBBech32Address.mm; sourceTree = "<group>"; };
+		3BB0B4F422D4DF3C0042D29C /* CNBBech32Metadata.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CNBBech32Metadata.h; sourceTree = "<group>"; };
+		3BB0B4F522D4DF3C0042D29C /* CNBBech32Metadata.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CNBBech32Metadata.m; sourceTree = "<group>"; };
 		3BB593202018ED0E00B84626 /* libbitcoin.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libbitcoin.a; path = "deps/build/libbitcoin/ios-universal/lib/libbitcoin.a"; sourceTree = "<group>"; };
 		3BB593222018ED1C00B84626 /* libsecp256k1.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsecp256k1.a; path = "deps/build/libsecp256k1/ios-universal/lib/libsecp256k1.a"; sourceTree = "<group>"; };
 		3BB593242018ED2B00B84626 /* libboost_date_time.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_date_time.a; path = "deps/build/boost/ios-universal/lib/libboost_date_time.a"; sourceTree = "<group>"; };
@@ -1033,6 +1041,10 @@
 				3BB0B4E222D4C94A0042D29C /* CNBWitnessMetadata.h */,
 				3BB0B4E322D4C94A0042D29C /* CNBWitnessMetadata.m */,
 				3BB0B4E722D4CB630042D29C /* CNBSegwitAddress.mm */,
+				3BB0B4F022D4DEAA0042D29C /* CNBBech32Address.h */,
+				3BB0B4F122D4DEAA0042D29C /* CNBBech32Address.mm */,
+				3BB0B4F422D4DF3C0042D29C /* CNBBech32Metadata.h */,
+				3BB0B4F522D4DF3C0042D29C /* CNBBech32Metadata.m */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -1076,6 +1088,7 @@
 				3BD51E712018C0E00095B3C0 /* random.hpp in Headers */,
 				3BD51E852018C0E00095B3C0 /* make_default.hpp in Headers */,
 				3BD51E9D2018C0E00095B3C0 /* ref.hpp in Headers */,
+				3BB0B4F222D4DEAA0042D29C /* CNBBech32Address.h in Headers */,
 				3BD51E5B2018C0E00095B3C0 /* atomic.hpp in Headers */,
 				3BD51E302018C0E00095B3C0 /* scoped_array.hpp in Headers */,
 				3B7D195522A012E000C07FBE /* CNBAddressHelper.h in Headers */,
@@ -1156,6 +1169,7 @@
 				3BD51E212018C0E00095B3C0 /* checked_delete.hpp in Headers */,
 				3BD51E1E2018C0E00095B3C0 /* integer_fwd.hpp in Headers */,
 				3BD51EAA2018C0E00095B3C0 /* call_traits.hpp in Headers */,
+				3BB0B4F622D4DF3C0042D29C /* CNBBech32Metadata.h in Headers */,
 				3BD51E472018C0E00095B3C0 /* is_placeholder.hpp in Headers */,
 				3BD51EC22018C0E00095B3C0 /* utility.hpp in Headers */,
 				3BD51E4A2018C0E00095B3C0 /* multi_array.hpp in Headers */,
@@ -1336,9 +1350,11 @@
 				A216D78520AA2423005FBAC2 /* CNBTransactionBuilder.m in Sources */,
 				3B7F1D7D21FA13A100023759 /* cipher_key_vendor.cpp in Sources */,
 				3BE8AA1C21F20D4800A3F0C4 /* CNBCipherKeys.m in Sources */,
+				3BB0B4F322D4DEAA0042D29C /* CNBBech32Address.mm in Sources */,
 				3BB0B4E522D4C94A0042D29C /* CNBWitnessMetadata.m in Sources */,
 				3BB0B4DE22D4C9060042D29C /* bech32.cpp in Sources */,
 				3B1C602F212C9627008211C5 /* CNBTransactionMetadata.m in Sources */,
+				3BB0B4F722D4DF3C0042D29C /* CNBBech32Metadata.m in Sources */,
 				3B5B7E28207E81A200785646 /* CNBBaseCoin.m in Sources */,
 				A216D77D20AA1C73005FBAC2 /* CNBUnspentTransactionOutput.m in Sources */,
 				3715FD0020AE1FA600D29BEB /* derivation_path.cpp in Sources */,
