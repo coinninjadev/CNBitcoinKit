@@ -21,6 +21,9 @@
 #include "encryption_cipher_keys.hpp"
 #include "cipher_keys.hpp"
 #include "cipher_key_vendor.hpp"
+#import "CNBWitnessMetadata.h"
+#import "CNBSegwitAddress.h"
+#import "CNBBaseCoin+Project.h"
 
 using namespace bc;
 using namespace wallet;
@@ -169,21 +172,57 @@ bc::wallet::hd_private childPrivateKey(bc::wallet::hd_private privKey, int index
 
 	// 2. get compressed public key at end of derivation path
 	bc::ec_compressed compressedPublicKey = indexPublicKey.point();
-	
-	// 3. wrap in p2sh
-	bc::chain::script P2WPKH = bc::chain::script(witnessProgram(compressedPublicKey));
-	
-	// 4. wrap witness program in P2SH
-	bc::short_hash witnessProgramHash = bc::bitcoin_short_hash(P2WPKH.to_data(0));
-	bc::chain::script P2SH_P2WPKH = bc::chain::script::to_pay_script_hash_pattern(witnessProgramHash);
-	
-	// 5. return NSString representation of cStr
-	std::string encoded_payment_address = [self isTestNet] ?
-	bc::wallet::payment_address(P2WPKH, bc::wallet::payment_address::testnet_p2sh).encoded() :
-	bc::wallet::payment_address(P2WPKH).encoded();
 
-	NSString *word = [NSString stringWithCString:encoded_payment_address.c_str() encoding:[NSString defaultCStringEncoding]];
-	return word;
+  // 3. return address based on coin purpose
+  switch (self.coin.purpose) {
+    case BIP49:
+      return [self p2wpkhInP2shForCompressedPublicKey:compressedPublicKey];
+      break;
+    case BIP84:
+      return [self p2wpkhForCompressedPublicKey:compressedPublicKey];
+      break;
+
+    default:
+      return @"";
+      break;
+  }
+}
+
+// private
+- (NSString *)p2wpkhInP2shForCompressedPublicKey:(bc::ec_compressed)compressedPublicKey {
+  // 1. wrap in p2sh
+  bc::chain::script P2WPKH = bc::chain::script(witnessProgram(compressedPublicKey));
+
+  // 2. wrap witness program in P2SH
+  bc::short_hash witnessProgramHash = bc::bitcoin_short_hash(P2WPKH.to_data(0));
+  bc::chain::script P2SH_P2WPKH = bc::chain::script::to_pay_script_hash_pattern(witnessProgramHash);
+
+  // 3. return NSString representation of cStr
+  std::string encoded_payment_address = [self isTestNet] ?
+  bc::wallet::payment_address(P2WPKH, bc::wallet::payment_address::testnet_p2sh).encoded() :
+  bc::wallet::payment_address(P2WPKH).encoded();
+
+  NSString *word = [NSString stringWithCString:encoded_payment_address.c_str() encoding:[NSString defaultCStringEncoding]];
+  return word;
+}
+
+// private
+- (NSString *)p2wpkhForCompressedPublicKey:(bc::ec_compressed)compressedPublicKey {
+
+  // 1. get RIPEMD160 hash
+  bc::short_hash key_hash = bc::bitcoin_short_hash(compressedPublicKey);
+  std::vector<uint8_t> scriptPubKey(key_hash.begin(), key_hash.end());
+
+  // 2. convert to data
+  NSData *data = [NSData dataWithBytes:scriptPubKey.data() length:scriptPubKey.size()];
+
+  // 3. create Segwit Address
+  CNBWitnessMetadata *metadata = [[CNBWitnessMetadata alloc] init];
+  metadata.witver = 0;
+  metadata.witprog = data;
+  NSString *address = [CNBSegwitAddress encodeSegwitAddressWithHRP:self.coin.bech32HRP witnessMetadata:metadata];
+
+  return address;
 }
 
 // private

@@ -273,4 +273,13 @@
   XCTAssertNotEqualObjects([keys1 hmacKey], [keys2 encryptionKey]);
 }
 
+- (void)testBech32FirstReceiveAddress {
+  NSArray *words = @[@"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"about"];
+  CNBBaseCoin *coin = [[CNBBaseCoin alloc] initWithPurpose:BIP84 coin:MainNet account:0];
+  CNBHDWallet *wallet = [[CNBHDWallet alloc] initWithMnemonic:words coin:coin];
+  NSString *address = [[wallet receiveAddressForIndex:0] address];
+  NSString *expected = @"bc1qcr8te4kr609gcawutmrza0j4xv80jy8z306fyu";
+  XCTAssertEqualObjects(address, expected);
+}
+
 @end
