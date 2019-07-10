@@ -282,4 +282,22 @@
   XCTAssertEqualObjects(address, expected);
 }
 
+- (void)testBech32SecondReceiveAddress {
+  NSArray *words = @[@"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"about"];
+  CNBBaseCoin *coin = [[CNBBaseCoin alloc] initWithPurpose:BIP84 coin:MainNet account:0];
+  CNBHDWallet *wallet = [[CNBHDWallet alloc] initWithMnemonic:words coin:coin];
+  NSString *address = [[wallet receiveAddressForIndex:1] address];
+  NSString *expected = @"bc1qnjg0jd8228aq7egyzacy8cys3knf9xvrerkf9g";
+  XCTAssertEqualObjects(address, expected);
+}
+
+- (void)testBech32FirstChangeAddress {
+  NSArray *words = @[@"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"about"];
+  CNBBaseCoin *coin = [[CNBBaseCoin alloc] initWithPurpose:BIP84 coin:MainNet account:0];
+  CNBHDWallet *wallet = [[CNBHDWallet alloc] initWithMnemonic:words coin:coin];
+  NSString *address = [[wallet changeAddressForIndex:0] address];
+  NSString *expected = @"bc1q8c6fshw2dlwun7ekn9qwf37cu2rn755upcp6el";
+  XCTAssertEqualObjects(address, expected);
+}
+
 @end
