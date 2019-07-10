@@ -9,6 +9,7 @@
 #import <XCTest/XCTest.h>
 #import "CNBTransactionData.h"
 #import "CNBAddressHelper.h"
+#import "CNBAddressHelper+Project.h"
 #import "CNBBaseCoin.h"
 
 @interface CNBTransactionDataTests : XCTestCase

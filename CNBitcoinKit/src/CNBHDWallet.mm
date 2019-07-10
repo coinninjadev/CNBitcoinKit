@@ -15,6 +15,7 @@
 #import "CNBDerivationPath.h"
 #import "NSData+CNBitcoinKit.h"
 #import "CNBAddressHelper.h"
+#import "CNBAddressHelper+Project.h"
 #include "usable_address.hpp"
 #include "Base58Check.hpp"
 #import "sodium.h"

@@ -7,6 +7,7 @@
 //
 
 #import "CNBAddressHelper.h"
+#import "CNBAddressHelper+Project.h"
 #import "CNBSegwitAddress.h"
 
 #define kP2KHOutputSize 34
@@ -46,6 +47,12 @@
   } else {
     return P2WSH;
   }
+}
+
+- (CNBPaymentOutputType)addressTypeForAddress:(NSString *)address {
+  std::string address_string = [address cStringUsingEncoding:[NSString defaultCStringEncoding]];
+  bc::wallet::payment_address payment_address(address_string);
+  return [self addressTypeFor:payment_address];
 }
 
 - (NSUInteger)bytesPerChangeOutput {

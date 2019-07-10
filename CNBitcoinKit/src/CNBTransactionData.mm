@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "CNBTransactionData.h"
 #import "CNBAddressHelper.h"
+#import "CNBAddressHelper+Project.h"
 #import "CNBBaseCoin.h"
 
 @interface CNBTransactionData()

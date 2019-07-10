@@ -1,13 +1,12 @@
 //
-//  CNBAddressHelper.h
+//  CNBAddressHelper+Project.h
 //  CNBitcoinKit
 //
-//  Created by BJ Miller on 5/30/19.
+//  Created by BJ Miller on 7/10/19.
 //  Copyright © 2019 Coin Ninja, LLC. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import "CNBBaseCoin.h"
+#import "CNBAddressHelper.h"
 
 #ifdef __cplusplus
   #include <bitcoin/bitcoin.hpp>
@@ -15,25 +14,14 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NS_ENUM(NSUInteger, CNBPaymentOutputType) {
-  P2PKH = 0,
-  P2SH = 1,
-  P2WPKH = 2,
-  P2WSH = 3
-};
-
-@interface CNBAddressHelper : NSObject
-
-- (instancetype)initWithCoin:(CNBBaseCoin *)coin;
-
-- (bc::wallet::payment_address)paymentAddressFromString:(NSString *)address;
+@interface CNBAddressHelper (Project)
 - (CNBPaymentOutputType)addressTypeFor:(bc::wallet::payment_address)address;
+- (bc::wallet::payment_address)paymentAddressFromString:(NSString *)address;
 - (NSUInteger)bytesPerChangeOutput;
 - (NSUInteger)bytesPerInput;
 - (NSUInteger)totalBytesWithInputCount:(NSUInteger)inputCount
                         paymentAddress:(bc::wallet::payment_address)paymentAddress
                   includeChangeAddress:(BOOL)includeChangeAddress;
-
 @end
 
 NS_ASSUME_NONNULL_END
