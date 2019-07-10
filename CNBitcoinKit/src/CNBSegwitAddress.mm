@@ -29,4 +29,11 @@
   return [NSString stringWithCString:encoded.c_str() encoding:[NSString defaultCStringEncoding]];
 }
 
++ (BOOL)isValidSegwitAddress:(NSString *)address {
+  NSRange range = NSMakeRange(0, 2);
+  NSString *hrp = [address substringWithRange:range];
+  CNBWitnessMetadata *metadata = [self decodeSegwitAddressWithHRP:hrp address:address];
+  return metadata.witver != -1;
+}
+
 @end

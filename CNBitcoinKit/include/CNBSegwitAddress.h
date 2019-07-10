@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (CNBWitnessMetadata *)decodeSegwitAddressWithHRP:(NSString *)hrpString address:(NSString *)addressString;
 + (NSString *)encodeSegwitAddressWithHRP:(NSString *)hrpString witnessMetadata:(CNBWitnessMetadata *)metadata;
++ (BOOL)isValidSegwitAddress:(NSString *)address;
 
 @end
 
