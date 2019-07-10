@@ -11,7 +11,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CNBBaseCoin_Project : NSObject
+@interface CNBBaseCoin (Project)
 
 - (NSString  * _Nullable)bech32HRP;
 
