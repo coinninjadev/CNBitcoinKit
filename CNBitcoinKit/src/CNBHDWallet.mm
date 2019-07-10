@@ -137,7 +137,8 @@ bc::wallet::hd_private childPrivateKey(bc::wallet::hd_private privKey, int index
 - (CNBMetaAddress *)receiveAddressForIndex:(NSUInteger)index {
 	NSString *address = [self addressForChangeIndex:0 index:index];
   CoinType type = self.coin.coin;
-  CNBDerivationPath *derivationPath = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:type account:0 change:0 index:index];
+  CoinDerivation purpose = self.coin.purpose;
+  CNBDerivationPath *derivationPath = [[CNBDerivationPath alloc] initWithPurpose:purpose coinType:type account:0 change:0 index:index];
 
   // get uncompressed ec pubkey
   bc::wallet::hd_public pubkey = [self indexPublicKeyForChangeIndex:0 index:index];
@@ -155,7 +156,8 @@ bc::wallet::hd_private childPrivateKey(bc::wallet::hd_private privKey, int index
 - (CNBMetaAddress *)changeAddressForIndex:(NSUInteger)index {
 	NSString *address = [self addressForChangeIndex:1 index:index];
   CoinType type = self.coin.coin;
-  CNBDerivationPath *derivationPath = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:type account:0 change:1 index:index];
+  CoinDerivation purpose = self.coin.purpose;
+  CNBDerivationPath *derivationPath = [[CNBDerivationPath alloc] initWithPurpose:purpose coinType:type account:0 change:1 index:index];
   CNBMetaAddress *metaAddress = [[CNBMetaAddress alloc] initWithAddress:address derivationPath:derivationPath uncompressedPublicKey:nil];
   return metaAddress;
 }
