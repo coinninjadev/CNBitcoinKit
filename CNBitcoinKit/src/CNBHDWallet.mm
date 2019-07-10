@@ -217,9 +217,8 @@ bc::wallet::hd_private childPrivateKey(bc::wallet::hd_private privKey, int index
   NSData *data = [NSData dataWithBytes:scriptPubKey.data() length:scriptPubKey.size()];
 
   // 3. create Segwit Address
-  CNBWitnessMetadata *metadata = [[CNBWitnessMetadata alloc] init];
-  metadata.witver = 0;
-  metadata.witprog = data;
+  NSInteger version = 0; // OP_0
+  CNBWitnessMetadata *metadata = [[CNBWitnessMetadata alloc] initWithWitVer:version witProg:data];
   NSString *address = [CNBSegwitAddress encodeSegwitAddressWithHRP:self.coin.bech32HRP witnessMetadata:metadata];
 
   return address;

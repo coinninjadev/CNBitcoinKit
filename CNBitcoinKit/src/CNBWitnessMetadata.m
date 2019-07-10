@@ -10,4 +10,13 @@
 
 @implementation CNBWitnessMetadata
 
+- (instancetype)initWithWitVer:(NSInteger)witver witProg:(NSData *)witprog {
+  if (self = [super init]) {
+    _witver = witver;
+    _witprog = witprog;
+  }
+
+  return self;
+}
+
 @end

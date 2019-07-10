@@ -17,9 +17,8 @@
   std::string hrp = [hrpString cStringUsingEncoding:[NSString defaultCStringEncoding]];
   std::string addr = [addressString cStringUsingEncoding:[NSString defaultCStringEncoding]];
   std::pair<int, std::vector<uint8_t>> dec(segwit_addr::decode(hrp, addr));
-  CNBWitnessMetadata *metadata = [[CNBWitnessMetadata alloc] init];
-  metadata.witver = dec.first;
-  metadata.witprog = [NSData dataWithBytes:dec.second.data() length:dec.second.size()];
+  NSData *data = [NSData dataWithBytes:dec.second.data() length:dec.second.size()];
+  CNBWitnessMetadata *metadata = [[CNBWitnessMetadata alloc] initWithWitVer:dec.first witProg:data];
   return metadata;
 }
 
