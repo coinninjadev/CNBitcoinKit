@@ -9,10 +9,12 @@
 #import <XCTest/XCTest.h>
 #import "CNBTransactionData.h"
 #import "CNBAddressHelper.h"
+#import "CNBBaseCoin.h"
 
 @interface CNBTransactionDataTests : XCTestCase
-@property (nonatomic) CNBAddressHelper *helper;
-@property (nonatomic) NSString *testAddress;
+@property (nonatomic, retain) CNBAddressHelper *helper;
+@property (nonatomic, retain) NSString *testAddress;
+@property (nonatomic, retain) CNBBaseCoin *coin;
 @end
 
 @implementation CNBTransactionDataTests
@@ -20,7 +22,8 @@
 - (void)setUp {
   [super setUp];
   self.testAddress = @"37VucYSaXLCAsxYyAPfbSi9eh4iEcbShgf";
-  self.helper = [[CNBAddressHelper alloc] init];
+  self.coin = [[CNBBaseCoin alloc] initWithPurpose:BIP49 coin:MainNet account:0];
+  self.helper = [[CNBAddressHelper alloc] initWithCoin:self.coin];
 }
 
 - (void)tearDown {
@@ -46,6 +49,7 @@
 
   // when
   CNBTransactionData *txData = [[CNBTransactionData alloc] initWithAddress:[self testAddress]
+                                                                      coin:self.coin
                                                    fromAllAvailableOutputs:@[utxo]
                                                              paymentAmount:paymentAmount
                                                                    feeRate:feeRate
@@ -85,6 +89,7 @@
 
   // when
   CNBTransactionData *txData = [[CNBTransactionData alloc] initWithAddress:[self testAddress]
+                                                                      coin:self.coin
                                                    fromAllAvailableOutputs:utxos
                                                              paymentAmount:paymentAmount
                                                                    feeRate:feeRate
@@ -119,6 +124,7 @@
 
   // when
   CNBTransactionData *txData = [[CNBTransactionData alloc] initWithAddress:[self testAddress]
+                                                                      coin:self.coin
                                                    fromAllAvailableOutputs:@[utxo1]
                                                              paymentAmount:paymentAmount
                                                                    feeRate:feeRate
@@ -156,6 +162,7 @@
 
   // when
   CNBTransactionData *txData = [[CNBTransactionData alloc] initWithAddress:[self testAddress]
+                                                                      coin:self.coin
                                                    fromAllAvailableOutputs:utxos
                                                              paymentAmount:paymentAmount
                                                                    feeRate:feeRate
@@ -184,6 +191,7 @@
 
   // when
   CNBTransactionData *txData = [[CNBTransactionData alloc] initWithAddress:[self testAddress]
+                                                                      coin:self.coin
                                                    fromAllAvailableOutputs:utxos
                                                              paymentAmount:paymentAmount
                                                                    feeRate:feeRate
@@ -220,6 +228,7 @@
 
   // when, with not enough to satisfy change threshold
   CNBTransactionData *txData = [[CNBTransactionData alloc] initWithAddress:[self testAddress]
+                                                                      coin:self.coin
                                                    fromAllAvailableOutputs:utxos
                                                              paymentAmount:paymentAmount
                                                                    feeRate:feeRate
@@ -239,6 +248,7 @@
   expectedFeeAmount = 2570;
   NSUInteger expectedChange = 3430;
   CNBTransactionData *goodTxData = [[CNBTransactionData alloc] initWithAddress:[self testAddress]
+                                                                          coin:self.coin
                                                        fromAllAvailableOutputs:utxos
                                                                  paymentAmount:paymentAmount
                                                                        feeRate:feeRate
@@ -282,6 +292,7 @@
 
   // when
   CNBTransactionData *txData = [[CNBTransactionData alloc] initWithAddress:[self testAddress]
+                                                                      coin:self.coin
                                                    fromAllAvailableOutputs:utxos
                                                              paymentAmount:paymentAmount
                                                                    flatFee:flatFeeAmount
@@ -316,6 +327,7 @@
 
   // when
   CNBTransactionData *txData = [[CNBTransactionData alloc] initWithAddress:[self testAddress]
+                                                                      coin:self.coin
                                                    fromAllAvailableOutputs:utxos
                                                              paymentAmount:paymentAmount
                                                                    flatFee:expectedFeeAmount
@@ -354,6 +366,7 @@
 
   // when
   CNBTransactionData *txData = [[CNBTransactionData alloc] initWithAllUsableOutputs:utxos
+                                                                               coin:self.coin
                                                                 sendingMaxToAddress:[self testAddress]
                                                                             feeRate:feeRate
                                                                         blockHeight:500000];
@@ -378,6 +391,7 @@
 
   // when
   CNBTransactionData *txData = [[CNBTransactionData alloc] initWithAllUsableOutputs:utxos
+                                                                               coin:self.coin
                                                                 sendingMaxToAddress:[self testAddress]
                                                                             feeRate:feeRate
                                                                         blockHeight:500000];
@@ -404,6 +418,7 @@
 
   // when
   CNBTransactionData *txData = [[CNBTransactionData alloc] initWithAllUsableOutputs:utxos
+                                                                               coin:self.coin
                                                                 sendingMaxToAddress:[self testAddress]
                                                                             feeRate:feeRate
                                                                         blockHeight:500000];

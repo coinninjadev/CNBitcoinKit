@@ -32,7 +32,7 @@
 	[super setUp];
 
   self.words = [GeneratedWordsHelper words4];
-  self.tempCoin = [[CNBBaseCoin alloc] init];
+  self.tempCoin = [[CNBBaseCoin alloc] initWithPurpose:BIP49 coin:MainNet account:0];
 }
 
 - (void)tearDown {
@@ -204,7 +204,14 @@
   NSUInteger changeAmount = 2771840;
   CNBDerivationPath *changePath = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:MainNet account:0 change:1 index:56]; //Hardcoded for now
 
-  CNBTransactionData *data = [[CNBTransactionData alloc] initWithAddress:@"3BgxxADLtnoKu9oytQiiVzYUqvo8weCVy9" unspentTransactionOutputs:utxos amount:amount feeAmount:feesAmount changeAmount:changeAmount changePath:changePath blockHeight:539943];
+  CNBTransactionData *data = [[CNBTransactionData alloc] initWithAddress:@"3BgxxADLtnoKu9oytQiiVzYUqvo8weCVy9"
+                                                                    coin:self.tempCoin
+                                               unspentTransactionOutputs:utxos
+                                                                  amount:amount
+                                                               feeAmount:feesAmount
+                                                            changeAmount:changeAmount
+                                                              changePath:changePath
+                                                             blockHeight:539943];
 
   CNBTransactionBuilder *builder = [[CNBTransactionBuilder alloc] init];
   CNBTransactionMetadata *metadata = [builder generateTxMetadataWithTransactionData:data wallet:wallet];
@@ -227,7 +234,14 @@
   NSUInteger feesAmount = 3000;
   NSUInteger changeAmount = 0;
 
-  CNBTransactionData *data = [[CNBTransactionData alloc] initWithAddress:@"3BgxxADLtnoKu9oytQiiVzYUqvo8weCVy9" unspentTransactionOutputs:utxos amount:amount feeAmount:feesAmount changeAmount:changeAmount changePath:nil blockHeight:539943];
+  CNBTransactionData *data = [[CNBTransactionData alloc] initWithAddress:@"3BgxxADLtnoKu9oytQiiVzYUqvo8weCVy9"
+                                                                    coin:self.tempCoin
+                                               unspentTransactionOutputs:utxos
+                                                                  amount:amount
+                                                               feeAmount:feesAmount
+                                                            changeAmount:changeAmount
+                                                              changePath:nil
+                                                             blockHeight:539943];
 
   CNBTransactionBuilder *builder = [[CNBTransactionBuilder alloc] init];
   CNBTransactionMetadata *metadata = [builder generateTxMetadataWithTransactionData:data wallet:wallet];

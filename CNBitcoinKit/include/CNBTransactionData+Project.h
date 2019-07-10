@@ -19,6 +19,7 @@
 
 /// Convenience initializer used in testing
 - (nonnull instancetype)initWithAddress:(nonnull NSString *)paymentAddress
+                                   coin:(nonnull CNBBaseCoin *)coin
               unspentTransactionOutputs:(nonnull NSArray *)unspentTransactionOutputs
                                  amount:(NSUInteger)amount
                               feeAmount:(NSUInteger)feeAmount

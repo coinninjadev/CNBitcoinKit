@@ -320,14 +320,30 @@ bc::wallet::hd_private childPrivateKey(bc::wallet::hd_private privKey, int index
   return bc::chain::output(amount, bc::chain::script(bc::chain::script().to_pay_script_hash_pattern(address.hash())));
 }
 
+bc::machine::operation::list to_pay_witness_key_hash_pattern(const short_hash& hash) {
+  return bc::machine::operation::list
+  {
+    { opcode::push_size_0 },
+    { to_chunk(hash) },
+  };
+}
+
+- (bc::chain::output)createPayToWitnessPubKeyHahsOutputWithAddress:(bc::wallet::payment_address)address amount:(uint64_t)amount {
+  return bc::chain::output(amount, bc::chain::script(to_pay_witness_key_hash_pattern(address.hash())));
+}
+
 - (bc::chain::output)outputWithAddress:(bc::wallet::payment_address)address amount:(uint64_t)amount {
-  CNBAddressHelper *helper = [[CNBAddressHelper alloc] init];
-  if ([helper addressIsP2KH:address]) {
-    return [self createPayToKeyOutputWithAddress:address amount:amount];
-  } else if ([helper addressIsP2SH:address]) {
-    return [self createPayToScriptOutputWithAddress:address amount:amount];
-  } else {
-    throw "Illegal payment address";
+  CNBAddressHelper *helper = [[CNBAddressHelper alloc] initWithCoin:self.coin];
+  CNBPaymentOutputType type = [helper addressTypeFor:address];
+  switch (type) {
+    case P2PKH:
+      return [self createPayToKeyOutputWithAddress:address amount:amount];
+    case P2SH:
+      return [self createPayToScriptOutputWithAddress:address amount:amount];
+    case P2WPKH:
+      return [self createPayToWitnessPubKeyHahsOutputWithAddress:address amount:amount];
+    default:
+      throw "Illegal payment address";
   }
 }
 
