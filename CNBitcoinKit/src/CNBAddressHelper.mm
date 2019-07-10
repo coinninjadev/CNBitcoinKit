@@ -7,13 +7,27 @@
 //
 
 #import "CNBAddressHelper.h"
+#import "CNBSegwitAddress.h"
 
 #define kP2KHOutputSize 34
 #define kP2SHOutputSize 32
+#define kP2WPKHOutputSize 31
 #define kP2SHSegWitInputSize 91
+#define kP2WPKHSegWitInputSize 68
 #define kBaseTxBytes 11
 
+@interface CNBAddressHelper()
+@property (nonatomic, retain) CNBBaseCoin *coin;
+@end
+
 @implementation CNBAddressHelper
+
+- (instancetype)initWithCoin:(id)coin {
+  if (self = [super init]) {
+    _coin = coin;
+  }
+  return self;
+}
 
 - (bc::wallet::payment_address)paymentAddressFromString:(NSString *)address {
   std::string address_string = std::string([address UTF8String]);
@@ -21,21 +35,44 @@
   return payment_address;
 }
 
-- (BOOL)addressIsP2KH:(bc::wallet::payment_address)address {
+- (CNBPaymentOutputType)addressTypeFor:(bc::wallet::payment_address)address {
   uint8_t version = address.version();
-  return [self addressVersionIsP2KH:version];
-}
-
-- (BOOL)addressIsP2SH:(bc::wallet::payment_address)address {
-  uint8_t version = address.version();
-  return [self addressVersionIsP2SH:version];
+  if ([self addressVersionIsP2KH:version]) {
+    return P2PKH;
+  } else if ([self addressVersionIsP2SH:version]) {
+    return P2SH;
+  } else if ([self addressIsP2WPKH:address]) {
+    return P2WPKH;
+  } else {
+    return P2WSH;
+  }
 }
 
 - (NSUInteger)bytesPerChangeOutput {
+  switch (self.coin.purpose) {
+    case BIP49:
+      return kP2SHOutputSize;
+
+    case BIP84:
+      return kP2WPKHOutputSize;
+
+    default:
+      break;
+  }
   return kP2SHOutputSize;
 }
 
 - (NSUInteger)bytesPerInput {
+  switch (self.coin.purpose) {
+    case BIP49:
+      return kP2SHSegWitInputSize;
+
+    case BIP84:
+      return kP2WPKHSegWitInputSize;
+
+    default:
+      break;
+  }
   return kP2SHSegWitInputSize;
 }
 
@@ -50,10 +87,12 @@
 
 // MARK: private
 - (NSUInteger)bytesPerOutputAddress:(bc::wallet::payment_address)address {
-  if ([self addressIsP2KH:address]) {
+  if ([self addressVersionIsP2KH:address.version()]) {
     return kP2KHOutputSize;
-  } else if ([self addressIsP2SH:address]) {
+  } else if ([self addressVersionIsP2SH:address.version()]) {
     return kP2SHOutputSize;
+  } else if ([self addressIsP2WPKH:address]) {
+    return kP2WPKHOutputSize;
   } else {
     return 32; // default
   }
@@ -67,6 +106,11 @@
 - (BOOL)addressVersionIsP2SH:(uint8_t)version {
   return version == bc::wallet::payment_address::mainnet_p2sh ||
   version == bc::wallet::payment_address::testnet_p2sh;
+}
+
+- (BOOL)addressIsP2WPKH:(bc::wallet::payment_address)payment_address {
+  NSString *address = [NSString stringWithCString:payment_address.encoded().c_str() encoding:[NSString defaultCStringEncoding]];
+  return [CNBSegwitAddress isValidSegwitAddress:address];
 }
 
 @end

@@ -7,17 +7,27 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "CNBBaseCoin.h"
+
 #ifdef __cplusplus
   #include <bitcoin/bitcoin.hpp>
 #endif
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef NS_ENUM(NSUInteger, CNBPaymentOutputType) {
+  P2PKH = 0,
+  P2SH = 1,
+  P2WPKH = 2,
+  P2WSH = 3
+};
+
 @interface CNBAddressHelper : NSObject
 
+- (instancetype)initWithCoin:(CNBBaseCoin *)coin;
+
 - (bc::wallet::payment_address)paymentAddressFromString:(NSString *)address;
-- (BOOL)addressIsP2KH:(bc::wallet::payment_address)address;
-- (BOOL)addressIsP2SH:(bc::wallet::payment_address)address;
+- (CNBPaymentOutputType)addressTypeFor:(bc::wallet::payment_address)address;
 - (NSUInteger)bytesPerChangeOutput;
 - (NSUInteger)bytesPerInput;
 - (NSUInteger)totalBytesWithInputCount:(NSUInteger)inputCount
