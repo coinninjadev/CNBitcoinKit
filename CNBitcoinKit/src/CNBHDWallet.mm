@@ -321,30 +321,39 @@ bc::wallet::hd_private childPrivateKey(bc::wallet::hd_private privKey, int index
   return bc::chain::output(amount, bc::chain::script(bc::chain::script().to_pay_script_hash_pattern(address.hash())));
 }
 
-bc::machine::operation::list to_pay_witness_key_hash_pattern(const short_hash& hash) {
-  return bc::machine::operation::list
+bc::machine::operation::list to_pay_witness_key_hash_pattern(bc::data_chunk hash) {
+  auto pattern = bc::machine::operation::list
   {
     { opcode::push_size_0 },
-    { to_chunk(hash) },
+    { hash }
   };
+  return pattern;
 }
 
-- (bc::chain::output)createPayToWitnessPubKeyHahsOutputWithAddress:(bc::wallet::payment_address)address amount:(uint64_t)amount {
-  return bc::chain::output(amount, bc::chain::script(to_pay_witness_key_hash_pattern(address.hash())));
+- (bc::chain::output)createPayToWitnessPubKeyHashOutputWithAddress:(NSString *)address amount:(uint64_t)amount {
+  NSData *witprog = [[CNBSegwitAddress decodeSegwitAddressWithHRP:@"bc" address:address] witprog];
+  bc::data_chunk hashed_witprog = [witprog dataChunk];
+  return bc::chain::output(amount, to_pay_witness_key_hash_pattern(hashed_witprog));
 }
 
-- (bc::chain::output)outputWithAddress:(bc::wallet::payment_address)address amount:(uint64_t)amount {
+- (bc::chain::output)outputWithAddress:(NSString *)addressString amount:(uint64_t)amount {
   CNBAddressHelper *helper = [[CNBAddressHelper alloc] initWithCoin:self.coin];
-  CNBPaymentOutputType type = [helper addressTypeFor:address];
+  CNBPaymentOutputType type = [helper addressTypeForAddress:addressString];
   switch (type) {
-    case P2PKH:
-      return [self createPayToKeyOutputWithAddress:address amount:amount];
-    case P2SH:
-      return [self createPayToScriptOutputWithAddress:address amount:amount];
-    case P2WPKH:
-      return [self createPayToWitnessPubKeyHahsOutputWithAddress:address amount:amount];
-    default:
+    case P2PKH: {
+      bc::wallet::payment_address paymentAddress = [helper paymentAddressFromString:addressString];
+      return [self createPayToKeyOutputWithAddress:paymentAddress amount:amount];
+    }
+    case P2SH: {
+      bc::wallet::payment_address paymentAddress = [helper paymentAddressFromString:addressString];
+      return [self createPayToScriptOutputWithAddress:paymentAddress amount:amount];
+    }
+    case P2WPKH: {
+      return [self createPayToWitnessPubKeyHashOutputWithAddress:addressString amount:amount];
+    }
+    default: {
       throw "Illegal payment address";
+    }
   }
 }
 
@@ -447,8 +456,6 @@ bc::machine::operation::list to_pay_witness_key_hash_pattern(const short_hash& h
 }
 
 - (bc::chain::transaction)transactionFromData:(CNBTransactionData *)data {
-  std::string address = std::string([[data paymentAddress] UTF8String]);
-  bc::wallet::payment_address paymentAddress(address);
   uint64_t paymentAmount = (uint64_t)[data amount];
 
   // create transaction
@@ -456,7 +463,7 @@ bc::machine::operation::list to_pay_witness_key_hash_pattern(const short_hash& h
   transaction.set_version(1u);
 
   // populate transaction with payment data
-  transaction.outputs().push_back([self outputWithAddress:paymentAddress amount:paymentAmount]);
+  transaction.outputs().push_back([self outputWithAddress:[data paymentAddress] amount:paymentAmount]);
 
   // calculate change
   if ([data shouldAddChangeToTransaction]) {

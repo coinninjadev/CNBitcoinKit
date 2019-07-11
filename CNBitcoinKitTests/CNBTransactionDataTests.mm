@@ -41,8 +41,7 @@
   CNBUnspentTransactionOutput *utxo = [[CNBUnspentTransactionOutput alloc] initWithId:@"previous txid" index:0 amount:utxoAmount derivationPath:utxoPath isConfirmed:YES];
   NSUInteger feeRate = 30;
 
-  bc::wallet::payment_address payment_address = [[self helper] paymentAddressFromString:[self testAddress]];
-  NSUInteger totalBytes = [[self helper] totalBytesWithInputCount:1 paymentAddress:payment_address includeChangeAddress:YES];
+  NSUInteger totalBytes = [[self helper] totalBytesWithInputCount:1 paymentAddress:[self testAddress] includeChangeAddress:YES];
   NSUInteger expectedFeeAmount = feeRate * totalBytes; // 4,980
   NSUInteger expectedChangeAmount = utxoAmount - paymentAmount - expectedFeeAmount;
   NSUInteger expectedNumberOfUTXOs = 1;
@@ -76,8 +75,7 @@
   NSArray *utxos = @[utxo1, utxo2];
   NSUInteger feeRate = 30;
 
-  bc::wallet::payment_address payment_address = [[self helper] paymentAddressFromString:[self testAddress]];
-  NSUInteger totalBytes = [[self helper] totalBytesWithInputCount:[utxos count] paymentAddress:payment_address includeChangeAddress:YES];
+  NSUInteger totalBytes = [[self helper] totalBytesWithInputCount:[utxos count] paymentAddress:[self testAddress] includeChangeAddress:YES];
   NSUInteger expectedFeeAmount = feeRate * totalBytes; // 7,710
 
   NSUInteger amountFromUTXOs = 0;
@@ -115,8 +113,7 @@
   NSArray *utxos = @[utxo1];
   NSUInteger feeRate = 30;
 
-  bc::wallet::payment_address payment_address = [[self helper] paymentAddressFromString:[self testAddress]];
-  NSUInteger totalBytes = [[self helper] totalBytesWithInputCount:[utxos count] paymentAddress:payment_address includeChangeAddress:NO];
+  NSUInteger totalBytes = [[self helper] totalBytesWithInputCount:[utxos count] paymentAddress:[self testAddress] includeChangeAddress:NO];
   NSUInteger expectedFeeAmount = feeRate * totalBytes; // 4,020
 
   NSUInteger expectedChangeAmount = 0;
@@ -153,8 +150,7 @@
   NSArray *utxos = @[utxo1, utxo2];
   NSUInteger feeRate = 30;
 
-  bc::wallet::payment_address payment_address = [[self helper] paymentAddressFromString:[self testAddress]];
-  NSUInteger totalBytes = [[self helper] totalBytesWithInputCount:[utxos count] paymentAddress:payment_address includeChangeAddress:NO];
+  NSUInteger totalBytes = [[self helper] totalBytesWithInputCount:[utxos count] paymentAddress:[self testAddress] includeChangeAddress:NO];
   NSUInteger expectedFeeAmount = feeRate * totalBytes; // 6,750
 
   NSUInteger expectedChangeAmount = 0;
@@ -221,8 +217,7 @@
   CNBDerivationPath *changePath = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:MainNet account:0 change:1 index:5];
 
   NSUInteger feeRate = 10;
-  bc::wallet::payment_address payment_address = [[self helper] paymentAddressFromString:[self testAddress]];
-  NSUInteger totalBytes = [[self helper] totalBytesWithInputCount:[utxos count] paymentAddress:payment_address includeChangeAddress:NO];
+  NSUInteger totalBytes = [[self helper] totalBytesWithInputCount:[utxos count] paymentAddress:[self testAddress] includeChangeAddress:NO];
   NSUInteger dustyChange = 1100;
   NSUInteger expectedFeeAmount = feeRate * totalBytes + dustyChange; // 2,250 + 1,100 = 3,350
   NSUInteger paymentAmount = out1.amount + out2.amount - expectedFeeAmount; // 200,000 - 3,350 = 196,650
@@ -360,8 +355,7 @@
                                                                           isConfirmed:YES];
   NSArray *utxos = @[out1, out2];
   NSUInteger inputAmount = out1.amount + out2.amount;
-  bc::wallet::payment_address payment_address = [[self helper] paymentAddressFromString:[self testAddress]];
-  NSUInteger totalBytes = [[self helper] totalBytesWithInputCount:[utxos count] paymentAddress:payment_address includeChangeAddress:NO];
+  NSUInteger totalBytes = [[self helper] totalBytesWithInputCount:[utxos count] paymentAddress:[self testAddress] includeChangeAddress:NO];
   NSUInteger expectedFeeAmount = feeRate * totalBytes; // 1,125
   NSUInteger expectedAmount = inputAmount - expectedFeeAmount;
 
@@ -412,8 +406,7 @@
                                                                           isConfirmed:YES];
   NSArray *utxos = @[out1];
   NSUInteger inputAmount = out1.amount;
-  bc::wallet::payment_address payment_address = [[self helper] paymentAddressFromString:[self testAddress]];
-  NSUInteger totalBytes = [[self helper] totalBytesWithInputCount:[utxos count] paymentAddress:payment_address includeChangeAddress:NO];
+  NSUInteger totalBytes = [[self helper] totalBytesWithInputCount:[utxos count] paymentAddress:[self testAddress] includeChangeAddress:NO];
   NSUInteger expectedFeeAmount = feeRate * totalBytes; // 670
   NSUInteger expectedAmount = inputAmount - expectedFeeAmount;
 

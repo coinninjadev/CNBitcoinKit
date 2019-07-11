@@ -15,12 +15,11 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface CNBAddressHelper (Project)
-- (CNBPaymentOutputType)addressTypeFor:(bc::wallet::payment_address)address;
 - (bc::wallet::payment_address)paymentAddressFromString:(NSString *)address;
 - (NSUInteger)bytesPerChangeOutput;
 - (NSUInteger)bytesPerInput;
 - (NSUInteger)totalBytesWithInputCount:(NSUInteger)inputCount
-                        paymentAddress:(bc::wallet::payment_address)paymentAddress
+                        paymentAddress:(NSString *)paymentAddress
                   includeChangeAddress:(BOOL)includeChangeAddress;
 @end
 

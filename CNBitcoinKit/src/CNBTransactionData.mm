@@ -184,9 +184,8 @@
       totalFromUTXOs += obj.amount;
     }];
 
-    bc::wallet::payment_address payment_address = [helper paymentAddressFromString:paymentAddress];
     _feeAmount = feeRate * [helper totalBytesWithInputCount:[unspentTransactionOutputs count]
-                                             paymentAddress:payment_address
+                                             paymentAddress:paymentAddress
                                        includeChangeAddress:NO];
 
     NSInteger signedAmountForValidation = (NSInteger)totalFromUTXOs - (NSInteger)_feeAmount;
@@ -202,8 +201,7 @@
 
 - (NSUInteger)bytesForInputCount:(NSUInteger)inputCount paymentAddress:(NSString *)address includeChangeOutput:(BOOL)includeChange {
   CNBAddressHelper *helper = [[CNBAddressHelper alloc] initWithCoin:self.coin];
-  bc::wallet::payment_address payment_address = [helper paymentAddressFromString:address];
-  return [helper totalBytesWithInputCount:inputCount paymentAddress:payment_address includeChangeAddress:includeChange];
+  return [helper totalBytesWithInputCount:inputCount paymentAddress:address includeChangeAddress:includeChange];
 }
 
 - (NSUInteger)dustThreshold {
