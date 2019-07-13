@@ -37,6 +37,7 @@
   return payment_address;
 }
 
+/// Only used for P2PKH or P2SH after NSString * has been converted to payment_address
 - (CNBPaymentOutputType)addressTypeFor:(bc::wallet::payment_address)address {
   uint8_t version = address.version();
   if ([self addressVersionIsP2KH:version]) {
@@ -51,6 +52,8 @@
 - (CNBPaymentOutputType)addressTypeForAddress:(NSString *)address {
   if ([self addressIsP2WPKH:address]) {
     return P2WPKH;
+  } else if ([self addressIsP2WSH:address]) {
+    return P2WSH;
   } else {
     std::string address_string = [address cStringUsingEncoding:[NSString defaultCStringEncoding]];
     bc::wallet::payment_address payment_address(address_string);
@@ -124,7 +127,11 @@
 }
 
 - (BOOL)addressIsP2WPKH:(NSString *)address {
-  return [CNBSegwitAddress isValidSegwitAddress:address];
+  return [CNBSegwitAddress isValidP2WPKHAddress:address];
+}
+
+- (BOOL)addressIsP2WSH:(NSString *)address {
+  return [CNBSegwitAddress isValidP2WSHAddress:address];
 }
 
 @end

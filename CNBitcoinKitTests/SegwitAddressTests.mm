@@ -221,4 +221,20 @@ static const invalid_address_data invalid_address_enc[] = {
   }
 }
 
+- (void)testP2WSHAddressDecodesProperly {
+  NSString *p2wshAddress = @"bc1qrp33g0q5c5txsp9arysrx4k6zdkfs4nce4xj0gdcccefvpysxf3qccfmv3";
+  NSInteger expectedVersion = 0;
+  NSString *expectedProgram = @"1863143c14c5166804bd19203356da136c985678cd4d27a1b8c6329604903262";
+  NSInteger expectedProgSize = 32;
+
+  CNBWitnessMetadata *decoded = [CNBSegwitAddress decodeSegwitAddressWithHRP:@"bc" address:p2wshAddress];
+
+  NSInteger actualVersion = [decoded witver];
+  NSString *actualProgram = [[decoded witprog] hexString];
+  NSInteger actualProgSize = [[decoded witprog] length];
+  XCTAssertEqual(expectedVersion, actualVersion);
+  XCTAssertEqualObjects(expectedProgram, actualProgram);
+  XCTAssertEqual(expectedProgSize, actualProgSize);
+}
+
 @end

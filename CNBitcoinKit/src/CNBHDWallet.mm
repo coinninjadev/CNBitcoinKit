@@ -332,8 +332,14 @@ bc::machine::operation::list to_pay_witness_key_hash_pattern(bc::data_chunk hash
 
 - (bc::chain::output)createPayToWitnessPubKeyHashOutputWithAddress:(NSString *)address amount:(uint64_t)amount {
   NSData *witprog = [[CNBSegwitAddress decodeSegwitAddressWithHRP:@"bc" address:address] witprog];
-  bc::data_chunk hashed_witprog = [witprog dataChunk];
-  return bc::chain::output(amount, to_pay_witness_key_hash_pattern(hashed_witprog));
+  bc::data_chunk witprog_data_chunk = [witprog dataChunk];
+  return bc::chain::output(amount, to_pay_witness_key_hash_pattern(witprog_data_chunk));
+}
+
+- (bc::chain::output)createPayToWitnessScriptHashOutputWithAddress:(NSString *)address amount:(uint64_t)amount {
+  NSData *witprog = [[CNBSegwitAddress decodeSegwitAddressWithHRP:@"bc" address:address] witprog];
+  bc::data_chunk witprog_data_chunk = [witprog dataChunk];
+  return bc::chain::output(amount, to_pay_witness_key_hash_pattern(witprog_data_chunk));
 }
 
 - (bc::chain::output)outputWithAddress:(NSString *)addressString amount:(uint64_t)amount {
@@ -350,6 +356,9 @@ bc::machine::operation::list to_pay_witness_key_hash_pattern(bc::data_chunk hash
     }
     case P2WPKH: {
       return [self createPayToWitnessPubKeyHashOutputWithAddress:addressString amount:amount];
+    }
+    case P2WSH: {
+      return [self createPayToWitnessScriptHashOutputWithAddress:addressString amount:amount];
     }
     default: {
       throw "Illegal payment address";

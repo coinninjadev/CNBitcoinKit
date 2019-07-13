@@ -11,6 +11,9 @@
 #include "segwit_addr.h"
 #import "NSData+CNBitcoinKit.h"
 
+#define kP2WPKHProgramSize 20
+#define kP2WSHProgramSize 32
+
 @implementation CNBSegwitAddress
 
 + (CNBWitnessMetadata *)decodeSegwitAddressWithHRP:(NSString *)hrpString address:(NSString *)addressString {
@@ -29,11 +32,18 @@
   return [NSString stringWithCString:encoded.c_str() encoding:[NSString defaultCStringEncoding]];
 }
 
-+ (BOOL)isValidSegwitAddress:(NSString *)address {
++ (BOOL)isValidP2WPKHAddress:(NSString *)address {
   NSRange range = NSMakeRange(0, 2);
   NSString *hrp = [address substringWithRange:range];
   CNBWitnessMetadata *metadata = [self decodeSegwitAddressWithHRP:hrp address:address];
-  return metadata.witver != -1;
+  return (metadata.witver != -1) && (metadata.witprog.length == kP2WPKHProgramSize);
+}
+
++ (BOOL)isValidP2WSHAddress:(NSString *)address {
+  NSRange range = NSMakeRange(0, 2);
+  NSString *hrp = [address substringWithRange:range];
+  CNBWitnessMetadata *metadata = [self decodeSegwitAddressWithHRP:hrp address:address];
+  return (metadata.witver != -1) && (metadata.witprog.length == kP2WSHProgramSize);
 }
 
 @end
