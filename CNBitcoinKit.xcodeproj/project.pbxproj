@@ -20,7 +20,6 @@
 		3B1C602E212C9627008211C5 /* CNBTransactionMetadata.h in Headers */ = {isa = PBXBuildFile; fileRef = 3B1C602C212C9627008211C5 /* CNBTransactionMetadata.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3B1C602F212C9627008211C5 /* CNBTransactionMetadata.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B1C602D212C9627008211C5 /* CNBTransactionMetadata.m */; };
 		3B29A2DC21EE1BFA00F72511 /* libsodium.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B29A2DB21EE1BFA00F72511 /* libsodium.a */; };
-		3B29A2DE21EE1E4600F72511 /* sodium.h in Headers */ = {isa = PBXBuildFile; fileRef = 3B29A2DD21EE1E4600F72511 /* sodium.h */; };
 		3B29A2E121EE21DB00F72511 /* NSString+NSData.h in Headers */ = {isa = PBXBuildFile; fileRef = 3B29A2DF21EE21DB00F72511 /* NSString+NSData.h */; };
 		3B29A2E221EE21DB00F72511 /* NSString+NSData.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3B29A2E021EE21DB00F72511 /* NSString+NSData.mm */; };
 		3B4215AD201A5B54000C4E64 /* libzmq.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B4215AC201A5B53000C4E64 /* libzmq.a */; };
@@ -260,7 +259,6 @@
 		3B1C602C212C9627008211C5 /* CNBTransactionMetadata.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CNBTransactionMetadata.h; sourceTree = "<group>"; };
 		3B1C602D212C9627008211C5 /* CNBTransactionMetadata.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CNBTransactionMetadata.m; sourceTree = "<group>"; };
 		3B29A2DB21EE1BFA00F72511 /* libsodium.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsodium.a; path = "deps/build/libsodium/ios-universal/lib/libsodium.a"; sourceTree = "<group>"; };
-		3B29A2DD21EE1E4600F72511 /* sodium.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = sodium.h; path = deps/build/prefix/ios/arm64/include/sodium.h; sourceTree = "<group>"; };
 		3B29A2DF21EE21DB00F72511 /* NSString+NSData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+NSData.h"; sourceTree = "<group>"; };
 		3B29A2E021EE21DB00F72511 /* NSString+NSData.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = "NSString+NSData.mm"; sourceTree = "<group>"; };
 		3B4215AC201A5B53000C4E64 /* libzmq.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libzmq.a; path = "deps/build/libzmq/ios-universal/lib/libzmq.a"; sourceTree = "<group>"; };
@@ -912,7 +910,6 @@
 		3BD78077201430A000E44B14 = {
 			isa = PBXGroup;
 			children = (
-				3B29A2DD21EE1E4600F72511 /* sodium.h */,
 				3BD78083201430A000E44B14 /* CNBitcoinKit */,
 				3BD7808E201430A000E44B14 /* CNBitcoinKitTests */,
 				3BD78082201430A000E44B14 /* Products */,
@@ -1217,7 +1214,6 @@
 				3BD51EBA2018C0E00095B3C0 /* assert.hpp in Headers */,
 				3BD51E992018C0E00095B3C0 /* pointer_to_other.hpp in Headers */,
 				3BD51EDC2018C0E00095B3C0 /* pointer_cast.hpp in Headers */,
-				3B29A2DE21EE1E4600F72511 /* sodium.h in Headers */,
 				3BD51EA92018C0E00095B3C0 /* dynamic_bitset_fwd.hpp in Headers */,
 				3BE8AA1B21F20D4800A3F0C4 /* CNBCipherKeys.h in Headers */,
 				3BD51E922018C0E00095B3C0 /* function_equal.hpp in Headers */,
