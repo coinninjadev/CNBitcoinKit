@@ -28,3 +28,4 @@ FOUNDATION_EXPORT const unsigned char CNBitcoinKitVersionString[];
 #import "CNBCipherKeys.h"
 #import "CNBEncryptionCipherKeys.h"
 #import "CNBAddressHelper.h"
+#import "CNBSegwitAddress.h"
