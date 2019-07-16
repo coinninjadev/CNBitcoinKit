@@ -9,10 +9,17 @@
 #import <Foundation/Foundation.h>
 #import "CNBTransactionData.h"
 #import "CNBAddressHelper.h"
+#import "CNBAddressHelper+Project.h"
+#import "CNBBaseCoin.h"
+
+@interface CNBTransactionData()
+@property (nonatomic, retain) CNBBaseCoin *coin;
+@end
 
 @implementation CNBTransactionData
 
 - (nonnull instancetype)initWithAddress:(nonnull NSString *)paymentAddress
+                                   coin:(nonnull CNBBaseCoin *)coin
               unspentTransactionOutputs:(nonnull NSArray *)unspentTransactionOutputs
                                  amount:(NSUInteger)amount
                               feeAmount:(NSUInteger)feeAmount
@@ -21,6 +28,7 @@
                             blockHeight:(NSUInteger)blockHeight {
   if (self = [super init]) {
     _paymentAddress = paymentAddress;
+    _coin = coin;
     _unspentTransactionOutputs = unspentTransactionOutputs;
     _amount = amount;
     _feeAmount = feeAmount;
@@ -33,6 +41,7 @@
 }
 
 - (nullable instancetype)initWithAddress:(NSString *)paymentAddress
+                                    coin:(nonnull CNBBaseCoin *)coin
                  fromAllAvailableOutputs:(NSArray<CNBUnspentTransactionOutput *> *)allUnspentTransactionOutputs
                            paymentAmount:(NSUInteger)amount
                                  feeRate:(NSUInteger)feeRate
@@ -40,12 +49,13 @@
                              blockHeight:(NSUInteger)blockHeight {
   if (self = [super init]) {
     _paymentAddress = paymentAddress;
+    _coin = coin;
     _amount = amount;
     _unspentTransactionOutputs = @[];
     _feeAmount = 0;
     _locktime = blockHeight;
 
-    CNBAddressHelper *helper = [[CNBAddressHelper alloc] init];
+    CNBAddressHelper *helper = [[CNBAddressHelper alloc] initWithCoin:_coin];
 
     NSMutableArray<CNBUnspentTransactionOutput *> *requiredInputs = [@[] mutableCopy];
     NSInteger totalFromUTXOs = 0;
@@ -99,6 +109,7 @@
 }
 
 - (instancetype)initWithAddress:(NSString *)paymentAddress
+                           coin:(nonnull CNBBaseCoin *)coin
         fromAllAvailableOutputs:(NSArray<CNBUnspentTransactionOutput *> *)allUnspentTransactionOutputs
                   paymentAmount:(NSUInteger)amount
                         flatFee:(NSUInteger)flatFee
@@ -106,6 +117,7 @@
                     blockHeight:(NSUInteger)blockHeight {
   if (self = [super init]) {
     _paymentAddress = paymentAddress;
+    _coin = coin;
     _amount = amount;
     _unspentTransactionOutputs = @[];
     _feeAmount = flatFee;
@@ -152,27 +164,28 @@
 }
 
 - (nullable instancetype)initWithAllUsableOutputs:(nonnull NSArray<CNBUnspentTransactionOutput *> *)unspentTransactionOutputs
+                                             coin:(nonnull CNBBaseCoin *)coin
                               sendingMaxToAddress:(nonnull NSString *)paymentAddress
                                           feeRate:(NSUInteger)feeRate
                                       blockHeight:(NSUInteger)blockHeight {
   if (self = [super init]) {
     _paymentAddress = paymentAddress;
+    _coin = coin;
     _unspentTransactionOutputs = unspentTransactionOutputs;
     _feeAmount = 0;
     _locktime = blockHeight;
     _changeAmount = 0;
     _changePath = nil;
 
-    CNBAddressHelper *helper = [[CNBAddressHelper alloc] init];
+    CNBAddressHelper *helper = [[CNBAddressHelper alloc] initWithCoin:_coin];
 
     NSUInteger __block totalFromUTXOs = 0;
     [unspentTransactionOutputs enumerateObjectsUsingBlock:^(CNBUnspentTransactionOutput *obj, NSUInteger idx, BOOL *stop) {
       totalFromUTXOs += obj.amount;
     }];
 
-    bc::wallet::payment_address payment_address = [helper paymentAddressFromString:paymentAddress];
     _feeAmount = feeRate * [helper totalBytesWithInputCount:[unspentTransactionOutputs count]
-                                             paymentAddress:payment_address
+                                             paymentAddress:paymentAddress
                                        includeChangeAddress:NO];
 
     NSInteger signedAmountForValidation = (NSInteger)totalFromUTXOs - (NSInteger)_feeAmount;
@@ -187,9 +200,8 @@
 }
 
 - (NSUInteger)bytesForInputCount:(NSUInteger)inputCount paymentAddress:(NSString *)address includeChangeOutput:(BOOL)includeChange {
-  CNBAddressHelper *helper = [[CNBAddressHelper alloc] init];
-  bc::wallet::payment_address payment_address = [helper paymentAddressFromString:address];
-  return [helper totalBytesWithInputCount:inputCount paymentAddress:payment_address includeChangeAddress:includeChange];
+  CNBAddressHelper *helper = [[CNBAddressHelper alloc] initWithCoin:self.coin];
+  return [helper totalBytesWithInputCount:inputCount paymentAddress:address includeChangeAddress:includeChange];
 }
 
 - (NSUInteger)dustThreshold {

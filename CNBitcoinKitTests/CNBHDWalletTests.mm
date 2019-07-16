@@ -32,7 +32,7 @@
 	[super setUp];
 
   self.words = [GeneratedWordsHelper words4];
-  self.tempCoin = [[CNBBaseCoin alloc] init];
+  self.tempCoin = [[CNBBaseCoin alloc] initWithPurpose:BIP49 coin:MainNet account:0];
 }
 
 - (void)tearDown {
@@ -204,7 +204,14 @@
   NSUInteger changeAmount = 2771840;
   CNBDerivationPath *changePath = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:MainNet account:0 change:1 index:56]; //Hardcoded for now
 
-  CNBTransactionData *data = [[CNBTransactionData alloc] initWithAddress:@"3BgxxADLtnoKu9oytQiiVzYUqvo8weCVy9" unspentTransactionOutputs:utxos amount:amount feeAmount:feesAmount changeAmount:changeAmount changePath:changePath blockHeight:539943];
+  CNBTransactionData *data = [[CNBTransactionData alloc] initWithAddress:@"3BgxxADLtnoKu9oytQiiVzYUqvo8weCVy9"
+                                                                    coin:self.tempCoin
+                                               unspentTransactionOutputs:utxos
+                                                                  amount:amount
+                                                               feeAmount:feesAmount
+                                                            changeAmount:changeAmount
+                                                              changePath:changePath
+                                                             blockHeight:539943];
 
   CNBTransactionBuilder *builder = [[CNBTransactionBuilder alloc] init];
   CNBTransactionMetadata *metadata = [builder generateTxMetadataWithTransactionData:data wallet:wallet];
@@ -227,7 +234,14 @@
   NSUInteger feesAmount = 3000;
   NSUInteger changeAmount = 0;
 
-  CNBTransactionData *data = [[CNBTransactionData alloc] initWithAddress:@"3BgxxADLtnoKu9oytQiiVzYUqvo8weCVy9" unspentTransactionOutputs:utxos amount:amount feeAmount:feesAmount changeAmount:changeAmount changePath:nil blockHeight:539943];
+  CNBTransactionData *data = [[CNBTransactionData alloc] initWithAddress:@"3BgxxADLtnoKu9oytQiiVzYUqvo8weCVy9"
+                                                                    coin:self.tempCoin
+                                               unspentTransactionOutputs:utxos
+                                                                  amount:amount
+                                                               feeAmount:feesAmount
+                                                            changeAmount:changeAmount
+                                                              changePath:nil
+                                                             blockHeight:539943];
 
   CNBTransactionBuilder *builder = [[CNBTransactionBuilder alloc] init];
   CNBTransactionMetadata *metadata = [builder generateTxMetadataWithTransactionData:data wallet:wallet];
@@ -271,6 +285,36 @@
   CNBCipherKeys *keys2 = [wallet encryptionCipherKeysForPublicKey:uncompressedPubkeyData];
   XCTAssertNotEqualObjects([keys1 encryptionKey], [keys2 encryptionKey]);
   XCTAssertNotEqualObjects([keys1 hmacKey], [keys2 encryptionKey]);
+}
+
+- (void)testBech32FirstReceiveAddress {
+  NSString *address = [[[self tempSegwitWallet] receiveAddressForIndex:0] address];
+  NSString *expected = @"bc1qcr8te4kr609gcawutmrza0j4xv80jy8z306fyu";
+  XCTAssertEqualObjects(address, expected);
+}
+
+- (void)testBech32SecondReceiveAddress {
+  NSString *address = [[[self tempSegwitWallet] receiveAddressForIndex:1] address];
+  NSString *expected = @"bc1qnjg0jd8228aq7egyzacy8cys3knf9xvrerkf9g";
+  XCTAssertEqualObjects(address, expected);
+}
+
+- (void)testBech32FirstChangeAddress {
+  NSString *address = [[[self tempSegwitWallet] changeAddressForIndex:0] address];
+  NSString *expected = @"bc1q8c6fshw2dlwun7ekn9qwf37cu2rn755upcp6el";
+  XCTAssertEqualObjects(address, expected);
+}
+
+- (NSArray *)tempWords {
+  return @[@"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"about"];
+}
+
+- (CNBBaseCoin *)tempSegwitCoin {
+  return [[CNBBaseCoin alloc] initWithPurpose:BIP84 coin:MainNet account:0];
+}
+
+- (CNBHDWallet *)tempSegwitWallet {
+  return [[CNBHDWallet alloc] initWithMnemonic:[self tempWords] coin:[self tempSegwitCoin]];
 }
 
 @end

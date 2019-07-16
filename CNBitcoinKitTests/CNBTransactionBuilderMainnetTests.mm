@@ -24,7 +24,8 @@
 
 @interface TransactionBuilderMainnetTests : XCTestCase
 
-@property NSArray *words;
+@property (nonatomic, retain) NSArray *words;
+@property (nonatomic, retain) CNBBaseCoin *coin;
 
 @end
 
@@ -33,6 +34,7 @@
 - (void)setUp {
   [super setUp];
 
+  self.coin = [[CNBBaseCoin alloc] initWithPurpose:BIP49 coin:MainNet account:0];
   self.words = [GeneratedWordsHelper words2];
 }
 
@@ -53,7 +55,14 @@
   NSUInteger changeAmount = 2771840;
   CNBDerivationPath *changePath = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:MainNet account:0 change:1 index:56]; //Hardcoded for now
 
-  CNBTransactionData *data = [[CNBTransactionData alloc] initWithAddress:@"3BgxxADLtnoKu9oytQiiVzYUqvo8weCVy9" unspentTransactionOutputs:utxos amount:amount feeAmount:feesAmount changeAmount:changeAmount changePath:changePath blockHeight:539943];
+  CNBTransactionData *data = [[CNBTransactionData alloc] initWithAddress:@"3BgxxADLtnoKu9oytQiiVzYUqvo8weCVy9"
+                                                                    coin:self.coin
+                                               unspentTransactionOutputs:utxos
+                                                                  amount:amount
+                                                               feeAmount:feesAmount
+                                                            changeAmount:changeAmount
+                                                              changePath:changePath
+                                                             blockHeight:539943];
 
   NSString *expectedTransaction = @"01000000000101878fc7978e6b76b5b959e791320174997af9888c9861c6fd17dc3f99feda081a0100000017160014640a808191fc22f8eeb2f5628bd550e74b1acf5cfeffffff02103500000000000017a9146daec6ddb6faaf01f83f515045822a94d0c2331e87804b2a000000000017a9145cb1adb4a2c5333e5eb6277552b4208a114326e68702483045022100f95c602fb4f7e13216ad6111abf67d240dd6c9d8598051614799fca69de0df9b022038abddb59599dc15687c5cc325e5ff77b7b927c08290352c40d36288a70967b5012102f2918e0270621ede0a39e5054e420b96b94ec51e75c4df2e8884fe57f4c8b2e0273d0800";
 
@@ -79,7 +88,14 @@
   NSUInteger changeAmount = 80582;
   CNBDerivationPath *changePath = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:MainNet account:0 change:1 index:58]; //Hardcoded for now
 
-  CNBTransactionData *data = [[CNBTransactionData alloc] initWithAddress:@"3CkiUcj5vU4TGZJeDcrmYGWH8GYJ5vKcQq" unspentTransactionOutputs:utxos amount:amount feeAmount:feesAmount changeAmount:changeAmount changePath:changePath blockHeight:540220];
+  CNBTransactionData *data = [[CNBTransactionData alloc] initWithAddress:@"3CkiUcj5vU4TGZJeDcrmYGWH8GYJ5vKcQq"
+                                                                    coin:self.coin
+                                               unspentTransactionOutputs:utxos
+                                                                  amount:amount
+                                                               feeAmount:feesAmount
+                                                            changeAmount:changeAmount
+                                                              changePath:changePath
+                                                             blockHeight:540220];
 
   NSString *expectedTransaction = @"01000000000102f912d392d48eec83d0d642a78b433b24d0c3188baf13f4d769233a965091cc240100000017160014caaf023740cfef2ada9f1790c759bf538a049ef2fdffffff480aacb2cd21a7ed718fc550c158539617d08de86dc8c15eaa8890fc201c61ed010000001716001420e182808e2967d758ed0540e66a55a771cfbaf9fdffffff02c0c62d000000000017a914795c7bc23aebac7ddea222bb13c5357b32ed0cd487c63a01000000000017a9142679d6827ab2f8e711e74f9d51478f86d0b39f9b87024730440220754feb454885f8a3c2b7e9187561430865c6b7f4c66dd92359c134e6265d01a302207aa9fa044c5308ef884ac634d82c816ec4cfec56b3462f5689ca2ff71ff1dc61012102fece2f4f601a120a3a5259682b944fab1015103b93e9605f96a64f9f4077755f02473044022070aaa61c4fae5afbcbfc5ea954399cdf529254a7045406ec89e0729f357f43d5022020106a6092b82e9ca77ce3ea8ac7a336028e0fbfe6957028efafcd6820eff6570121028f130ffb3d33a819af818ae091a9fc50316efd3fdc8c3d594c4339f5ee40eac33c3e0800";
 
@@ -103,6 +119,7 @@
   CNBDerivationPath *changePath = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:MainNet account:0 change:1 index:0]; //Hardcoded for now
 
   CNBTransactionData *data = [[CNBTransactionData alloc] initWithAddress:@"3ERQiyXSeUYmxxqKyg8XwqGo4W7utgDrTR"
+                                                                    coin:self.coin
                                                unspentTransactionOutputs:utxos
                                                                   amount:amount
                                                                feeAmount:feesAmount
@@ -131,6 +148,7 @@
   CNBDerivationPath *changePath = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:MainNet account:0 change:1 index:2]; //Hardcoded for now
 
   CNBTransactionData *data = [[CNBTransactionData alloc] initWithAddress:@"1HT6WtD5CAToc8wZdacCgY4XjJR4jV5Q5d"
+                                                                    coin:self.coin
                                                unspentTransactionOutputs:utxos
                                                                   amount:amount
                                                                feeAmount:feesAmount
@@ -161,6 +179,7 @@
   CNBDerivationPath *changePath = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:MainNet account:0 change:1 index:0]; //Hardcoded for now
 
   CNBTransactionData *data = [[CNBTransactionData alloc] initWithAddress:@"3Aftutd9VvzLcGxD9VraNhWiHyjR5pvn5N"
+                                                                    coin:self.coin
                                                unspentTransactionOutputs:utxos
                                                                   amount:amount
                                                                feeAmount:feesAmount

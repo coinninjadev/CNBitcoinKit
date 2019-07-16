@@ -15,12 +15,16 @@
 #import "CNBDerivationPath.h"
 #import "NSData+CNBitcoinKit.h"
 #import "CNBAddressHelper.h"
+#import "CNBAddressHelper+Project.h"
 #include "usable_address.hpp"
 #include "Base58Check.hpp"
 #import "sodium.h"
 #include "encryption_cipher_keys.hpp"
 #include "cipher_keys.hpp"
 #include "cipher_key_vendor.hpp"
+#import "CNBWitnessMetadata.h"
+#import "CNBSegwitAddress.h"
+#import "CNBBaseCoin+Project.h"
 
 using namespace bc;
 using namespace wallet;
@@ -137,7 +141,8 @@ bc::wallet::hd_private childPrivateKey(bc::wallet::hd_private privKey, int index
 - (CNBMetaAddress *)receiveAddressForIndex:(NSUInteger)index {
 	NSString *address = [self addressForChangeIndex:0 index:index];
   CoinType type = self.coin.coin;
-  CNBDerivationPath *derivationPath = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:type account:0 change:0 index:index];
+  CoinDerivation purpose = self.coin.purpose;
+  CNBDerivationPath *derivationPath = [[CNBDerivationPath alloc] initWithPurpose:purpose coinType:type account:0 change:0 index:index];
 
   // get uncompressed ec pubkey
   bc::wallet::hd_public pubkey = [self indexPublicKeyForChangeIndex:0 index:index];
@@ -155,7 +160,8 @@ bc::wallet::hd_private childPrivateKey(bc::wallet::hd_private privKey, int index
 - (CNBMetaAddress *)changeAddressForIndex:(NSUInteger)index {
 	NSString *address = [self addressForChangeIndex:1 index:index];
   CoinType type = self.coin.coin;
-  CNBDerivationPath *derivationPath = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:type account:0 change:1 index:index];
+  CoinDerivation purpose = self.coin.purpose;
+  CNBDerivationPath *derivationPath = [[CNBDerivationPath alloc] initWithPurpose:purpose coinType:type account:0 change:1 index:index];
   CNBMetaAddress *metaAddress = [[CNBMetaAddress alloc] initWithAddress:address derivationPath:derivationPath uncompressedPublicKey:nil];
   return metaAddress;
 }
@@ -167,21 +173,56 @@ bc::wallet::hd_private childPrivateKey(bc::wallet::hd_private privKey, int index
 
 	// 2. get compressed public key at end of derivation path
 	bc::ec_compressed compressedPublicKey = indexPublicKey.point();
-	
-	// 3. wrap in p2sh
-	bc::chain::script P2WPKH = bc::chain::script(witnessProgram(compressedPublicKey));
-	
-	// 4. wrap witness program in P2SH
-	bc::short_hash witnessProgramHash = bc::bitcoin_short_hash(P2WPKH.to_data(0));
-	bc::chain::script P2SH_P2WPKH = bc::chain::script::to_pay_script_hash_pattern(witnessProgramHash);
-	
-	// 5. return NSString representation of cStr
-	std::string encoded_payment_address = [self isTestNet] ?
-	bc::wallet::payment_address(P2WPKH, bc::wallet::payment_address::testnet_p2sh).encoded() :
-	bc::wallet::payment_address(P2WPKH).encoded();
 
-	NSString *word = [NSString stringWithCString:encoded_payment_address.c_str() encoding:[NSString defaultCStringEncoding]];
-	return word;
+  // 3. return address based on coin purpose
+  switch (self.coin.purpose) {
+    case BIP49:
+      return [self p2wpkhInP2shForCompressedPublicKey:compressedPublicKey];
+      break;
+    case BIP84:
+      return [self p2wpkhForCompressedPublicKey:compressedPublicKey];
+      break;
+
+    default:
+      return @"";
+      break;
+  }
+}
+
+// private
+- (NSString *)p2wpkhInP2shForCompressedPublicKey:(bc::ec_compressed)compressedPublicKey {
+  // 1. wrap in p2sh
+  bc::chain::script P2WPKH = bc::chain::script(witnessProgram(compressedPublicKey));
+
+  // 2. wrap witness program in P2SH
+  bc::short_hash witnessProgramHash = bc::bitcoin_short_hash(P2WPKH.to_data(0));
+  bc::chain::script P2SH_P2WPKH = bc::chain::script::to_pay_script_hash_pattern(witnessProgramHash);
+
+  // 3. return NSString representation of cStr
+  std::string encoded_payment_address = [self isTestNet] ?
+  bc::wallet::payment_address(P2WPKH, bc::wallet::payment_address::testnet_p2sh).encoded() :
+  bc::wallet::payment_address(P2WPKH).encoded();
+
+  NSString *word = [NSString stringWithCString:encoded_payment_address.c_str() encoding:[NSString defaultCStringEncoding]];
+  return word;
+}
+
+// private
+- (NSString *)p2wpkhForCompressedPublicKey:(bc::ec_compressed)compressedPublicKey {
+
+  // 1. get RIPEMD160 hash
+  bc::short_hash key_hash = bc::bitcoin_short_hash(compressedPublicKey);
+  std::vector<uint8_t> scriptPubKey(key_hash.begin(), key_hash.end());
+
+  // 2. convert to data
+  NSData *data = [NSData dataWithBytes:scriptPubKey.data() length:scriptPubKey.size()];
+
+  // 3. create Segwit Address
+  NSInteger version = 0; // OP_0
+  CNBWitnessMetadata *metadata = [[CNBWitnessMetadata alloc] initWithWitVer:version witProg:data];
+  NSString *address = [CNBSegwitAddress encodeSegwitAddressWithHRP:self.coin.bech32HRP witnessMetadata:metadata];
+
+  return address;
 }
 
 // private
@@ -280,14 +321,41 @@ bc::wallet::hd_private childPrivateKey(bc::wallet::hd_private privKey, int index
   return bc::chain::output(amount, bc::chain::script(bc::chain::script().to_pay_script_hash_pattern(address.hash())));
 }
 
-- (bc::chain::output)outputWithAddress:(bc::wallet::payment_address)address amount:(uint64_t)amount {
-  CNBAddressHelper *helper = [[CNBAddressHelper alloc] init];
-  if ([helper addressIsP2KH:address]) {
-    return [self createPayToKeyOutputWithAddress:address amount:amount];
-  } else if ([helper addressIsP2SH:address]) {
-    return [self createPayToScriptOutputWithAddress:address amount:amount];
-  } else {
-    throw "Illegal payment address";
+bc::machine::operation::list to_pay_witness_key_hash_pattern(bc::data_chunk hash) {
+  auto pattern = bc::machine::operation::list
+  {
+    { opcode::push_size_0 },
+    { hash }
+  };
+  return pattern;
+}
+
+- (bc::chain::output)createPayToSegwitOutputWithAddress:(NSString *)address amount:(uint64_t)amount {
+  NSString *hrp = [self.coin bech32HRP];
+  NSData *witprog = [[CNBSegwitAddress decodeSegwitAddressWithHRP:hrp address:address] witprog];
+  bc::data_chunk witprog_data_chunk = [witprog dataChunk];
+  return bc::chain::output(amount, to_pay_witness_key_hash_pattern(witprog_data_chunk));
+}
+
+- (bc::chain::output)outputWithAddress:(NSString *)addressString amount:(uint64_t)amount {
+  CNBAddressHelper *helper = [[CNBAddressHelper alloc] initWithCoin:self.coin];
+  CNBPaymentOutputType type = [helper addressTypeForAddress:addressString];
+  switch (type) {
+    case P2PKH: {
+      bc::wallet::payment_address paymentAddress = [helper paymentAddressFromString:addressString];
+      return [self createPayToKeyOutputWithAddress:paymentAddress amount:amount];
+    }
+    case P2SH: {
+      bc::wallet::payment_address paymentAddress = [helper paymentAddressFromString:addressString];
+      return [self createPayToScriptOutputWithAddress:paymentAddress amount:amount];
+    }
+    case P2WPKH:
+    case P2WSH: {
+      return [self createPayToSegwitOutputWithAddress:addressString amount:amount];
+    }
+    default: {
+      throw "Illegal payment address";
+    }
   }
 }
 
@@ -390,8 +458,6 @@ bc::wallet::hd_private childPrivateKey(bc::wallet::hd_private privKey, int index
 }
 
 - (bc::chain::transaction)transactionFromData:(CNBTransactionData *)data {
-  std::string address = std::string([[data paymentAddress] UTF8String]);
-  bc::wallet::payment_address paymentAddress(address);
   uint64_t paymentAmount = (uint64_t)[data amount];
 
   // create transaction
@@ -399,7 +465,7 @@ bc::wallet::hd_private childPrivateKey(bc::wallet::hd_private privKey, int index
   transaction.set_version(1u);
 
   // populate transaction with payment data
-  transaction.outputs().push_back([self outputWithAddress:paymentAddress amount:paymentAmount]);
+  transaction.outputs().push_back([self outputWithAddress:[data paymentAddress] amount:paymentAmount]);
 
   // calculate change
   if ([data shouldAddChangeToTransaction]) {
