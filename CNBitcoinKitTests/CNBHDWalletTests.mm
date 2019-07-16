@@ -288,30 +288,33 @@
 }
 
 - (void)testBech32FirstReceiveAddress {
-  NSArray *words = @[@"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"about"];
-  CNBBaseCoin *coin = [[CNBBaseCoin alloc] initWithPurpose:BIP84 coin:MainNet account:0];
-  CNBHDWallet *wallet = [[CNBHDWallet alloc] initWithMnemonic:words coin:coin];
-  NSString *address = [[wallet receiveAddressForIndex:0] address];
+  NSString *address = [[[self tempSegwitWallet] receiveAddressForIndex:0] address];
   NSString *expected = @"bc1qcr8te4kr609gcawutmrza0j4xv80jy8z306fyu";
   XCTAssertEqualObjects(address, expected);
 }
 
 - (void)testBech32SecondReceiveAddress {
-  NSArray *words = @[@"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"about"];
-  CNBBaseCoin *coin = [[CNBBaseCoin alloc] initWithPurpose:BIP84 coin:MainNet account:0];
-  CNBHDWallet *wallet = [[CNBHDWallet alloc] initWithMnemonic:words coin:coin];
-  NSString *address = [[wallet receiveAddressForIndex:1] address];
+  NSString *address = [[[self tempSegwitWallet] receiveAddressForIndex:1] address];
   NSString *expected = @"bc1qnjg0jd8228aq7egyzacy8cys3knf9xvrerkf9g";
   XCTAssertEqualObjects(address, expected);
 }
 
 - (void)testBech32FirstChangeAddress {
-  NSArray *words = @[@"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"about"];
-  CNBBaseCoin *coin = [[CNBBaseCoin alloc] initWithPurpose:BIP84 coin:MainNet account:0];
-  CNBHDWallet *wallet = [[CNBHDWallet alloc] initWithMnemonic:words coin:coin];
-  NSString *address = [[wallet changeAddressForIndex:0] address];
+  NSString *address = [[[self tempSegwitWallet] changeAddressForIndex:0] address];
   NSString *expected = @"bc1q8c6fshw2dlwun7ekn9qwf37cu2rn755upcp6el";
   XCTAssertEqualObjects(address, expected);
+}
+
+- (NSArray *)tempWords {
+  return @[@"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"about"];
+}
+
+- (CNBBaseCoin *)tempSegwitCoin {
+  return [[CNBBaseCoin alloc] initWithPurpose:BIP84 coin:MainNet account:0];
+}
+
+- (CNBHDWallet *)tempSegwitWallet {
+  return [[CNBHDWallet alloc] initWithMnemonic:[self tempWords] coin:[self tempSegwitCoin]];
 }
 
 @end
