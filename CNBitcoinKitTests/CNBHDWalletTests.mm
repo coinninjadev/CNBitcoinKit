@@ -50,6 +50,18 @@
 	XCTAssertEqual(words.count, 12);
 }
 
+- (void)testTwoWalletsCreateDifferentWords {
+  CNBHDWallet *wallet1 = [[CNBHDWallet alloc] init];
+  CNBHDWallet *wallet2 = [[CNBHDWallet alloc] init];
+  NSLog(@"%@", [wallet1 mnemonicWords]);
+  NSLog(@"%@", [wallet2 mnemonicWords]);
+
+  NSString *wallet1Words = [[wallet1 mnemonicWords] componentsJoinedByString:@""];
+  NSString *wallet2Words = [[wallet2 mnemonicWords] componentsJoinedByString:@""];
+
+  XCTAssertNotEqualObjects(wallet1Words, wallet2Words);
+}
+
 - (void)testAllWords {
   NSArray *words = [CNBHDWallet allWords];
   XCTAssertEqual(words.count, 2048);

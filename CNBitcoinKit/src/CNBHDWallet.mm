@@ -58,8 +58,11 @@ using namespace machine;
 }
 
 + (NSArray <NSString *> *)createMnemonicWords {
-  bc::data_chunk seedChunk(16); // create 16-byte vector
-  bc::pseudo_random_fill(seedChunk);
+  int len = 16; // 16 bytes
+  void *buf = malloc(len);
+  randombytes_buf(buf, 16);
+  unsigned char *charBuf = (unsigned char*)buf;
+  bc::data_chunk seedChunk(charBuf, charBuf + len);
 
   NSMutableArray<NSString *> *mnemonicArray = [[NSMutableArray alloc] init];
 
