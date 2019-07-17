@@ -77,6 +77,8 @@ using namespace machine;
     NSLog(@"mnemonic invalid!");
   }
 
+  sodium_memzero(buf, len); // zero out memory
+
   return [NSArray arrayWithArray:mnemonicArray];
 }
 
