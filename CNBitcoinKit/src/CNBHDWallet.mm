@@ -58,9 +58,9 @@ using namespace machine;
 }
 
 + (NSArray <NSString *> *)createMnemonicWords {
-  int len = 16; // 16 bytes
+  const int len = 16; // 16 bytes
   void *buf = malloc(len);
-  randombytes_buf(buf, 16);
+  randombytes_buf(buf, len);
   unsigned char *charBuf = (unsigned char*)buf;
   bc::data_chunk seedChunk(charBuf, charBuf + len);
 
