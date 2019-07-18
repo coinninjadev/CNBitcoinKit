@@ -14,6 +14,7 @@
 
 @interface CNBTransactionData()
 @property (nonatomic, retain) CNBBaseCoin *coin;
+@property (nonatomic, assign, readwrite) BOOL shouldBeRBF;
 @end
 
 @implementation CNBTransactionData
@@ -35,6 +36,7 @@
     _changeAmount = changeAmount;
     _changePath = changePath;
     _locktime = blockHeight;
+    _shouldBeRBF = false;
   }
 
   return self;
@@ -54,6 +56,7 @@
     _unspentTransactionOutputs = @[];
     _feeAmount = 0;
     _locktime = blockHeight;
+    _shouldBeRBF = false;
 
     CNBAddressHelper *helper = [[CNBAddressHelper alloc] initWithCoin:_coin];
 
@@ -122,6 +125,7 @@
     _unspentTransactionOutputs = @[];
     _feeAmount = flatFee;
     _locktime = blockHeight;
+    _shouldBeRBF = true;
 
     NSMutableArray<CNBUnspentTransactionOutput *> *mutableOutputsFromAll = [allUnspentTransactionOutputs mutableCopy];
     NSMutableArray<CNBUnspentTransactionOutput *> *outputsToUse = [@[] mutableCopy];
@@ -176,6 +180,7 @@
     _locktime = blockHeight;
     _changeAmount = 0;
     _changePath = nil;
+    _shouldBeRBF = false;
 
     CNBAddressHelper *helper = [[CNBAddressHelper alloc] initWithCoin:_coin];
 

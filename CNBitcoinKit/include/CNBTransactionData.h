@@ -21,6 +21,8 @@
 @property (nonatomic, assign) NSUInteger changeAmount;
 @property (nullable, nonatomic, strong) CNBDerivationPath *changePath;
 @property (nonatomic, assign) NSUInteger locktime;
+@property (nonatomic, assign, readonly) BOOL shouldBeRBF;
+
 
 - (BOOL)shouldAddChangeToTransaction;
 
