@@ -493,9 +493,20 @@ bc::machine::operation::list to_pay_witness_key_hash_pattern(bc::data_chunk hash
     bc::chain::output_point uxto_to_spend(prev_tx_hash, index);
     // Build P2SH(P2WPKH) input object.
     bc::chain::input p2sh_p2wpkh_input;
+
+    // set the previous output
     p2sh_p2wpkh_input.set_previous_output(uxto_to_spend);
-    uint32_t seq = ([utxo isConfirmed]) ? bc::max_input_sequence - 1 : bc::max_input_sequence - 2;
-    p2sh_p2wpkh_input.set_sequence(seq);
+
+    // set sequence
+    uint32_t replaceableSequence = bc::max_input_sequence - 2;
+    uint32_t nonReplaceableSequence = bc::max_input_sequence;
+
+    if ([data shouldBeRBF]) {
+      p2sh_p2wpkh_input.set_sequence(replaceableSequence);
+    } else {
+      uint32_t seq = ([utxo isConfirmed]) ? nonReplaceableSequence : replaceableSequence;
+      p2sh_p2wpkh_input.set_sequence(seq);
+    }
 
     transaction.inputs().push_back(p2sh_p2wpkh_input);
   }
