@@ -18,10 +18,6 @@
 #define kP2WPKHSegWitInputSize 68
 #define kBaseTxBytes 11
 
-@interface CNBAddressHelper()
-@property (nonatomic, retain) CNBBaseCoin *coin;
-@end
-
 @implementation CNBAddressHelper
 
 - (instancetype)initWithCoin:(id)coin {

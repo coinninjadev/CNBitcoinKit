@@ -20,8 +20,9 @@ typedef NS_ENUM(NSUInteger, CNBPaymentOutputType) {
 
 @interface CNBAddressHelper : NSObject
 
-- (instancetype)initWithCoin:(CNBBaseCoin *)coin;
+@property (nonatomic, retain, readonly) CNBBaseCoin *coin;
 
+- (instancetype)initWithCoin:(CNBBaseCoin *)coin;
 - (CNBPaymentOutputType)addressTypeForAddress:(NSString *)address;
 
 @end

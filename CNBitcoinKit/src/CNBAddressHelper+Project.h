@@ -6,6 +6,11 @@
 //  Copyright © 2019 Coin Ninja, LLC. All rights reserved.
 //
 
+#ifndef CNBAddressHelper_Project_h
+#define CNBAddressHelper_Project_h
+
+#endif /* CNBAddressHelper_Project_h */
+
 #import "CNBAddressHelper.h"
 
 #ifdef __cplusplus
