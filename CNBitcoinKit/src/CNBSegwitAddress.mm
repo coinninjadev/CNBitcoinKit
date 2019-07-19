@@ -33,6 +33,10 @@
 }
 
 + (BOOL)isValidP2WPKHAddress:(NSString *)address {
+  if ([address isEqualToString:@""]) {
+    return false;
+  }
+
   NSRange range = NSMakeRange(0, 2);
   NSString *hrp = [address substringWithRange:range];
   CNBWitnessMetadata *metadata = [self decodeSegwitAddressWithHRP:hrp address:address];
@@ -40,6 +44,10 @@
 }
 
 + (BOOL)isValidP2WSHAddress:(NSString *)address {
+  if ([address isEqualToString:@""]) {
+    return false;
+  }
+
   NSRange range = NSMakeRange(0, 2);
   NSString *hrp = [address substringWithRange:range];
   CNBWitnessMetadata *metadata = [self decodeSegwitAddressWithHRP:hrp address:address];
