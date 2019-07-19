@@ -57,12 +57,8 @@ using namespace machine;
   return words;
 }
 
-+ (NSArray <NSString *> *)createMnemonicWords {
-  const int len = 16; // 16 bytes
-  void *buf = malloc(len);
-  randombytes_buf(buf, len);
-  unsigned char *charBuf = (unsigned char*)buf;
-  bc::data_chunk seedChunk(charBuf, charBuf + len);
++ (NSArray <NSString *> *)createMnemonicWordsWithEntropy:(NSData *)entropy {
+  bc::data_chunk seedChunk = [entropy dataChunk];
 
   NSMutableArray<NSString *> *mnemonicArray = [[NSMutableArray alloc] init];
 
@@ -77,8 +73,6 @@ using namespace machine;
     NSLog(@"mnemonic invalid!");
   }
 
-  sodium_memzero(buf, len); // zero out memory
-
   return [NSArray arrayWithArray:mnemonicArray];
 }
 
@@ -92,7 +86,30 @@ using namespace machine;
   return [[CNBBaseCoin alloc] init];
 }
 
+/// Default secure pseudo random data, using Libsodium's randombytes_buf fill.
+- (NSData *)defaultEntropy {
+  const int len = 16; // 16 bytes
+  void *buf = malloc(len);
+  randombytes_buf(buf, len);
+  unsigned char *charBuf = (unsigned char*)buf;
+  bc::data_chunk seedChunk(charBuf, charBuf + len);
+
+  NSData *data = [NSData dataWithBytes:seedChunk.data() length:len];
+
+  sodium_memzero(buf, len); // zero out memory
+
+  return data;
+}
+
 // MARK: initializers
+- (instancetype)init {
+  return [self initWithCoin:[CNBHDWallet defaultBTCCoin]];
+}
+
+- (instancetype)initWithCoin:(CNBBaseCoin *)coin {
+  return [self initWithCoin:coin entropy:[self defaultEntropy]];
+}
+
 - (instancetype)initWithMnemonic:(NSArray *)mnemonicSeed coin:(CNBBaseCoin *)coin {
 	if (self = [super init]) {
 		_coin = coin;
@@ -116,14 +133,14 @@ using namespace machine;
 	_publicKey = _privateKey.to_public();
 }
 
-- (instancetype)init {
-	return [self initWithCoin:[CNBHDWallet defaultBTCCoin]];
+- (instancetype)initWithEntropy:(NSData *)entropy {
+	return [self initWithCoin:[CNBHDWallet defaultBTCCoin] entropy:entropy];
 }
 
-- (instancetype)initWithCoin:(CNBBaseCoin *)coin {
+- (instancetype)initWithCoin:(CNBBaseCoin *)coin entropy:(nonnull NSData *)entropy {
 	if (self = [super init]) {
 		_coin = coin;
-    NSArray *words = [CNBHDWallet createMnemonicWords];
+    NSArray *words = [CNBHDWallet createMnemonicWordsWithEntropy:entropy];
     return [self initWithMnemonic:words coin:coin];
 	}
 	return nil;

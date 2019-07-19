@@ -25,11 +25,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly) NSString * _Nonnull coinNinjaVerificationKeyHexString;
 
 + (nonnull NSArray <NSString *>*)allWords;
-+ (NSArray <NSString *> *)createMnemonicWords;
++ (NSArray <NSString *> *)createMnemonicWordsWithEntropy:(NSData *)entropy;
 + (BOOL)addressIsBase58CheckEncoded:(NSString *)address;
 
 - (instancetype)init;
 - (instancetype)initWithCoin:(CNBBaseCoin *)coin;
+- (instancetype)initWithEntropy:(NSData *)entropy;
+- (instancetype)initWithCoin:(CNBBaseCoin *)coin entropy:(NSData *)entropy;
 - (instancetype)initWithMnemonic:(NSArray *)mnemonicSeed coin:(CNBBaseCoin *)coin;
 
 - (NSArray *)mnemonicWords;
