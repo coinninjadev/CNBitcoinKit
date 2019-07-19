@@ -44,6 +44,21 @@
 	XCTAssertNotNil(wallet);
 }
 
+- (void)testInjectingEntropyHDWalletIsNotNil {
+  int len = 16;
+  NSMutableData *mutableData = [NSMutableData dataWithLength:len];
+  int status = SecRandomCopyBytes(kSecRandomDefault, len, mutableData.mutableBytes);
+
+  if (status == errSecSuccess) {
+    CNBHDWallet *wallet = [[CNBHDWallet alloc] initWithEntropy:[mutableData copy]];
+    NSArray *words = [wallet mnemonicWords];
+    XCTAssertEqual(words.count, 12);
+  } else {
+    XCTFail(@"failed to generate secure data");
+  }
+
+}
+
 - (void)testWalletReturnsMnemonicWords {
 	CNBHDWallet *wallet = [[CNBHDWallet alloc] init];
 	NSArray *words = [wallet mnemonicWords];
