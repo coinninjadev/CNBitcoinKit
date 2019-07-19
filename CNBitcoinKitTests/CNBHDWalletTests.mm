@@ -8,6 +8,7 @@
 
 #import <XCTest/XCTest.h>
 #import "CNBitcoinKit.h"
+#import "CNBHDWallet+Project.h"
 #import "MockBitcoinCoin.h"
 #import "NSData+CNBitcoinKit.h"
 #import "CNBAddressResult.h"
@@ -305,9 +306,11 @@
   CNBHDWallet *wallet = [self walletForTestingMetadata];
   NSString *uncompressedPubkeyString = @"04904240a0aaec6af6f9b6c331f71feea2a4ed1549c06e5a6409fe92c5824dc4c54e26c2b2e27cfc224a6b782b35a2872b666f568cf37456262fbb065601b4d73a";
   NSData *uncompressedPubkeyData = [uncompressedPubkeyString dataFromHexString];
+  NSData *entropy1 = [wallet defaultEntropy];
+  NSData *entropy2 = [wallet defaultEntropy];
 
-  CNBCipherKeys *keys1 = [wallet encryptionCipherKeysForPublicKey:uncompressedPubkeyData];
-  CNBCipherKeys *keys2 = [wallet encryptionCipherKeysForPublicKey:uncompressedPubkeyData];
+  CNBCipherKeys *keys1 = [wallet encryptionCipherKeysForPublicKey:uncompressedPubkeyData withEntropy:entropy1];
+  CNBCipherKeys *keys2 = [wallet encryptionCipherKeysForPublicKey:uncompressedPubkeyData withEntropy:entropy2];
   XCTAssertNotEqualObjects([keys1 encryptionKey], [keys2 encryptionKey]);
   XCTAssertNotEqualObjects([keys1 hmacKey], [keys2 encryptionKey]);
 }

@@ -15,10 +15,8 @@ cipher_keys cipher_key_vendor::decryption_cipher_keys(hd_private private_key, da
   return keys;
 }
 
-encryption_cipher_keys cipher_key_vendor::encryption_cipher_keys_for_uncompressed_public_key(data_chunk public_key_data) {
+encryption_cipher_keys cipher_key_vendor::encryption_cipher_keys_for_uncompressed_public_key(data_chunk public_key_data, data_chunk entropy) {
   // generate ephemeral key
-  data_chunk entropy(ec_secret_size);
-  pseudo_random_fill(entropy);
   auto secret = to_array<ec_secret_size>(entropy);
   ec_secret secret_key(secret);
 

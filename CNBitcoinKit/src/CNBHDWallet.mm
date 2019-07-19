@@ -551,9 +551,10 @@ bc::machine::operation::list to_pay_witness_key_hash_pattern(bc::data_chunk hash
 }
 
 // MARK: ECDH
-- (CNBEncryptionCipherKeys *)encryptionCipherKeysForPublicKey:(NSData *)publicKeyData {
+- (CNBEncryptionCipherKeys *)encryptionCipherKeysForPublicKey:(NSData *)publicKeyData withEntropy:(NSData *)entropy {
   data_chunk public_key_data([publicKeyData dataChunk]);
-  encryption_cipher_keys keys = cipher_key_vendor::encryption_cipher_keys_for_uncompressed_public_key(public_key_data);
+  data_chunk entropy_chunk([entropy dataChunk]);
+  encryption_cipher_keys keys = cipher_key_vendor::encryption_cipher_keys_for_uncompressed_public_key(public_key_data, entropy_chunk);
   NSData *encryptionKey = [NSData dataWithBytes:keys.get_encryption_key().data() length:hash_size];
   NSData *hmacKey = [NSData dataWithBytes:keys.get_hmac_key().data() length:hash_size];
   NSData *ephPubKey = [NSData dataWithBytes:keys.get_ephemeral_public_key().data() length:keys.get_ephemeral_public_key().size()];

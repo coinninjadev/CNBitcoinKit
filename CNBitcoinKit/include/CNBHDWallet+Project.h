@@ -25,6 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
                              success:(void(^)(NSString *))success
                           andFailure:(void(^)(NSError * _Nonnull))failure;
 
+- (NSData *)defaultEntropy;
 @end
 
 NS_ASSUME_NONNULL_END

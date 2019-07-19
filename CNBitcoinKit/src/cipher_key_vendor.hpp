@@ -22,7 +22,7 @@ using namespace wallet;
 class cipher_key_vendor {
 public:
   static cipher_keys decryption_cipher_keys(hd_private private_key, data_chunk public_key_data);
-  static encryption_cipher_keys encryption_cipher_keys_for_uncompressed_public_key(data_chunk public_key_data);
+  static encryption_cipher_keys encryption_cipher_keys_for_uncompressed_public_key(data_chunk public_key_data, data_chunk entropy);
 
 private:
   static cipher_keys cipher_keys_with_secret_key_and_public_key(ec_secret secret_key, data_chunk public_key_data);

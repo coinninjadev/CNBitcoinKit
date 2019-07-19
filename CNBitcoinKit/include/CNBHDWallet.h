@@ -47,9 +47,10 @@ NS_ASSUME_NONNULL_BEGIN
  Encyrption Cipher Keys for uncompressed ec public key
 
  @param publicKeyData data bytes of uncompressed ec public key
+ @param entropy data bytes of secure random entropy provided by client
  @return A CNBCipherKeys object containing the encryption_key and hmac_key used for encrypting/decrypting a set of bytes.
  */
-- (CNBEncryptionCipherKeys *)encryptionCipherKeysForPublicKey:(NSData *)publicKeyData;
+- (CNBEncryptionCipherKeys *)encryptionCipherKeysForPublicKey:(NSData *)publicKeyData withEntropy:(NSData *)entropy;
 
 - (CNBCipherKeys *)decryptionCipherKeysForDerivationPathOfPrivateKey:(CNBDerivationPath *)path
                                                            publicKey:(NSData *)publicKeyData;
