@@ -92,9 +92,8 @@ using namespace machine;
   void *buf = malloc(len);
   randombytes_buf(buf, len);
   unsigned char *charBuf = (unsigned char*)buf;
-  bc::data_chunk seedChunk(charBuf, charBuf + len);
 
-  NSData *data = [NSData dataWithBytes:seedChunk.data() length:len];
+  NSData *data = [NSData dataWithBytes:charBuf length:len];
 
   sodium_memzero(buf, len); // zero out memory
 
