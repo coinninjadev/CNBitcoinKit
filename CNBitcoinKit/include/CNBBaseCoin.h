@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) CoinDerivation purpose;
 @property (nonatomic, assign) CoinType coin;
 @property (nonatomic, assign) NSUInteger account;
-@property (nonatomic, strong) NSString *networkURL;
+@property (nonatomic, strong, nullable) NSString *networkURL;
 
 /// Designated initializer
 - (instancetype)initWithPurpose:(CoinDerivation)purpose
