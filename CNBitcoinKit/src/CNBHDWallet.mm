@@ -292,6 +292,11 @@ bc::wallet::hd_private childPrivateKey(bc::wallet::hd_private privKey, int index
   bc::client::connection_type connection = {};
   connection.retries = 3;
   connection.timeout_seconds = 8;
+  if (self.coin.networkURL == nil) {
+    NSError *error = [NSError errorWithDomain:@"com.coinninja.cnbitcoinkit" code:0 userInfo:@{NSLocalizedDescriptionKey: @"No coin URL provided"}];
+    failure(error);
+    return;
+  }
   std::string url = [self.coin.networkURL cStringUsingEncoding:[NSString defaultCStringEncoding]];
   connection.server = bc::config::endpoint(url);
   bc::client::obelisk_client client(connection);

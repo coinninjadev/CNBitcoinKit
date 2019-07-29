@@ -15,22 +15,20 @@
 													 coin:(CoinType)coin
 												account:(NSUInteger)account
 										 networkURL:(NSString *)networkURL {
-	if (self = [super init]) {
-		self.purpose = purpose;
-		self.coin = coin;
-		self.account = account;
-		self.networkURL = networkURL;
-	}
+  if (self = [self initWithPurpose:purpose coin:coin account:account]) {
+    _networkURL = networkURL;
+  }
 	return self;
 }
 
 - (instancetype)initWithPurpose:(CoinDerivation)purpose
 													 coin:(CoinType)coin
 												account:(NSUInteger)account {
-	if (self = [self initWithPurpose:purpose
-															 coin:coin
-														account:account
-												 networkURL:@"tcp://mainnet.libbitcoin.net:9091"]) {
+  if (self = [super init]) {
+    _purpose = purpose;
+    _coin = coin;
+    _account = account;
+    _networkURL = nil;
 	}
 	return self;
 }
