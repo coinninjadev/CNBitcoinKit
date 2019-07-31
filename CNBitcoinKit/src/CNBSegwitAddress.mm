@@ -11,7 +11,7 @@
 #import "NSData+CNBitcoinKit.h"
 
 #ifdef __cplusplus
-#include <bitcoin/bitcoin/coinninja/segwit_address.hpp>
+#include <bitcoin/bitcoin/coinninja/address/segwit_address.hpp>
 #endif
 
 #define kP2WPKHProgramSize 20
