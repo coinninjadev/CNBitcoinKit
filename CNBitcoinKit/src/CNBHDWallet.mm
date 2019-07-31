@@ -63,17 +63,13 @@ using namespace machine;
   NSMutableArray<NSString *> *mnemonicArray = [[NSMutableArray alloc] init];
 
   // create mnemonic word list
-  bc::wallet::word_list mnemonic_list = bc::wallet::create_mnemonic(seedChunk);
-  if(bc::wallet::validate_mnemonic(mnemonic_list)) {
-    for (auto i = mnemonic_list.begin(); i != mnemonic_list.end(); ++i) {
-      NSString *word = [NSString stringWithCString:(*i).c_str() encoding:[NSString defaultCStringEncoding]];
-      [mnemonicArray addObject:word];
-    }
-  } else {
-    NSLog(@"mnemonic invalid!");
+  bc::wallet::word_list mnemonic_list = coinninja::wallet::create_mnemonic(seedChunk);
+  for (auto i{mnemonic_list.begin()}; i != mnemonic_list.end(); ++i) {
+    NSString *word = [NSString stringWithCString:(*i).c_str() encoding:[NSString defaultCStringEncoding]];
+    [mnemonicArray addObject:word];
   }
 
-  return [NSArray arrayWithArray:mnemonicArray];
+  return [mnemonicArray copy];
 }
 
 + (BOOL)addressIsBase58CheckEncoded:(NSString *)address {

@@ -12,6 +12,7 @@
 #ifdef __cplusplus
   #include <bitcoin/bitcoin.hpp>
   #include <bitcoin/client.hpp>
+  #include <bitcoin/bitcoin/coinninja/mnemonic.hpp>
 #endif
 
 #endif /* CNBHDWallet_h */
