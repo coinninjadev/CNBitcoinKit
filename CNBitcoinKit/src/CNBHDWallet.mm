@@ -44,16 +44,14 @@ using namespace machine;
 
 // MARK: class methods
 + (nonnull NSArray <NSString *>*)allWords {
-  bc::wallet::dictionary bip39Words = bc::wallet::language::en;
-  NSMutableArray <NSString *> * words = [[NSMutableArray alloc] init];
-  int length = sizeof(bip39Words) / sizeof(bip39Words[0]);
+  std::vector<std::string> bip_39_words = coinninja::wallet::hd_wallet::all_bip_39_words();
+  size_t length = bip_39_words.size();
+  NSMutableArray *words = [[NSMutableArray alloc] initWithCapacity:length];
   for(int i = 0; i < length; i++) {
-    std::string word = bip39Words[i];
-    NSString *objcWord = [NSString stringWithCString:word.c_str()
+    NSString *objcWord = [NSString stringWithCString:bip_39_words[i].c_str()
                                             encoding:[NSString defaultCStringEncoding]];
-    [words insertObject:objcWord atIndex:i];
+    words[i] = objcWord;
   }
-
   return words;
 }
 
@@ -64,8 +62,8 @@ using namespace machine;
 
   // create mnemonic word list
   bc::wallet::word_list mnemonic_list = coinninja::wallet::create_mnemonic(seedChunk);
-  for (auto i{mnemonic_list.begin()}; i != mnemonic_list.end(); ++i) {
-    NSString *word = [NSString stringWithCString:(*i).c_str() encoding:[NSString defaultCStringEncoding]];
+  for (std::string const &_word : mnemonic_list) {
+    NSString *word = [NSString stringWithCString:_word.c_str() encoding:[NSString defaultCStringEncoding]];
     [mnemonicArray addObject:word];
   }
 
@@ -92,6 +90,8 @@ using namespace machine;
   NSData *data = [NSData dataWithBytes:charBuf length:len];
 
   sodium_memzero(buf, len); // zero out memory
+
+  delete [] charBuf;
 
   return data;
 }

@@ -13,6 +13,7 @@
   #include <bitcoin/bitcoin.hpp>
   #include <bitcoin/client.hpp>
   #include <bitcoin/bitcoin/coinninja/wallet/mnemonic.hpp>
+  #include <bitcoin/bitcoin/coinninja/wallet/hd_wallet.hpp>
 #endif
 
 #endif /* CNBHDWallet_h */
