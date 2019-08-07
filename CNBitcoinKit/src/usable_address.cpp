@@ -12,7 +12,7 @@
 usable_address::usable_address(bc::wallet::hd_private privateKey, derivation_path path) {
     this->privateKey = privateKey;
     this->path = path;
-    if (path.hasCoin() && path.getCoin() == 1) {
+    if (path.get_coin() == 1) {
         testnet = true;
     }
 }
@@ -38,12 +38,12 @@ bc::wallet::hd_private usable_address::childPrivateKey(bc::wallet::hd_private pr
 
 bc::wallet::hd_private usable_address::indexPrivateKeyForHardenedDerivationPath(bc::wallet::hd_private privateKey, derivation_path path) {
     
-    bc::wallet::hd_private purposePrivateKey = childPrivateKey(privateKey, path.getHardenedPurpose());
-    bc::wallet::hd_private coinPrivateKey = childPrivateKey(purposePrivateKey, path.getHardenedCoin());
+    bc::wallet::hd_private purposePrivateKey = childPrivateKey(privateKey, path.get_hardened_purpose());
+    bc::wallet::hd_private coinPrivateKey = childPrivateKey(purposePrivateKey, path.get_hardened_coin());
     bc::wallet::hd_private accountPrivateKey = childPrivateKey(coinPrivateKey,
-                                                               path.getHardenedAccount());
-    bc::wallet::hd_private changePrivateKey = childPrivateKey(accountPrivateKey, path.getChange());
-    return childPrivateKey(changePrivateKey, path.getIndex());
+                                                               path.get_hardened_account());
+    bc::wallet::hd_private changePrivateKey = childPrivateKey(accountPrivateKey, path.get_change());
+    return childPrivateKey(changePrivateKey, path.get_index());
 }
 
 bc::ec_compressed usable_address::compressedPublicKeyForHardenedDerivationPath(bc::wallet::hd_private privateKey, derivation_path path) {
@@ -61,7 +61,7 @@ bc::wallet::payment_address usable_address::paymentAddressForHardenedDerivationP
                                                                                          path);
     
     uint8_t format = bc::wallet::payment_address::mainnet_p2sh;
-    if (path.hasCoin() && path.getCoin() == 1) {
+    if (path.get_coin() == 1) {
         format = bc::wallet::payment_address::testnet_p2sh;
     }
     

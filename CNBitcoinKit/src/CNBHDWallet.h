@@ -14,6 +14,9 @@
   #include <bitcoin/client.hpp>
   #include <bitcoin/bitcoin/coinninja/wallet/mnemonic.hpp>
   #include <bitcoin/bitcoin/coinninja/wallet/hd_wallet.hpp>
+#include <bitcoin/bitcoin/coinninja/wallet/derivation_path.hpp>
+#include <bitcoin/bitcoin/coinninja/transaction/transaction_data.hpp>
+#include <bitcoin/bitcoin/coinninja/transaction/unspent_transaction_output.hpp>
 #endif
 
 #endif /* CNBHDWallet_h */

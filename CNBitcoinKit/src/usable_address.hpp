@@ -9,7 +9,9 @@
 #ifndef usable_address_hpp
 #define usable_address_hpp
 
-#include "derivation_path.hpp"
+//#include "derivation_path.hpp"
+#include <bitcoin/bitcoin/coinninja/wallet/derivation_path.hpp>
+using namespace coinninja::wallet;
 
 class usable_address {
 public:

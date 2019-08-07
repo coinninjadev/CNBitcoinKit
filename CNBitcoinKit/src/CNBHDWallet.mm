@@ -193,10 +193,10 @@ bc::wallet::hd_private childPrivateKey(bc::wallet::hd_private privKey, int index
 
   // 3. return address based on coin purpose
   switch (self.coin.purpose) {
-    case BIP49:
+    case CoinDerivation::BIP49:
       return [self p2wpkhInP2shForCompressedPublicKey:compressedPublicKey];
       break;
-    case BIP84:
+    case CoinDerivation::BIP84:
       return [self p2wpkhForCompressedPublicKey:compressedPublicKey];
       break;
 

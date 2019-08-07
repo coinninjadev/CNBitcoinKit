@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		3715FCFC20AE1E7200D29BEB /* libboost_program_options.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB5932D2018ED2C00B84626 /* libboost_program_options.a */; };
 		3715FCFD20AE1E9100D29BEB /* libboost_regex.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB593282018ED2B00B84626 /* libboost_regex.a */; };
-		3715FD0020AE1FA600D29BEB /* derivation_path.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3715FCFE20AE1FA600D29BEB /* derivation_path.cpp */; };
-		3715FD0120AE1FA600D29BEB /* derivation_path.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3715FCFF20AE1FA600D29BEB /* derivation_path.hpp */; };
 		3715FD0420AE21C100D29BEB /* usable_address.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3715FD0220AE21C100D29BEB /* usable_address.cpp */; };
 		3715FD0520AE21C100D29BEB /* usable_address.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3715FD0320AE21C100D29BEB /* usable_address.hpp */; };
 		3782A6592098BA720023648E /* NSData+CNBitcoinKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 3782A6572098BA720023648E /* NSData+CNBitcoinKit.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -244,8 +242,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		3715FCFE20AE1FA600D29BEB /* derivation_path.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = derivation_path.cpp; sourceTree = "<group>"; };
-		3715FCFF20AE1FA600D29BEB /* derivation_path.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = derivation_path.hpp; sourceTree = "<group>"; };
 		3715FD0220AE21C100D29BEB /* usable_address.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = usable_address.cpp; sourceTree = "<group>"; };
 		3715FD0320AE21C100D29BEB /* usable_address.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = usable_address.hpp; sourceTree = "<group>"; };
 		3782A6572098BA720023648E /* NSData+CNBitcoinKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSData+CNBitcoinKit.h"; sourceTree = "<group>"; };
@@ -1009,8 +1005,6 @@
 				A216D78020AA1EC7005FBAC2 /* CNBTransactionData.mm */,
 				A216D78420AA2423005FBAC2 /* CNBTransactionBuilder.m */,
 				3B0F440420AC9CA80031DD34 /* CNBMetaAddress.m */,
-				3715FCFE20AE1FA600D29BEB /* derivation_path.cpp */,
-				3715FCFF20AE1FA600D29BEB /* derivation_path.hpp */,
 				3715FD0220AE21C100D29BEB /* usable_address.cpp */,
 				3715FD0320AE21C100D29BEB /* usable_address.hpp */,
 				3BD7B73B20D7E68C005057A7 /* CNBAddressResult.m */,
@@ -1189,7 +1183,6 @@
 				3BB0B4EE22D4DDF30042D29C /* CNBBaseCoin+Project.h in Headers */,
 				3BD51EAD2018C0E00095B3C0 /* type.hpp in Headers */,
 				3BD51E6A2018C0E00095B3C0 /* mem_fn.hpp in Headers */,
-				3715FD0120AE1FA600D29BEB /* derivation_path.hpp in Headers */,
 				3BD51E9C2018C0E00095B3C0 /* token_iterator.hpp in Headers */,
 				3BD51EA62018C0E00095B3C0 /* bind.hpp in Headers */,
 				3BD51E662018C0E00095B3C0 /* make_shared.hpp in Headers */,
@@ -1345,7 +1338,6 @@
 				3BB0B4F722D4DF3C0042D29C /* CNBBech32Metadata.m in Sources */,
 				3B5B7E28207E81A200785646 /* CNBBaseCoin.m in Sources */,
 				A216D77D20AA1C73005FBAC2 /* CNBUnspentTransactionOutput.m in Sources */,
-				3715FD0020AE1FA600D29BEB /* derivation_path.cpp in Sources */,
 				3BE8AA2721F78C6F00A3F0C4 /* cipher_keys.cpp in Sources */,
 				3B9A8E032151741100C78C2C /* Base58Check.cpp in Sources */,
 				3B29A2E221EE21DB00F72511 /* NSString+NSData.mm in Sources */,
