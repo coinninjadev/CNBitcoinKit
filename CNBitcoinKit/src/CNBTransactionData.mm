@@ -74,8 +74,8 @@ using namespace coinninja::wallet;
     auto all_utxo_size = [allUnspentTransactionOutputs count];
     std::vector<unspent_transaction_output> all_utxos;
     all_utxos.reserve(all_utxo_size);
-    for (CNBUnspentTransactionOutput *output in allUnspentTransactionOutputs) {
-      unspent_transaction_output utxo{[output c_utxo]};
+    for (size_t i = 0; i < all_utxo_size; i++) {
+      unspent_transaction_output utxo{[allUnspentTransactionOutputs[i] c_utxo]};
       all_utxos.push_back(utxo);
     }
 
@@ -147,8 +147,8 @@ using namespace coinninja::wallet;
     auto all_utxo_size{[allUnspentTransactionOutputs count]};
     std::vector<unspent_transaction_output> all_utxos;
     all_utxos.reserve(all_utxo_size);
-    for (CNBUnspentTransactionOutput *output in allUnspentTransactionOutputs) {
-      unspent_transaction_output utxo{[output c_utxo]};
+    for (size_t i = 0; i < all_utxo_size; i++) {
+      unspent_transaction_output utxo{[allUnspentTransactionOutputs[i] c_utxo]};
       all_utxos.push_back(utxo);
     }
 
@@ -160,8 +160,7 @@ using namespace coinninja::wallet;
     }
 
     transaction_data tx_data;
-    bool success = transaction_data::create_flat_fee_transaction_data(
-                                                                      tx_data,
+    bool success = transaction_data::create_flat_fee_transaction_data(tx_data,
                                                                       address,
                                                                       c_coin,
                                                                       all_utxos,
@@ -212,35 +211,47 @@ using namespace coinninja::wallet;
     _changePath = nil;
     _shouldBeRBF = false;
 
-    CNBAddressHelper *helper = [[CNBAddressHelper alloc] initWithCoin:_coin];
-
-    NSUInteger __block totalFromUTXOs = 0;
-    [unspentTransactionOutputs enumerateObjectsUsingBlock:^(CNBUnspentTransactionOutput *obj, NSUInteger idx, BOOL *stop) {
-      totalFromUTXOs += obj.amount;
-    }];
-
-    _feeAmount = feeRate * [helper totalBytesWithInputCount:[unspentTransactionOutputs count]
-                                             paymentAddress:paymentAddress
-                                       includeChangeAddress:NO];
-
-    NSInteger signedAmountForValidation = (NSInteger)totalFromUTXOs - (NSInteger)_feeAmount;
-    if (signedAmountForValidation < 0) {
-      return nil;
-    } else {
-      _amount = totalFromUTXOs - _feeAmount;
+    std::string address = [paymentAddress cStringUsingEncoding:[NSString defaultCStringEncoding]];
+    base_coin c_coin{[coin c_coin]};
+    auto all_utxo_size{[unspentTransactionOutputs count]};
+    std::vector<unspent_transaction_output> all_utxos;
+    all_utxos.reserve(all_utxo_size);
+    for (size_t i = 0; i < all_utxo_size; i++) {
+      unspent_transaction_output utxo{[unspentTransactionOutputs[i] c_utxo]};
+      all_utxos.push_back(utxo);
     }
+
+    transaction_data tx_data;
+    bool success = transaction_data::create_send_max_transaction_data(tx_data,
+                                                                      all_utxos,
+                                                                      c_coin,
+                                                                      address,
+                                                                      static_cast<uint16_t>(feeRate),
+                                                                      static_cast<uint64_t>(blockHeight));
+
+    if (!success) {
+      return nil;
+    }
+
+    // succeeded in creating transaction data
+    // utxos
+    auto utxo_count{tx_data.unspent_transaction_outputs.size()};
+    NSMutableArray *selectedUTXOs = [[NSMutableArray alloc] initWithCapacity:utxo_count];
+    for (size_t i = 0; i < utxo_count; i++) {
+      unspent_transaction_output c_utxo{tx_data.unspent_transaction_outputs.at(i)};
+      CNBUnspentTransactionOutput *newUTXO = [CNBUnspentTransactionOutput utxoFromC_utxo:c_utxo];
+      selectedUTXOs[i] = newUTXO;
+    }
+    _unspentTransactionOutputs = [selectedUTXOs copy];
+
+    // amount
+    _amount = tx_data.amount;
+
+    // feeAmount
+    _feeAmount = tx_data.fee_amount;
   }
 
   return self;
-}
-
-- (NSUInteger)bytesForInputCount:(NSUInteger)inputCount paymentAddress:(NSString *)address includeChangeOutput:(BOOL)includeChange {
-  CNBAddressHelper *helper = [[CNBAddressHelper alloc] initWithCoin:self.coin];
-  return [helper totalBytesWithInputCount:inputCount paymentAddress:address includeChangeAddress:includeChange];
-}
-
-- (NSUInteger)dustThreshold {
-  return 1000;
 }
 
 - (BOOL)shouldAddChangeToTransaction {
