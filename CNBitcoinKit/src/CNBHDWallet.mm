@@ -13,6 +13,7 @@
 #import "CNBTransactionData.h"
 #import "CNBTransactionMetadata.h"
 #import "CNBDerivationPath.h"
+#import "CNBDerivationPath+Project.h"
 #import "NSData+CNBitcoinKit.h"
 #import "CNBAddressHelper.h"
 #import "CNBAddressHelper+Project.h"
@@ -162,7 +163,8 @@ bc::wallet::hd_private childPrivateKey(bc::wallet::hd_private privKey, int index
   CNBDerivationPath *derivationPath = [[CNBDerivationPath alloc] initWithPurpose:purpose coinType:type account:0 change:0 index:index];
 
   // get uncompressed ec pubkey
-  bc::wallet::hd_public pubkey = [self indexPublicKeyForChangeIndex:0 index:index];
+  coinninja::wallet::derivation_path c_path{[derivationPath c_path]};
+  bc::wallet::hd_public pubkey = coinninja::wallet::key_factory::index_public_key(self.privateKey, c_path);
   auto compressed = bc::wallet::ec_public(pubkey);
   bc::ec_uncompressed uncompressed;
   compressed.to_uncompressed(uncompressed);
@@ -186,7 +188,9 @@ bc::wallet::hd_private childPrivateKey(bc::wallet::hd_private privKey, int index
 // private
 - (NSString *)addressForChangeIndex:(NSUInteger)change index:(NSUInteger)index {
   // 1. get index public key
-  bc::wallet::hd_public indexPublicKey = [self indexPublicKeyForChangeIndex:change index:index];
+  CNBDerivationPath *path = [[CNBDerivationPath alloc] initWithPurpose:self.coin.purpose coinType:self.coin.coin account:self.coin.account change:change index:index];
+  coinninja::wallet::derivation_path c_path{[path c_path]};
+  bc::wallet::hd_public indexPublicKey = coinninja::wallet::key_factory::index_public_key(self.privateKey, c_path);
 
 	// 2. get compressed public key at end of derivation path
 	bc::ec_compressed compressedPublicKey = indexPublicKey.point();
@@ -240,31 +244,6 @@ bc::wallet::hd_private childPrivateKey(bc::wallet::hd_private privKey, int index
   NSString *address = [CNBSegwitAddress encodeSegwitAddressWithHRP:self.coin.bech32HRP witnessMetadata:metadata];
 
   return address;
-}
-
-// private
-- (bc::wallet::hd_private)indexPrivateKeyForChangeIndex:(NSUInteger)change index:(NSUInteger) index {
-  // 1. setup indexes for convenience
-  NSUInteger hardenedOffset = bc::wallet::hd_first_hardened_key;
-  int hardenedPurposeIndex = (int)(self.coin.purpose + hardenedOffset);
-  int hardenedCoinIndex = (int)(self.coin.coin + hardenedOffset);
-  int hardenedAccountIndex = (int)(self.coin.account + hardenedOffset);
-  int changeIndex = (int)change;
-  int indexIndex = (int)index;
-
-  // 2. generate keys
-  bc::wallet::hd_private purposePrivateKey = childPrivateKey(self.privateKey, hardenedPurposeIndex);
-  bc::wallet::hd_private coinPrivateKey = childPrivateKey(purposePrivateKey, hardenedCoinIndex);
-  bc::wallet::hd_private accountPrivateKey = childPrivateKey(coinPrivateKey, hardenedAccountIndex);
-  bc::wallet::hd_private changePrivateKey = childPrivateKey(accountPrivateKey, changeIndex);
-  bc::wallet::hd_private indexPrivateKey = childPrivateKey(changePrivateKey, indexIndex);
-
-  return indexPrivateKey;
-}
-
-- (bc::wallet::hd_public)indexPublicKeyForChangeIndex:(NSUInteger)change index:(NSUInteger)index {
-  bc::wallet::hd_public indexPublicKey = [self indexPrivateKeyForChangeIndex:change index:index].to_public();
-  return indexPublicKey;
 }
 
 - (BOOL)isTestNet {
@@ -571,7 +550,8 @@ bc::machine::operation::list to_pay_witness_key_hash_pattern(bc::data_chunk hash
 
 - (CNBCipherKeys *)decryptionCipherKeysForDerivationPathOfPrivateKey:(CNBDerivationPath *)path
                                                            publicKey:(NSData *)publicKeyData {
-  bc::wallet::hd_private private_key = [self indexPrivateKeyForChangeIndex:[path change] index:[path index]];
+  coinninja::wallet::derivation_path c_path{[path c_path]};
+  bc::wallet::hd_private private_key = coinninja::wallet::key_factory::index_private_key(self.privateKey, c_path);
   data_chunk public_key_data([publicKeyData dataChunk]);
   cipher_keys keys = cipher_key_vendor::decryption_cipher_keys(private_key, public_key_data);
   NSData *encryptionKey = [NSData dataWithBytes:keys.get_encryption_key().data() length:hash_size];
