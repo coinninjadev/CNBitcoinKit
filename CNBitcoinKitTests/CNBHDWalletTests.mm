@@ -7,12 +7,13 @@
 //
 
 #import <XCTest/XCTest.h>
-#import "CNBitcoinKit.h"
+#import "CNBHDWallet.h"
 #import "CNBHDWallet+Project.h"
 #import "MockBitcoinCoin.h"
 #import "NSData+CNBitcoinKit.h"
 #import "CNBAddressResult.h"
 #import "CNBBaseCoin.h"
+#import "CNBBaseCoin+Project.h"
 #import "CNBTransactionData.h"
 #import "CNBTransactionData+Project.h"
 #import "NSString+NSData.h"
