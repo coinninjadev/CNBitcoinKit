@@ -464,7 +464,9 @@ bc::machine::operation::list to_pay_witness_key_hash_pattern(bc::data_chunk hash
     NSNumber *voutIndex = nil;
     for (int i = (int)transaction.outputs().size() - 1; i >= 0; i--) {
       auto output = transaction.outputs().at(i);
-      NSString *possibleChangeAddress = [NSString stringWithCString:output.address().encoded().c_str() encoding:[NSString defaultCStringEncoding]];
+      auto pknet = self.coin.coin == 0 ? bc::wallet::payment_address::mainnet_p2kh : bc::wallet::payment_address::testnet_p2kh;
+      auto shnet = self.coin.coin == 0 ? bc::wallet::payment_address::mainnet_p2sh : bc::wallet::payment_address::testnet_p2sh;
+      NSString *possibleChangeAddress = [NSString stringWithCString:output.address(pknet, shnet).encoded().c_str() encoding:[NSString defaultCStringEncoding]];
       NSString *dataChangeAddress = [[self changeAddressForIndex:[[data changePath] index]] address];
       if ([possibleChangeAddress isEqualToString:dataChangeAddress]) {
         changeAddress = possibleChangeAddress;

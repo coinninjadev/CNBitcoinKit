@@ -196,4 +196,31 @@
   XCTAssertEqualObjects(actualEncodedTransaction, expectedTransaction);
 }
 
+- (void)testTestNetMetadataCreation {
+  NSArray *newWords = [GeneratedWordsHelper words1];
+  MockBitcoinCoin *coin = [[MockBitcoinCoin alloc] initWithPurpose:BIP49 coin:TestNet account:0];
+  CNBHDWallet *wallet = [[CNBHDWallet alloc] initWithMnemonic:newWords coin:coin];
+  CNBDerivationPath *path = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:TestNet account:0 change:0 index:0];
+  CNBUnspentTransactionOutput *utxo = [[CNBUnspentTransactionOutput alloc] initWithId:@"1cfd000efbe248c48b499b0a5d76ea7687ee76cad8481f71277ee283df32af26" index:0 amount:1250000000 derivationPath:path isConfirmed:YES];
+
+  NSArray<CNBUnspentTransactionOutput *> *utxos = @[utxo];
+  NSUInteger amount = 9523810;
+  NSUInteger feesAmount = 830;
+  NSUInteger changeAmount = 1240475360;
+  CNBDerivationPath *changePath = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:TestNet account:0 change:1 index:0]; //Hardcoded for now
+
+  CNBTransactionData *data = [[CNBTransactionData alloc] initWithAddress:@"2N8o4Mu5PRAR27TC2eai62CRXarTbQmjyCx"
+                                                                    coin:coin
+                                                 fromAllAvailableOutputs:utxos
+                                                           paymentAmount:amount
+                                                                 flatFee:feesAmount
+                                                              changePath:changePath
+                                                             blockHeight:644];
+
+  CNBTransactionBuilder *builder = [[CNBTransactionBuilder alloc] init];
+  CNBTransactionMetadata *metadata = [builder generateTxMetadataWithTransactionData:data wallet:wallet];
+  XCTAssertNotNil([metadata changeAddress]);
+  XCTAssertNotNil([metadata voutIndex]);
+}
+
 @end
