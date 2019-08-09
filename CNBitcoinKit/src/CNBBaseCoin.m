@@ -14,32 +14,24 @@
 - (instancetype)initWithPurpose:(CoinDerivation)purpose
 													 coin:(CoinType)coin
 												account:(NSUInteger)account
-										 networkURL:(NSString *)networkURL {
-  if (self = [self initWithPurpose:purpose coin:coin account:account]) {
+										 networkURL:(NSString * _Nullable)networkURL {
+  if (self = [super init]) {
+    _purpose = purpose;
+    _coin = coin;
+    _account = account;
     _networkURL = networkURL;
   }
-	return self;
+  return self;
 }
 
 - (instancetype)initWithPurpose:(CoinDerivation)purpose
 													 coin:(CoinType)coin
 												account:(NSUInteger)account {
-  if (self = [super init]) {
-    _purpose = purpose;
-    _coin = coin;
-    _account = account;
-    _networkURL = nil;
-	}
-	return self;
+  return [self initWithPurpose:purpose coin:coin account:account networkURL:nil];
 }
 
-- (instancetype)init
-{
-	if (self = [self initWithPurpose:BIP49
-															coin:0
-													 account:0]) {
-	}
-	return self;
+- (instancetype)init {
+  return [self initWithPurpose:BIP49 coin:MainNet account:0 networkURL:nil];
 }
 
 - (NSString  * _Nullable)bech32HRP {

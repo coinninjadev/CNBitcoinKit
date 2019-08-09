@@ -33,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithPurpose:(CoinDerivation)purpose
 													 coin:(CoinType)coin
 												account:(NSUInteger)account
-										 networkURL:(NSString *)networkURL;
+										 networkURL:(NSString * _Nullable)networkURL;
 
 /// Convenient intializer: Uses default networkURL of mainnet.
 - (instancetype)initWithPurpose:(CoinDerivation)purpose
