@@ -17,7 +17,6 @@
 #import "NSData+CNBitcoinKit.h"
 #import "CNBAddressHelper.h"
 #import "CNBAddressHelper+Project.h"
-#include "usable_address.hpp"
 #include "Base58Check.hpp"
 #import "sodium.h"
 #include "encryption_cipher_keys.hpp"
@@ -473,10 +472,16 @@ bc::machine::operation::list to_pay_witness_key_hash_pattern(bc::data_chunk hash
   // calculate change
   if ([data shouldAddChangeToTransaction]) {
     CNBDerivationPath *changePath = [data changePath];
-    derivation_path dpath([changePath purposeValue], [changePath coinValue], [changePath account], [changePath change], [changePath index]);
-    usable_address change(_privateKey, dpath);
+    coinninja::wallet::derivation_path dpath{
+      static_cast<uint32_t>([changePath purposeValue]),
+      static_cast<uint32_t>([changePath coinValue]),
+      static_cast<uint32_t>([changePath account]),
+      static_cast<uint32_t>([changePath change]),
+      static_cast<uint32_t>([changePath index])
+    };
+    coinninja::transaction::usable_address change(_privateKey, dpath);
     uint64_t changeAmount = (uint64_t)[data changeAmount];
-    transaction.outputs().push_back([self createPayToScriptOutputWithAddress:change.buildPaymentAddress() amount:changeAmount]);
+    transaction.outputs().push_back([self createPayToScriptOutputWithAddress:change.build_payment_address() amount:changeAmount]);
   }
 
   // for each utxo, populate previous utxo
@@ -516,16 +521,22 @@ bc::machine::operation::list to_pay_witness_key_hash_pattern(bc::data_chunk hash
   for (int i = 0; i < data.unspentTransactionOutputs.count; i++) {
     CNBUnspentTransactionOutput *utxo = data.unspentTransactionOutputs[i];
     CNBDerivationPath *path = [utxo path];
-    derivation_path usable_path((int)[path purposeValue], (int)[path coinValue], (int)[path account], (int)[path change], (int)[path index]);
-    usable_address signing_address(_privateKey, usable_path);
+    coinninja::wallet::derivation_path usable_path{
+      static_cast<uint32_t>([path purposeValue]),
+      static_cast<uint32_t>([path coinValue]),
+      static_cast<uint32_t>([path account]),
+      static_cast<uint32_t>([path change]),
+      static_cast<uint32_t>([path index])
+    };
+    coinninja::transaction::usable_address signing_address{_privateKey, usable_path};
 
-    bc::chain::script scriptCode = bc::chain::script::to_pay_key_hash_pattern(bc::bitcoin_short_hash(signing_address.buildCompressedPublicKey()));
+    bc::chain::script scriptCode = bc::chain::script::to_pay_key_hash_pattern(bc::bitcoin_short_hash(signing_address.build_compressed_public_key()));
     bc::endorsement signature;
-    bc::chain::script::create_endorsement(signature, signing_address.buildPrivateKey().secret(), scriptCode, transaction, (uint32_t)i, bc::machine::sighash_algorithm::all, bc::machine::script_version::zero, (uint64_t)[utxo amount]);
+    bc::chain::script::create_endorsement(signature, signing_address.build_index_private_key().secret(), scriptCode, transaction, (uint32_t)i, bc::machine::sighash_algorithm::all, bc::machine::script_version::zero, (uint64_t)[utxo amount]);
 
-    bc::data_chunk scriptChunk = bc::to_chunk(signing_address.buildP2WPKH().to_data(true));
+    bc::data_chunk scriptChunk = bc::to_chunk(signing_address.build_p2wpkh_script().to_data(true));
     transaction.inputs()[i].set_script(bc::chain::script(scriptChunk, false));
-    bc::data_stack witness_data{signature, bc::to_chunk(signing_address.buildCompressedPublicKey())};
+    bc::data_stack witness_data{signature, bc::to_chunk(signing_address.build_compressed_public_key())};
     transaction.inputs()[i].set_witness(bc::chain::witness(witness_data));
   }
 

@@ -120,6 +120,7 @@ using namespace coinninja::wallet;
     // changePath
     if (tx_data.change_path != nullptr) {
       _changePath = changePath;
+      c_change_path_ptr = nullptr;
     }
   }
   return self;
@@ -190,6 +191,7 @@ using namespace coinninja::wallet;
     // changePath
     if (tx_data.change_path != nullptr) {
       _changePath = changePath;
+      c_change_path_ptr = nullptr;
     }
   }
 

@@ -17,6 +17,7 @@
 #include <bitcoin/bitcoin/coinninja/wallet/derivation_path.hpp>
 #include <bitcoin/bitcoin/coinninja/transaction/transaction_data.hpp>
 #include <bitcoin/bitcoin/coinninja/transaction/unspent_transaction_output.hpp>
+#include <bitcoin/bitcoin/coinninja/transaction/usable_address.hpp>
 #include <bitcoin/bitcoin/coinninja/wallet/key_factory.hpp>
 #endif
 
