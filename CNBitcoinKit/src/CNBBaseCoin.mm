@@ -35,18 +35,12 @@
   return [self initWithPurpose:BIP49 coin:MainNet account:0 networkURL:nil];
 }
 
-- (NSString  * _Nullable)bech32HRP {
-  switch (self.coin) {
-    case MainNet:
-      return @"bc";
-      break;
-    case TestNet:
-      return @"tb";
-      break;
-
-    default:
-      return nil;
-      break;
+- (NSString * _Nullable)bech32HRP {
+  std::string hrp{[self c_coin].get_bech32_hrp()};
+  if (hrp.size() == 0) {
+    return nil;
+  } else {
+    return [NSString stringWithCString:hrp.c_str() encoding:[NSString defaultCStringEncoding]];
   }
 }
 
