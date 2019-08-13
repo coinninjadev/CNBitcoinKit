@@ -9,7 +9,9 @@
 #ifndef CNBTransactionData_Project_h
 #define CNBTransactionData_Project_h
 
-#endif /* CNBTransactionData_Project_h */
+#ifdef __cplusplus
+#include <bitcoin/bitcoin/coinninja/transaction/transaction_data.hpp>
+#endif
 
 #import <Foundation/Foundation.h>
 #import "CNBDerivationPath.h"
@@ -27,4 +29,10 @@
                              changePath:(nullable CNBDerivationPath *)changePath
                             blockHeight:(NSUInteger)blockHeight;
 
+/// Translation methods
++ (CNBTransactionData *)dataFromC_data:(coinninja::transaction::transaction_data)c_data;
+- (coinninja::transaction::transaction_data)c_data;
+
 @end
+
+#endif /* CNBTransactionData_Project_h */

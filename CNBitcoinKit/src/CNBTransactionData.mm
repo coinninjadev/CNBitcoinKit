@@ -8,16 +8,13 @@
 
 #import <Foundation/Foundation.h>
 #import "CNBTransactionData.h"
+#import "CNBTransactionData+Project.h"
 #import "CNBAddressHelper.h"
 #import "CNBAddressHelper+Project.h"
 #import "CNBBaseCoin.h"
 #import "CNBBaseCoin+Project.h"
 #import "CNBUnspentTransactionOutput+Project.h"
 #import "CNBDerivationPath+Project.h"
-
-#ifdef __cplusplus
-#include <bitcoin/bitcoin/coinninja/transaction/transaction_data.hpp>
-#endif
 
 @interface CNBTransactionData()
 @property (nonatomic, retain) CNBBaseCoin *coin;
@@ -260,4 +257,80 @@ using namespace coinninja::wallet;
   return _changeAmount > 0 && _changePath != nil;
 }
 
+//MARK: translation methods
++ (CNBTransactionData *)dataFromC_data:(coinninja::transaction::transaction_data)c_data {
+  CNBBaseCoin *coin = [CNBBaseCoin coinFromC_Coin:c_data.get_coin()];
+  BOOL shouldBeRBF = c_data.get_should_be_rbf();
+  NSString *paymentAddress = [NSString stringWithCString:c_data.payment_address.c_str() encoding:[NSString defaultCStringEncoding]];
+
+  NSMutableArray *mutableUTXOs = [[NSMutableArray alloc] initWithCapacity:c_data.unspent_transaction_outputs.size()];
+  for (size_t i{0}; i < c_data.unspent_transaction_outputs.size(); i++) {
+    auto c_utxo = c_data.unspent_transaction_outputs.at(i);
+    mutableUTXOs[i] = [CNBUnspentTransactionOutput utxoFromC_utxo:c_utxo];
+  }
+
+  NSUInteger amount = (NSUInteger)c_data.amount;
+  NSUInteger feeAmount = (NSUInteger)c_data.fee_amount;
+  NSUInteger changeAmount = (NSUInteger)c_data.change_amount;
+  CNBDerivationPath *changePath = nil;
+  if (c_data.change_path != nullptr) {
+    coinninja::wallet::derivation_path c_path{*(c_data.change_path)};
+    changePath = [CNBDerivationPath pathFromC_path:c_path];
+  }
+
+  NSUInteger locktime = (NSUInteger)c_data.locktime;
+
+  CNBTransactionData *retval = [[CNBTransactionData alloc] init];
+  [retval setCoin:coin];
+  [retval setShouldBeRBF:shouldBeRBF];
+  [retval setPaymentAddress:paymentAddress];
+  [retval setUnspentTransactionOutputs:[mutableUTXOs copy]];
+  [retval setAmount:amount];
+  [retval setFeeAmount:feeAmount];
+  [retval setChangeAmount:changeAmount];
+  [retval setChangePath:changePath];
+  [retval setLocktime:locktime];
+  return retval;
+}
+
+- (coinninja::transaction::transaction_data)c_data {
+  coinninja::wallet::base_coin c_coin{[[self coin] c_coin]};
+  bool c_should_be_rbf{[self shouldBeRBF]};
+  std::string c_payment_address{[[self paymentAddress] cStringUsingEncoding:[NSString defaultCStringEncoding]]};
+  uint64_t c_amount{[self amount]};
+  uint64_t c_fee_amount{[self feeAmount]};
+  uint64_t c_change_amount{[self changeAmount]};
+  uint64_t c_locktime{[self locktime]};
+
+  std::vector<coinninja::transaction::unspent_transaction_output>c_utxos;
+  c_utxos.reserve([[self unspentTransactionOutputs] count]);
+  for (CNBUnspentTransactionOutput *utxo in [self unspentTransactionOutputs]) {
+    coinninja::transaction::unspent_transaction_output c_utxo{[utxo c_utxo]};
+    c_utxos.push_back(c_utxo);
+  }
+
+  coinninja::wallet::derivation_path *c_change_path_ptr{nullptr};
+  if ([self changePath] != nil) {
+    c_change_path_ptr = new coinninja::wallet::derivation_path{
+      static_cast<uint32_t>([[self changePath] purpose]),
+      static_cast<uint32_t>([[self changePath] coinType]),
+      static_cast<uint32_t>([[self changePath] account]),
+      static_cast<uint32_t>([[self changePath] change]),
+      static_cast<uint32_t>([[self changePath] index])
+    };
+  }
+
+  coinninja::transaction::transaction_data c_data{
+    c_payment_address,
+    c_coin, c_utxos,
+    c_amount,
+    c_fee_amount,
+    c_change_amount,
+    c_change_path_ptr,
+    c_locktime,
+    c_should_be_rbf
+  };
+
+  return c_data;
+}
 @end
