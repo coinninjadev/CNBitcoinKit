@@ -44,7 +44,7 @@ using namespace machine;
 
 // MARK: class methods
 + (nonnull NSArray <NSString *>*)allWords {
-  std::vector<std::string> bip_39_words = coinninja::wallet::hd_wallet::all_bip_39_words();
+  std::vector<std::string> bip_39_words = coinninja::wallet::all_bip_39_words();
   size_t length = bip_39_words.size();
   NSMutableArray *words = [[NSMutableArray alloc] initWithCapacity:length];
   for(int i = 0; i < length; i++) {
