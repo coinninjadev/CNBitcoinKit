@@ -11,6 +11,7 @@
 #import "CNBHDWallet+Project.h"
 #import "CNBUnspentTransactionOutput.h"
 #import "CNBTransactionData.h"
+#import "CNBTransactionData+Project.h"
 #import "CNBTransactionMetadata.h"
 #import "CNBDerivationPath.h"
 #import "CNBDerivationPath+Project.h"
@@ -33,7 +34,6 @@ using namespace machine;
 
 @interface CNBHDWallet()
 @property (nonatomic, strong) NSArray *mnemonicSeed;
-@property (nonatomic, strong) CNBBaseCoin *coin;
 @property (nonatomic) bc::data_chunk seed;
 @property (nonatomic) bc::wallet::word_list mnemonic;
 @property (nonatomic) bc::wallet::hd_private privateKey;
@@ -94,6 +94,10 @@ using namespace machine;
   delete [] charBuf;
 
   return data;
+}
+
+- (bc::wallet::hd_private &)masterPrivateKey {
+  return _privateKey;
 }
 
 // MARK: initializers
@@ -250,113 +254,67 @@ bc::wallet::hd_private childPrivateKey(bc::wallet::hd_private privKey, int index
 }
 
 - (void)setCoin:(CNBBaseCoin *)coin {
-	_coin = coin;
-	[self configureMasterKeysWithCoin:_coin];
+  _coin = coin;
+  [self configureMasterKeysWithCoin:_coin];
 }
 
 - (void)broadcastTransactionFromData:(CNBTransactionData *)data
                                  success:(void(^)(NSString *))success
                               andFailure:(void(^)(NSError * _Nonnull))failure {
-  bc::chain::transaction transaction = [self transactionFromData:data];
-  CNBTransactionMetadata *metadata = [self buildTransactionMetadataWithTransactionData:data];
-  NSString *encodedTx = [metadata encodedTx];
-  NSString *txid = [metadata txid];
-
-  // set up obelisk client and connection
-  bc::client::connection_type connection = {};
-  connection.retries = 3;
-  connection.timeout_seconds = 8;
-  if (self.coin.networkURL == nil) {
-    NSError *error = [NSError errorWithDomain:@"com.coinninja.cnbitcoinkit" code:0 userInfo:@{NSLocalizedDescriptionKey: @"No coin URL provided"}];
-    failure(error);
-    return;
-  }
-  std::string url = [self.coin.networkURL cStringUsingEncoding:[NSString defaultCStringEncoding]];
-  connection.server = bc::config::endpoint(url);
-  bc::client::obelisk_client client(connection);
-
-  // check connection
-  if (!client.connect(connection)) {
-    NSError *error = [NSError errorWithDomain:@"com.coinninja.cnbitcoinkit" code:8 userInfo:@{NSLocalizedDescriptionKey: @"Failed to connect to Bitcoin network"}];
-    failure(error);
-  }
-
-  // lambdas for call-backs
-  const auto on_done = [success, encodedTx, txid](const bc::code& ec) {
-    success(txid);
-  };
-
-  const auto on_error = [failure, encodedTx, txid](const bc::code& ec) {
-    NSString *errorString = [NSString stringWithCString:ec.message().c_str() encoding:[NSString defaultCStringEncoding]];
-    NSNumber *value = [[NSNumber alloc] initWithInt:ec.value()];
-    NSString *categoryName = [NSString stringWithCString:ec.category().name() encoding:[NSString defaultCStringEncoding]];
-    NSString *errorCondition = [NSString stringWithCString:ec.default_error_condition().message().c_str() encoding:[NSString defaultCStringEncoding]];
-    NSError *error = [NSError errorWithDomain:@"com.coinninja.cnbitcoinkit"
-                                         code:value.intValue
-                                     userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Failed to broadcast transaction: %@", errorString],
-                                                @"encoded_tx": encodedTx,
-                                                @"txid": txid,
-                                                kLibbitcoinErrorCode: value,
-                                                kLibbitcoinErrorMessage: errorString,
-                                                @"error_category_name": categoryName,
-                                                @"error_condition": errorCondition
-                                                }
-                      ];
-    failure(error);
-  };
-
-  // broadcast tx and wait
-
-  if (transaction.is_valid()) {
-    client.transaction_pool_broadcast(on_error, on_done, transaction);
-    client.wait();
-  }
-}
-
-- (bc::chain::output)createPayToKeyOutputWithAddress:(bc::wallet::payment_address)address amount:(uint64_t)amount {
-  return bc::chain::output(amount, bc::chain::script().to_pay_key_hash_pattern(address.hash()));
-}
-
-- (bc::chain::output)createPayToScriptOutputWithAddress:(bc::wallet::payment_address)address amount:(uint64_t)amount {
-  return bc::chain::output(amount, bc::chain::script(bc::chain::script().to_pay_script_hash_pattern(address.hash())));
-}
-
-bc::machine::operation::list to_pay_witness_key_hash_pattern(bc::data_chunk hash) {
-  auto pattern = bc::machine::operation::list
-  {
-    { opcode::push_size_0 },
-    { hash }
-  };
-  return pattern;
-}
-
-- (bc::chain::output)createPayToSegwitOutputWithAddress:(NSString *)address amount:(uint64_t)amount {
-  NSString *hrp = [self.coin bech32HRP];
-  NSData *witprog = [[CNBSegwitAddress decodeSegwitAddressWithHRP:hrp address:address] witprog];
-  bc::data_chunk witprog_data_chunk = [witprog dataChunk];
-  return bc::chain::output(amount, to_pay_witness_key_hash_pattern(witprog_data_chunk));
-}
-
-- (bc::chain::output)outputWithAddress:(NSString *)addressString amount:(uint64_t)amount {
-  CNBAddressHelper *helper = [[CNBAddressHelper alloc] initWithCoin:self.coin];
-  CNBPaymentOutputType type = [helper addressTypeForAddress:addressString];
-  switch (type) {
-    case P2PKH: {
-      bc::wallet::payment_address paymentAddress = [helper paymentAddressFromString:addressString];
-      return [self createPayToKeyOutputWithAddress:paymentAddress amount:amount];
-    }
-    case P2SH: {
-      bc::wallet::payment_address paymentAddress = [helper paymentAddressFromString:addressString];
-      return [self createPayToScriptOutputWithAddress:paymentAddress amount:amount];
-    }
-    case P2WPKH:
-    case P2WSH: {
-      return [self createPayToSegwitOutputWithAddress:addressString amount:amount];
-    }
-    default: {
-      throw "Illegal payment address";
-    }
-  }
+//  bc::chain::transaction transaction = [self transactionFromData:data];
+//  CNBTransactionMetadata *metadata = [self buildTransactionMetadataWithTransactionData:data];
+//  NSString *encodedTx = [metadata encodedTx];
+//  NSString *txid = [metadata txid];
+//
+//  // set up obelisk client and connection
+//  bc::client::connection_type connection = {};
+//  connection.retries = 3;
+//  connection.timeout_seconds = 8;
+//  if (self.coin.networkURL == nil) {
+//    NSError *error = [NSError errorWithDomain:@"com.coinninja.cnbitcoinkit" code:0 userInfo:@{NSLocalizedDescriptionKey: @"No coin URL provided"}];
+//    failure(error);
+//    return;
+//  }
+//  std::string url = [self.coin.networkURL cStringUsingEncoding:[NSString defaultCStringEncoding]];
+//  connection.server = bc::config::endpoint(url);
+//  bc::client::obelisk_client client(connection);
+//
+//  // check connection
+//  if (!client.connect(connection)) {
+//    NSError *error = [NSError errorWithDomain:@"com.coinninja.cnbitcoinkit" code:8 userInfo:@{NSLocalizedDescriptionKey: @"Failed to connect to Bitcoin network"}];
+//    failure(error);
+//  }
+//
+//  // lambdas for call-backs
+//  const auto on_done = [success, encodedTx, txid](const bc::code& ec) {
+//    success(txid);
+//  };
+//
+//  const auto on_error = [failure, encodedTx, txid](const bc::code& ec) {
+//    NSString *errorString = [NSString stringWithCString:ec.message().c_str() encoding:[NSString defaultCStringEncoding]];
+//    NSNumber *value = [[NSNumber alloc] initWithInt:ec.value()];
+//    NSString *categoryName = [NSString stringWithCString:ec.category().name() encoding:[NSString defaultCStringEncoding]];
+//    NSString *errorCondition = [NSString stringWithCString:ec.default_error_condition().message().c_str() encoding:[NSString defaultCStringEncoding]];
+//    NSError *error = [NSError errorWithDomain:@"com.coinninja.cnbitcoinkit"
+//                                         code:value.intValue
+//                                     userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Failed to broadcast transaction: %@", errorString],
+//                                                @"encoded_tx": encodedTx,
+//                                                @"txid": txid,
+//                                                kLibbitcoinErrorCode: value,
+//                                                kLibbitcoinErrorMessage: errorString,
+//                                                @"error_category_name": categoryName,
+//                                                @"error_condition": errorCondition
+//                                                }
+//                      ];
+//    failure(error);
+//  };
+//
+//  // broadcast tx and wait
+//
+//  if (transaction.is_valid()) {
+//    client.transaction_pool_broadcast(on_error, on_done, transaction);
+//    client.wait();
+//  }
 }
 
 #pragma mark - Signing
@@ -419,128 +377,6 @@ bc::machine::operation::list to_pay_witness_key_hash_pattern(bc::data_chunk hash
     }
   }
   return result;
-}
-
-#pragma mark - Build Transaction Metadata
-- (CNBTransactionMetadata *)buildTransactionMetadataWithTransactionData:(CNBTransactionData *)data {
-  bc::chain::transaction transaction = [self transactionFromData:data];
-
-  // encode transaction
-  NSString *encodedTx = [NSString stringWithUTF8String:bc::encode_base16(transaction.to_data(true, true)).c_str()];
-
-  // get txid
-  std::string txhash = bc::encode_hash(transaction.hash());
-  NSString *txid = [NSString stringWithCString:txhash.c_str() encoding:[NSString defaultCStringEncoding]];
-
-  // return metadata
-  if ([data shouldAddChangeToTransaction]) {
-    NSString *changeAddress = nil;
-    NSNumber *voutIndex = nil;
-    for (int i = (int)transaction.outputs().size() - 1; i >= 0; i--) {
-      auto output = transaction.outputs().at(i);
-      auto pknet = self.coin.coin == 0 ? bc::wallet::payment_address::mainnet_p2kh : bc::wallet::payment_address::testnet_p2kh;
-      auto shnet = self.coin.coin == 0 ? bc::wallet::payment_address::mainnet_p2sh : bc::wallet::payment_address::testnet_p2sh;
-      NSString *possibleChangeAddress = [NSString stringWithCString:output.address(pknet, shnet).encoded().c_str() encoding:[NSString defaultCStringEncoding]];
-      NSString *dataChangeAddress = [[self changeAddressForIndex:[[data changePath] index]] address];
-      if ([possibleChangeAddress isEqualToString:dataChangeAddress]) {
-        changeAddress = possibleChangeAddress;
-        voutIndex = [NSNumber numberWithInt:i];
-        break;
-      }
-    }
-    return [[CNBTransactionMetadata alloc] initWithTxid:txid
-                                              encodedTx:encodedTx
-                                          changeAddress:changeAddress
-                                             changePath:[data changePath]
-                                              voutIndex:voutIndex];
-  } else {
-    return [[CNBTransactionMetadata alloc] initWithTxid:txid encodedTx:encodedTx];
-  }
-
-}
-
-- (bc::chain::transaction)transactionFromData:(CNBTransactionData *)data {
-  uint64_t paymentAmount = (uint64_t)[data amount];
-
-  // create transaction
-  bc::chain::transaction transaction = bc::chain::transaction();
-  transaction.set_version(1u);
-
-  // populate transaction with payment data
-  transaction.outputs().push_back([self outputWithAddress:[data paymentAddress] amount:paymentAmount]);
-
-  // calculate change
-  if ([data shouldAddChangeToTransaction]) {
-    CNBDerivationPath *changePath = [data changePath];
-    coinninja::wallet::derivation_path dpath{
-      static_cast<uint32_t>([changePath purposeValue]),
-      static_cast<uint32_t>([changePath coinValue]),
-      static_cast<uint32_t>([changePath account]),
-      static_cast<uint32_t>([changePath change]),
-      static_cast<uint32_t>([changePath index])
-    };
-    coinninja::transaction::usable_address change(_privateKey, dpath);
-    uint64_t changeAmount = (uint64_t)[data changeAmount];
-    transaction.outputs().push_back([self createPayToScriptOutputWithAddress:change.build_payment_address() amount:changeAmount]);
-  }
-
-  // for each utxo, populate previous utxo
-  for (CNBUnspentTransactionOutput *utxo in data.unspentTransactionOutputs) {
-    // P2SH(P2WPKH) input.
-    // Previous TX hash.
-    std::string prev_tx = [[utxo txId] cStringUsingEncoding:[NSString defaultCStringEncoding]];
-    bc::hash_digest prev_tx_hash;
-    bc::decode_hash(prev_tx_hash, prev_tx);
-    // Previous UXTO index.
-    uint32_t index = (uint32_t)[utxo index];
-    bc::chain::output_point uxto_to_spend(prev_tx_hash, index);
-    // Build P2SH(P2WPKH) input object.
-    bc::chain::input p2sh_p2wpkh_input;
-
-    // set the previous output
-    p2sh_p2wpkh_input.set_previous_output(uxto_to_spend);
-
-    // set sequence
-    uint32_t replaceableSequence = bc::max_input_sequence - 2;
-    uint32_t nonReplaceableSequence = bc::max_input_sequence;
-
-    if ([data shouldBeRBF]) {
-      p2sh_p2wpkh_input.set_sequence(replaceableSequence);
-    } else {
-      uint32_t seq = ([utxo isConfirmed]) ? nonReplaceableSequence : replaceableSequence;
-      p2sh_p2wpkh_input.set_sequence(seq);
-    }
-
-    transaction.inputs().push_back(p2sh_p2wpkh_input);
-  }
-
-  // set locktime
-  transaction.set_locktime((uint32_t)[data locktime]);
-
-  // sign inputs
-  for (int i = 0; i < data.unspentTransactionOutputs.count; i++) {
-    CNBUnspentTransactionOutput *utxo = data.unspentTransactionOutputs[i];
-    CNBDerivationPath *path = [utxo path];
-    coinninja::wallet::derivation_path usable_path{
-      static_cast<uint32_t>([path purposeValue]),
-      static_cast<uint32_t>([path coinValue]),
-      static_cast<uint32_t>([path account]),
-      static_cast<uint32_t>([path change]),
-      static_cast<uint32_t>([path index])
-    };
-    coinninja::transaction::usable_address signing_address{_privateKey, usable_path};
-
-    bc::chain::script scriptCode = bc::chain::script::to_pay_key_hash_pattern(bc::bitcoin_short_hash(signing_address.build_compressed_public_key()));
-    bc::endorsement signature;
-    bc::chain::script::create_endorsement(signature, signing_address.build_index_private_key().secret(), scriptCode, transaction, (uint32_t)i, bc::machine::sighash_algorithm::all, bc::machine::script_version::zero, (uint64_t)[utxo amount]);
-
-    bc::data_chunk scriptChunk = bc::to_chunk(signing_address.build_p2wpkh_script().to_data(true));
-    transaction.inputs()[i].set_script(bc::chain::script(scriptChunk, false));
-    bc::data_stack witness_data{signature, bc::to_chunk(signing_address.build_compressed_public_key())};
-    transaction.inputs()[i].set_witness(bc::chain::witness(witness_data));
-  }
-
-  return transaction;
 }
 
 // MARK: ECDH

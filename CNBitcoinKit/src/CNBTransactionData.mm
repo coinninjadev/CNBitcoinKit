@@ -76,11 +76,9 @@ using namespace coinninja::wallet;
       all_utxos.push_back(utxo);
     }
 
-    derivation_path *c_change_path_ptr{nullptr};
     derivation_path c_change_path{49,0,0,1,0};
     if (changePath != nil) {
       c_change_path = [changePath c_path];
-      c_change_path_ptr = &c_change_path;
     }
 
     coinninja::transaction::transaction_data tx_data;
@@ -90,7 +88,7 @@ using namespace coinninja::wallet;
                                                              all_utxos,
                                                              static_cast<uint64_t>(amount),
                                                              static_cast<uint16_t>(feeRate),
-                                                             c_change_path_ptr,
+                                                             c_change_path,
                                                              static_cast<uint64_t>(blockHeight));
 
     if (!success) {
@@ -115,9 +113,8 @@ using namespace coinninja::wallet;
     _changeAmount = tx_data.change_amount;
 
     // changePath
-    if (tx_data.change_path != nullptr) {
+    if (tx_data.should_add_change_to_transaction()) {
       _changePath = changePath;
-      c_change_path_ptr = nullptr;
     }
   }
   return self;
@@ -150,11 +147,9 @@ using namespace coinninja::wallet;
       all_utxos.push_back(utxo);
     }
 
-    derivation_path *c_change_path_ptr{nullptr};
     derivation_path c_change_path{49,0,0,1,0};
     if (changePath != nil) {
       c_change_path = [changePath c_path];
-      c_change_path_ptr = &c_change_path;
     }
 
     transaction_data tx_data;
@@ -164,7 +159,7 @@ using namespace coinninja::wallet;
                                                                       all_utxos,
                                                                       static_cast<uint64_t>(amount),
                                                                       static_cast<uint64_t>(flatFee),
-                                                                      c_change_path_ptr,
+                                                                      c_change_path,
                                                                       static_cast<uint64_t>(blockHeight));
 
     if (!success) {
@@ -186,9 +181,8 @@ using namespace coinninja::wallet;
     _changeAmount = tx_data.change_amount;
 
     // changePath
-    if (tx_data.change_path != nullptr) {
+    if (tx_data.should_add_change_to_transaction()) {
       _changePath = changePath;
-      c_change_path_ptr = nullptr;
     }
   }
 
@@ -272,11 +266,7 @@ using namespace coinninja::wallet;
   NSUInteger amount = (NSUInteger)c_data.amount;
   NSUInteger feeAmount = (NSUInteger)c_data.fee_amount;
   NSUInteger changeAmount = (NSUInteger)c_data.change_amount;
-  CNBDerivationPath *changePath = nil;
-  if (c_data.change_path != nullptr) {
-    coinninja::wallet::derivation_path c_path{*(c_data.change_path)};
-    changePath = [CNBDerivationPath pathFromC_path:c_path];
-  }
+  CNBDerivationPath *changePath = [CNBDerivationPath pathFromC_path:c_data.change_path];
 
   NSUInteger locktime = (NSUInteger)c_data.locktime;
 
@@ -309,16 +299,13 @@ using namespace coinninja::wallet;
     c_utxos.push_back(c_utxo);
   }
 
-  coinninja::wallet::derivation_path *c_change_path_ptr{nullptr};
-  if ([self changePath] != nil) {
-    c_change_path_ptr = new coinninja::wallet::derivation_path{
-      static_cast<uint32_t>([[self changePath] purpose]),
-      static_cast<uint32_t>([[self changePath] coinType]),
-      static_cast<uint32_t>([[self changePath] account]),
-      static_cast<uint32_t>([[self changePath] change]),
-      static_cast<uint32_t>([[self changePath] index])
-    };
-  }
+  coinninja::wallet::derivation_path c_change_path{
+    static_cast<uint32_t>([[self changePath] purpose]),
+    static_cast<uint32_t>([[self changePath] coinType]),
+    static_cast<uint32_t>([[self changePath] account]),
+    static_cast<uint32_t>([[self changePath] change]),
+    static_cast<uint32_t>([[self changePath] index])
+  };
 
   coinninja::transaction::transaction_data c_data{
     c_payment_address,
@@ -326,7 +313,7 @@ using namespace coinninja::wallet;
     c_amount,
     c_fee_amount,
     c_change_amount,
-    c_change_path_ptr,
+    c_change_path,
     c_locktime,
     c_should_be_rbf
   };

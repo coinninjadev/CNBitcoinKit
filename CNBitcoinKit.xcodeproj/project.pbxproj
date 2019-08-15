@@ -220,7 +220,7 @@
 		A216D77F20AA1C8F005FBAC2 /* CNBUnspentTransactionOutput.h in Headers */ = {isa = PBXBuildFile; fileRef = A216D77E20AA1C8F005FBAC2 /* CNBUnspentTransactionOutput.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A216D78120AA1EC7005FBAC2 /* CNBTransactionData.mm in Sources */ = {isa = PBXBuildFile; fileRef = A216D78020AA1EC7005FBAC2 /* CNBTransactionData.mm */; };
 		A216D78320AA1ED9005FBAC2 /* CNBTransactionData.h in Headers */ = {isa = PBXBuildFile; fileRef = A216D78220AA1ED9005FBAC2 /* CNBTransactionData.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		A216D78520AA2423005FBAC2 /* CNBTransactionBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = A216D78420AA2423005FBAC2 /* CNBTransactionBuilder.m */; };
+		A216D78520AA2423005FBAC2 /* CNBTransactionBuilder.mm in Sources */ = {isa = PBXBuildFile; fileRef = A216D78420AA2423005FBAC2 /* CNBTransactionBuilder.mm */; };
 		A216D78720AA2430005FBAC2 /* CNBTransactionBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = A216D78620AA2430005FBAC2 /* CNBTransactionBuilder.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A216D78920AB4A85005FBAC2 /* CNBTransactionBuilderMainnetTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = A216D78820AB4A85005FBAC2 /* CNBTransactionBuilderMainnetTests.mm */; };
 		A216D78B20ACAD5B005FBAC2 /* CNBHDWallet+Project.h in Headers */ = {isa = PBXBuildFile; fileRef = A216D78A20ACAD5B005FBAC2 /* CNBHDWallet+Project.h */; };
@@ -567,7 +567,7 @@
 		A216D77E20AA1C8F005FBAC2 /* CNBUnspentTransactionOutput.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CNBUnspentTransactionOutput.h; sourceTree = "<group>"; };
 		A216D78020AA1EC7005FBAC2 /* CNBTransactionData.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CNBTransactionData.mm; sourceTree = "<group>"; };
 		A216D78220AA1ED9005FBAC2 /* CNBTransactionData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CNBTransactionData.h; sourceTree = "<group>"; };
-		A216D78420AA2423005FBAC2 /* CNBTransactionBuilder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CNBTransactionBuilder.m; sourceTree = "<group>"; };
+		A216D78420AA2423005FBAC2 /* CNBTransactionBuilder.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CNBTransactionBuilder.mm; sourceTree = "<group>"; };
 		A216D78620AA2430005FBAC2 /* CNBTransactionBuilder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CNBTransactionBuilder.h; sourceTree = "<group>"; };
 		A216D78820AB4A85005FBAC2 /* CNBTransactionBuilderMainnetTests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CNBTransactionBuilderMainnetTests.mm; sourceTree = "<group>"; };
 		A216D78A20ACAD5B005FBAC2 /* CNBHDWallet+Project.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CNBHDWallet+Project.h"; sourceTree = "<group>"; };
@@ -1008,7 +1008,7 @@
 				3782A6582098BA720023648E /* NSData+CNBitcoinKit.mm */,
 				A216D77C20AA1C73005FBAC2 /* CNBUnspentTransactionOutput.mm */,
 				A216D78020AA1EC7005FBAC2 /* CNBTransactionData.mm */,
-				A216D78420AA2423005FBAC2 /* CNBTransactionBuilder.m */,
+				A216D78420AA2423005FBAC2 /* CNBTransactionBuilder.mm */,
 				3B0F440420AC9CA80031DD34 /* CNBMetaAddress.m */,
 				3BD7B73B20D7E68C005057A7 /* CNBAddressResult.m */,
 				3B1C602D212C9627008211C5 /* CNBTransactionMetadata.mm */,
@@ -1337,7 +1337,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A216D78520AA2423005FBAC2 /* CNBTransactionBuilder.m in Sources */,
+				A216D78520AA2423005FBAC2 /* CNBTransactionBuilder.mm in Sources */,
 				3B7F1D7D21FA13A100023759 /* cipher_key_vendor.cpp in Sources */,
 				3BE8AA1C21F20D4800A3F0C4 /* CNBCipherKeys.m in Sources */,
 				3BB0B4F322D4DEAA0042D29C /* CNBBech32Address.mm in Sources */,

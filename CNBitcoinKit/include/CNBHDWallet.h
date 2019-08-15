@@ -23,6 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface CNBHDWallet : NSObject
 
 @property (readonly) NSString * _Nonnull coinNinjaVerificationKeyHexString;
+@property (nonatomic, strong) CNBBaseCoin *coin;
 
 + (nonnull NSArray <NSString *>*)allWords;
 + (NSArray <NSString *> *)createMnemonicWordsWithEntropy:(NSData *)entropy;
@@ -37,7 +38,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSArray *)mnemonicWords;
 - (CNBMetaAddress *)receiveAddressForIndex:(NSUInteger)index;
 - (CNBMetaAddress *)changeAddressForIndex:(NSUInteger)index;
-- (void)setCoin:(CNBBaseCoin *)coin;
 
 - (NSData *)signData:(NSData *)data;
 - (NSString *)signatureSigningData:(NSData *)data;

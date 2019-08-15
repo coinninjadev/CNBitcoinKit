@@ -68,12 +68,10 @@ using namespace coinninja::wallet;
 - (coinninja::transaction::transaction_metadata)c_metadata {
   std::string c_txid{[[self txid] cStringUsingEncoding:[NSString defaultCStringEncoding]]};
   std::string c_encoded_tx{[[self encodedTx] cStringUsingEncoding:[NSString defaultCStringEncoding]]};
-  std::string *c_change_address_ptr{nullptr};
-  derivation_path *c_change_path_ptr{nullptr};
-  uint *c_vout_index_ptr{nullptr};
 
+  coinninja::wallet::derivation_path c_change_path{};
   if ([self changePath] != nil) {
-    c_change_path_ptr = new coinninja::wallet::derivation_path{
+    c_change_path = {
       static_cast<uint32_t>([[self changePath] purpose]),
       static_cast<uint32_t>([[self changePath] coinType]),
       static_cast<uint32_t>([[self changePath] account]),
@@ -82,20 +80,18 @@ using namespace coinninja::wallet;
     };
   }
 
+  std::string c_change_address{};
   if ([self changeAddress] != nil) {
-    c_change_address_ptr = new std::string{
-      [[self changeAddress] cStringUsingEncoding:[NSString defaultCStringEncoding]]
-    };
+    c_change_address = [[self changeAddress] cStringUsingEncoding:[NSString defaultCStringEncoding]];
   }
 
+  uint c_vout_index{0};
   if ([self voutIndex] != nil) {
-    c_vout_index_ptr = new uint{
-      static_cast<uint>([[self voutIndex] unsignedIntegerValue])
-    };
+    c_vout_index = static_cast<uint>([[self voutIndex] unsignedIntegerValue]);
   }
 
   coinninja::transaction::transaction_metadata c_metadata{
-    c_txid, c_encoded_tx, c_change_address_ptr, c_change_path_ptr, c_vout_index_ptr
+    c_txid, c_encoded_tx, c_change_address, c_change_path, c_vout_index
   };
   return c_metadata;
 }

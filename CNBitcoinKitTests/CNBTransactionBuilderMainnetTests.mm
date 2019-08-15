@@ -223,4 +223,42 @@
   XCTAssertNotNil([metadata voutIndex]);
 }
 
+- (void)testSendToNaviteSegwitBuildProperly {
+  NSArray *words = @[@"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"about"];
+  MockBitcoinCoin *coin = [[MockBitcoinCoin alloc] initWithPurpose:BIP49 coin:MainNet account:0];
+  CNBHDWallet *wallet = [[CNBHDWallet alloc] initWithMnemonic:words coin:coin];
+  CNBDerivationPath *path = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:MainNet account:0 change:0 index:80];
+  CNBUnspentTransactionOutput *utxo = [[CNBUnspentTransactionOutput alloc] initWithId:@"94b5bcfbd52a405b291d906e636c8e133407e68a75b0a1ccc492e131ff5d8f90" index: 0 amount:10261 derivationPath:path isConfirmed:YES];
+  NSArray *utxos = @[utxo];
+  NSUInteger amount = 5000;
+  NSUInteger feeAmount = 1000;
+  NSUInteger changeAmount = 4261;
+  CNBDerivationPath *changePath = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:MainNet account:0 change:1 index:102];
+  NSString *toAddress = @"bc1ql2sdag2nm9csz4wmlj735jxw88ym3yukyzmrpj";
+
+  CNBTransactionData *data = [[CNBTransactionData alloc] initWithAddress:toAddress
+                                                                    coin:coin
+                                               unspentTransactionOutputs:utxos
+                                                                  amount:amount
+                                                               feeAmount:feeAmount
+                                                            changeAmount:changeAmount
+                                                              changePath:changePath
+                                                             blockHeight:500000];
+
+  CNBTransactionBuilder *builder = [[CNBTransactionBuilder alloc] init];
+  CNBTransactionMetadata *metadata = [builder generateTxMetadataWithTransactionData:data wallet:wallet];
+
+  NSString *expectedEncodedTx = @"01000000000101908f5dff31e192c4cca1b0758ae60734138e6c636e901d295b402ad5fbbcb594000000001716001442288ee31111f7187e8cfe8c82917c4734da4c2effffffff028813000000000000160014faa0dea153d9710155dbfcbd1a48ce39c9b89396a51000000000000017a914aa71651e8f7c618a4576873254ec80c4dfaa068b8702483045022100fc142e1aa34627b880363427e07fc8de82542eba5593030160fbc33d22101c4302207478c3407a15daf613f458eb32223fb6d89a62b93b1a701c404a1a2f3977aee701210270d4003d27b5340df1895ef3a5aee2ae2fe3ed7383c01ba623723e702b6c83c120a10700";
+  NSString *expectedTxid = @"ff3033d6f7029ec366a9fe146d9941dddaa6edb3cd6543a6d285f84c5d4d22c3";
+  NSString *expectedChangeAddress = @"3HEEdyeVwoGZf86jq8ovUhw9FiXkwCdY79";
+
+  NSString *encodedTx = [metadata encodedTx];
+  NSString *txid = [metadata txid];
+  NSString *changeAddresss = [metadata changeAddress];
+
+  XCTAssertEqualObjects(encodedTx, expectedEncodedTx);
+  XCTAssertEqualObjects(txid, expectedTxid);
+  XCTAssertEqualObjects(changeAddresss, expectedChangeAddress);
+}
+
 @end

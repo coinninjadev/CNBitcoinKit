@@ -16,6 +16,7 @@
 #include <bitcoin/bitcoin/coinninja/wallet/derivation_path.hpp>
 #endif
 
+using namespace coinninja::wallet;
 
 @interface CNBTransactionMetadataTests : XCTestCase
 
@@ -35,8 +36,9 @@
   std::string c_change_address{"38BhTc8HcgUwdsafFQqd2TSN8iFGgsLQZK"};
   coinninja::wallet::derivation_path c_change_path{49,0,0,1,10};
   uint c_vout_index{1};
+
   coinninja::transaction::transaction_metadata c_metadata{
-    c_txid, c_encoded_tx, &c_change_address, &c_change_path, &c_vout_index
+    c_txid, c_encoded_tx, c_change_address, c_change_path, c_vout_index
   };
 
   CNBTransactionMetadata *metadata = [CNBTransactionMetadata metadataFromC_metadata:c_metadata];
