@@ -218,11 +218,7 @@ bc::wallet::hd_private childPrivateKey(bc::wallet::hd_private privKey, int index
   // 1. wrap in p2sh
   bc::chain::script P2WPKH = bc::chain::script(witnessProgram(compressedPublicKey));
 
-  // 2. wrap witness program in P2SH
-  bc::short_hash witnessProgramHash = bc::bitcoin_short_hash(P2WPKH.to_data(0));
-  bc::chain::script P2SH_P2WPKH = bc::chain::script::to_pay_script_hash_pattern(witnessProgramHash);
-
-  // 3. return NSString representation of cStr
+  // 2. return NSString representation of cStr
   std::string encoded_payment_address = [self isTestNet] ?
   bc::wallet::payment_address(P2WPKH, bc::wallet::payment_address::testnet_p2sh).encoded() :
   bc::wallet::payment_address(P2WPKH).encoded();
