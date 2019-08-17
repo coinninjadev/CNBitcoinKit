@@ -32,7 +32,7 @@
 }
 
 - (instancetype)init {
-  return [self initWithPurpose:BIP49 coin:MainNet account:0 networkURL:nil];
+  return [self initWithPurpose:CoinDerivation::BIP49 coin:CoinType::MainNet account:0 networkURL:nil];
 }
 
 - (NSString * _Nullable)bech32HRP {

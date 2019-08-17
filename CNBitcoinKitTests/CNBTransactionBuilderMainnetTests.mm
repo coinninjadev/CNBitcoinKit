@@ -34,7 +34,7 @@
 - (void)setUp {
   [super setUp];
 
-  self.coin = [[CNBBaseCoin alloc] initWithPurpose:BIP49 coin:MainNet account:0];
+  self.coin = [[CNBBaseCoin alloc] initWithPurpose:CoinDerivation::BIP49 coin:CoinType::MainNet account:0];
   self.words = [GeneratedWordsHelper words2];
 }
 
@@ -44,16 +44,16 @@
 
 - (void)testCorrectTransactionGetsBuilt {
   NSArray *newWords = [GeneratedWordsHelper words1];
-  MockBitcoinCoin *coin = [[MockBitcoinCoin alloc] initWithPurpose:BIP49 coin:MainNet account:0 networkURL:@""];
+  MockBitcoinCoin *coin = [[MockBitcoinCoin alloc] initWithPurpose:CoinDerivation::BIP49 coin:CoinType::MainNet account:0 networkURL:@""];
   CNBHDWallet *wallet = [[CNBHDWallet alloc] initWithMnemonic:newWords coin:coin];
-  CNBDerivationPath *path = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:MainNet account:0 change:1 index:53];
+  CNBDerivationPath *path = [[CNBDerivationPath alloc] initWithPurpose:CoinDerivation::BIP49 coinType:CoinType::MainNet account:0 change:1 index:53];
   CNBUnspentTransactionOutput *utxo = [[CNBUnspentTransactionOutput alloc] initWithId:@"1a08dafe993fdc17fdc661988c88f97a9974013291e759b9b5766b8e97c78f87" index:1 amount:2788424 derivationPath:path isConfirmed:YES];
 
   NSArray<CNBUnspentTransactionOutput *> *utxos = @[utxo];
   NSUInteger amount = 13584;
   NSUInteger feesAmount = 3000;
   NSUInteger changeAmount = 2771840;
-  CNBDerivationPath *changePath = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:MainNet account:0 change:1 index:56]; //Hardcoded for now
+  CNBDerivationPath *changePath = [[CNBDerivationPath alloc] initWithPurpose:CoinDerivation::BIP49 coinType:CoinType::MainNet account:0 change:1 index:56]; //Hardcoded for now
 
   CNBTransactionData *data = [[CNBTransactionData alloc] initWithAddress:@"3BgxxADLtnoKu9oytQiiVzYUqvo8weCVy9"
                                                                     coin:self.coin
@@ -75,18 +75,18 @@
 
 - (void)testCorrectTransactionGetsBuiltWithTwoInputs {
   NSArray *newWords = [GeneratedWordsHelper words1];
-  MockBitcoinCoin *coin = [[MockBitcoinCoin alloc] initWithPurpose:BIP49 coin:MainNet account:0 networkURL:@""];
+  MockBitcoinCoin *coin = [[MockBitcoinCoin alloc] initWithPurpose:CoinDerivation::BIP49 coin:CoinType::MainNet account:0 networkURL:@""];
   CNBHDWallet *wallet = [[CNBHDWallet alloc] initWithMnemonic:newWords coin:coin];
-  CNBDerivationPath *path1 = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:MainNet account:0 change:1 index:56];
+  CNBDerivationPath *path1 = [[CNBDerivationPath alloc] initWithPurpose:CoinDerivation::BIP49 coinType:CoinType::MainNet account:0 change:1 index:56];
   CNBUnspentTransactionOutput *utxo1 = [[CNBUnspentTransactionOutput alloc] initWithId:@"24cc9150963a2369d7f413af8b18c3d0243b438ba742d6d083ec8ed492d312f9" index:1 amount:2769977 derivationPath:path1 isConfirmed:NO];
-  CNBDerivationPath *path2 = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:MainNet account:0 change:1 index:57];
+  CNBDerivationPath *path2 = [[CNBDerivationPath alloc] initWithPurpose:CoinDerivation::BIP49 coinType:CoinType::MainNet account:0 change:1 index:57];
   CNBUnspentTransactionOutput *utxo2 = [[CNBUnspentTransactionOutput alloc] initWithId:@"ed611c20fc9088aa5ec1c86de88dd017965358c150c58f71eda721cdb2ac0a48" index:1 amount:314605 derivationPath:path2 isConfirmed:NO];
 
   NSArray<CNBUnspentTransactionOutput *> *utxos = @[utxo1, utxo2];
   NSUInteger amount = 3000000;
   NSUInteger feesAmount = 4000;
   NSUInteger changeAmount = 80582;
-  CNBDerivationPath *changePath = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:MainNet account:0 change:1 index:58]; //Hardcoded for now
+  CNBDerivationPath *changePath = [[CNBDerivationPath alloc] initWithPurpose:CoinDerivation::BIP49 coinType:CoinType::MainNet account:0 change:1 index:58]; //Hardcoded for now
 
   CNBTransactionData *data = [[CNBTransactionData alloc] initWithAddress:@"3CkiUcj5vU4TGZJeDcrmYGWH8GYJ5vKcQq"
                                                                     coin:self.coin
@@ -107,16 +107,16 @@
 }
 
 - (void)testBuildSingleUtxoMainnet {
-  MockBitcoinCoin *coin = [[MockBitcoinCoin alloc] initWithPurpose:BIP49 coin:MainNet account:0 networkURL:@""];
+  MockBitcoinCoin *coin = [[MockBitcoinCoin alloc] initWithPurpose:CoinDerivation::BIP49 coin:CoinType::MainNet account:0 networkURL:@""];
   CNBHDWallet *wallet = [[CNBHDWallet alloc] initWithMnemonic:self.words coin:coin];
-  CNBDerivationPath *path = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:MainNet account:0 change:0 index:0];
+  CNBDerivationPath *path = [[CNBDerivationPath alloc] initWithPurpose:CoinDerivation::BIP49 coinType:CoinType::MainNet account:0 change:0 index:0];
   CNBUnspentTransactionOutput *utxo = [[CNBUnspentTransactionOutput alloc] initWithId:@"3480e31ea00efeb570472983ff914694f62804e768a6c6b4d1b6cd70a1cd3efa" index:1 amount:449893 derivationPath:path isConfirmed:YES];
 
   NSArray<CNBUnspentTransactionOutput *> *utxos = @[utxo];
   NSUInteger amount = 218384;
   NSUInteger feesAmount = 668;
   NSUInteger changeAmount = 230841;
-  CNBDerivationPath *changePath = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:MainNet account:0 change:1 index:0]; //Hardcoded for now
+  CNBDerivationPath *changePath = [[CNBDerivationPath alloc] initWithPurpose:CoinDerivation::BIP49 coinType:CoinType::MainNet account:0 change:1 index:0]; //Hardcoded for now
 
   CNBTransactionData *data = [[CNBTransactionData alloc] initWithAddress:@"3ERQiyXSeUYmxxqKyg8XwqGo4W7utgDrTR"
                                                                     coin:self.coin
@@ -137,15 +137,15 @@
 }
 
 - (void)testBuildPayToPublicKeyHashNoChangeMainNet {
-  MockBitcoinCoin *coin = [[MockBitcoinCoin alloc] initWithPurpose:BIP49 coin:MainNet account:0 networkURL:@""];
+  MockBitcoinCoin *coin = [[MockBitcoinCoin alloc] initWithPurpose:CoinDerivation::BIP49 coin:CoinType::MainNet account:0 networkURL:@""];
   CNBHDWallet *wallet = [[CNBHDWallet alloc] initWithMnemonic:self.words coin:coin];
-  CNBDerivationPath *path = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:MainNet account:0 change:1 index:7];
+  CNBDerivationPath *path = [[CNBDerivationPath alloc] initWithPurpose:CoinDerivation::BIP49 coinType:CoinType::MainNet account:0 change:1 index:7];
   CNBUnspentTransactionOutput *utxo = [[CNBUnspentTransactionOutput alloc] initWithId:@"f14914f76ad26e0c1aa5a68c82b021b854c93850fde12f8e3188c14be6dc384e" index:1 amount:33253 derivationPath:path isConfirmed:YES];
 
   NSArray<CNBUnspentTransactionOutput *> *utxos = @[utxo];
   NSUInteger amount = 23147;
   NSUInteger feesAmount = 10108;
-  CNBDerivationPath *changePath = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:MainNet account:0 change:1 index:2]; //Hardcoded for now
+  CNBDerivationPath *changePath = [[CNBDerivationPath alloc] initWithPurpose:CoinDerivation::BIP49 coinType:CoinType::MainNet account:0 change:1 index:2]; //Hardcoded for now
 
   CNBTransactionData *data = [[CNBTransactionData alloc] initWithAddress:@"1HT6WtD5CAToc8wZdacCgY4XjJR4jV5Q5d"
                                                                     coin:self.coin
@@ -167,16 +167,16 @@
 
 - (void)testBuildSingleUtxoNoChangeMainnet {
   NSArray *newWords = [GeneratedWordsHelper words3];
-  MockBitcoinCoin *coin = [[MockBitcoinCoin alloc] initWithPurpose:BIP49 coin:MainNet account:0 networkURL:@""];
+  MockBitcoinCoin *coin = [[MockBitcoinCoin alloc] initWithPurpose:CoinDerivation::BIP49 coin:CoinType::MainNet account:0 networkURL:@""];
   CNBHDWallet *wallet = [[CNBHDWallet alloc] initWithMnemonic:newWords coin:coin];
-  CNBDerivationPath *path = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:MainNet account:0 change:0 index:0];
+  CNBDerivationPath *path = [[CNBDerivationPath alloc] initWithPurpose:CoinDerivation::BIP49 coinType:CoinType::MainNet account:0 change:0 index:0];
   CNBUnspentTransactionOutput *utxo = [[CNBUnspentTransactionOutput alloc] initWithId:@"9a8bb554e1dded3a39867b7b3b651b1f9b57b4fb5b8823f421d1c8fc3d1ffac2" index:1 amount:154254 derivationPath:path isConfirmed:YES];
 
   NSArray<CNBUnspentTransactionOutput *> *utxos = @[utxo];
   NSUInteger amount = 152254;
   NSUInteger feesAmount = 2000;
   NSUInteger changeAmount = 0;
-  CNBDerivationPath *changePath = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:MainNet account:0 change:1 index:0]; //Hardcoded for now
+  CNBDerivationPath *changePath = [[CNBDerivationPath alloc] initWithPurpose:CoinDerivation::BIP49 coinType:CoinType::MainNet account:0 change:1 index:0]; //Hardcoded for now
 
   CNBTransactionData *data = [[CNBTransactionData alloc] initWithAddress:@"3Aftutd9VvzLcGxD9VraNhWiHyjR5pvn5N"
                                                                     coin:self.coin
@@ -198,16 +198,16 @@
 
 - (void)testTestNetMetadataCreation {
   NSArray *newWords = [GeneratedWordsHelper words1];
-  MockBitcoinCoin *coin = [[MockBitcoinCoin alloc] initWithPurpose:BIP49 coin:TestNet account:0];
+  MockBitcoinCoin *coin = [[MockBitcoinCoin alloc] initWithPurpose:CoinDerivation::BIP49 coin:CoinType::TestNet account:0];
   CNBHDWallet *wallet = [[CNBHDWallet alloc] initWithMnemonic:newWords coin:coin];
-  CNBDerivationPath *path = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:TestNet account:0 change:0 index:0];
+  CNBDerivationPath *path = [[CNBDerivationPath alloc] initWithPurpose:CoinDerivation::BIP49 coinType:CoinType::TestNet account:0 change:0 index:0];
   CNBUnspentTransactionOutput *utxo = [[CNBUnspentTransactionOutput alloc] initWithId:@"1cfd000efbe248c48b499b0a5d76ea7687ee76cad8481f71277ee283df32af26" index:0 amount:1250000000 derivationPath:path isConfirmed:YES];
 
   NSArray<CNBUnspentTransactionOutput *> *utxos = @[utxo];
   NSUInteger amount = 9523810;
   NSUInteger feesAmount = 830;
   NSUInteger changeAmount = 1240475360;
-  CNBDerivationPath *changePath = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:TestNet account:0 change:1 index:0]; //Hardcoded for now
+  CNBDerivationPath *changePath = [[CNBDerivationPath alloc] initWithPurpose:CoinDerivation::BIP49 coinType:CoinType::TestNet account:0 change:1 index:0]; //Hardcoded for now
 
   CNBTransactionData *data = [[CNBTransactionData alloc] initWithAddress:@"2N8o4Mu5PRAR27TC2eai62CRXarTbQmjyCx"
                                                                     coin:coin
@@ -225,15 +225,15 @@
 
 - (void)testSendToNaviteSegwitBuildProperly {
   NSArray *words = @[@"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"abandon", @"about"];
-  MockBitcoinCoin *coin = [[MockBitcoinCoin alloc] initWithPurpose:BIP49 coin:MainNet account:0];
+  MockBitcoinCoin *coin = [[MockBitcoinCoin alloc] initWithPurpose:CoinDerivation::BIP49 coin:CoinType::MainNet account:0];
   CNBHDWallet *wallet = [[CNBHDWallet alloc] initWithMnemonic:words coin:coin];
-  CNBDerivationPath *path = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:MainNet account:0 change:0 index:80];
+  CNBDerivationPath *path = [[CNBDerivationPath alloc] initWithPurpose:CoinDerivation::BIP49 coinType:CoinType::MainNet account:0 change:0 index:80];
   CNBUnspentTransactionOutput *utxo = [[CNBUnspentTransactionOutput alloc] initWithId:@"94b5bcfbd52a405b291d906e636c8e133407e68a75b0a1ccc492e131ff5d8f90" index: 0 amount:10261 derivationPath:path isConfirmed:YES];
   NSArray *utxos = @[utxo];
   NSUInteger amount = 5000;
   NSUInteger feeAmount = 1000;
   NSUInteger changeAmount = 4261;
-  CNBDerivationPath *changePath = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:MainNet account:0 change:1 index:102];
+  CNBDerivationPath *changePath = [[CNBDerivationPath alloc] initWithPurpose:CoinDerivation::BIP49 coinType:CoinType::MainNet account:0 change:1 index:102];
   NSString *toAddress = @"bc1ql2sdag2nm9csz4wmlj735jxw88ym3yukyzmrpj";
 
   CNBTransactionData *data = [[CNBTransactionData alloc] initWithAddress:toAddress
