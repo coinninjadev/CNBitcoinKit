@@ -160,89 +160,36 @@ bc::wallet::hd_private childPrivateKey(bc::wallet::hd_private privKey, int index
 }
 
 - (CNBMetaAddress *)receiveAddressForIndex:(NSUInteger)index {
-	NSString *address = [self addressForChangeIndex:0 index:index];
-  CoinType type = self.coin.coin;
-  CoinDerivation purpose = self.coin.purpose;
-  CNBDerivationPath *derivationPath = [[CNBDerivationPath alloc] initWithPurpose:purpose coinType:type account:0 change:0 index:index];
-
-  // get uncompressed ec pubkey
-  coinninja::wallet::derivation_path c_path{[derivationPath c_path]};
-  bc::wallet::hd_public pubkey = coinninja::wallet::key_factory::index_public_key(self.privateKey, c_path);
-  auto compressed = bc::wallet::ec_public(pubkey);
-  bc::ec_uncompressed uncompressed;
-  compressed.to_uncompressed(uncompressed);
-  auto uncompressedChunk = to_chunk(uncompressed);
-  auto encodedChunk = encode_base16(uncompressedChunk);
-  NSString *encodedStringRepresentation = [NSString stringWithCString:encodedChunk.c_str() encoding:[NSString defaultCStringEncoding]];
-
-  CNBMetaAddress *metaAddress = [[CNBMetaAddress alloc] initWithAddress:address derivationPath:derivationPath uncompressedPublicKey:encodedStringRepresentation];
-  return metaAddress;
+  auto c_coin{[[self coin] c_coin]};
+  derivation_path c_path{
+    static_cast<uint32_t>(c_coin.get_purpose()),
+    static_cast<uint32_t>(c_coin.get_coin()),
+    static_cast<uint32_t>(c_coin.get_account()),
+    static_cast<uint32_t>(0),
+    static_cast<uint32_t>(index)
+  };
+  coinninja::address::usable_address usable_address{self.privateKey, c_path};
+  auto receive_metadata{usable_address.build_receive_address()};
+  NSString *address = [NSString stringWithCString:receive_metadata.get_address().c_str() encoding:[NSString defaultCStringEncoding]];
+  CNBDerivationPath *path = [CNBDerivationPath pathFromC_path:c_path];
+  NSString *uncompressedPubKey = [NSString stringWithCString:receive_metadata.get_uncompressed_public_key().c_str() encoding:[NSString defaultCStringEncoding]];
+  return [[CNBMetaAddress alloc] initWithAddress:address derivationPath:path uncompressedPublicKey:uncompressedPubKey];
 }
 
 - (CNBMetaAddress *)changeAddressForIndex:(NSUInteger)index {
-	NSString *address = [self addressForChangeIndex:1 index:index];
-  CoinType type = self.coin.coin;
-  CoinDerivation purpose = self.coin.purpose;
-  CNBDerivationPath *derivationPath = [[CNBDerivationPath alloc] initWithPurpose:purpose coinType:type account:0 change:1 index:index];
-  CNBMetaAddress *metaAddress = [[CNBMetaAddress alloc] initWithAddress:address derivationPath:derivationPath uncompressedPublicKey:nil];
-  return metaAddress;
-}
-
-// private
-- (NSString *)addressForChangeIndex:(NSUInteger)change index:(NSUInteger)index {
-  // 1. get index public key
-  CNBDerivationPath *path = [[CNBDerivationPath alloc] initWithPurpose:self.coin.purpose coinType:self.coin.coin account:self.coin.account change:change index:index];
-  coinninja::wallet::derivation_path c_path{[path c_path]};
-  bc::wallet::hd_public indexPublicKey = coinninja::wallet::key_factory::index_public_key(self.privateKey, c_path);
-
-	// 2. get compressed public key at end of derivation path
-	bc::ec_compressed compressedPublicKey = indexPublicKey.point();
-
-  // 3. return address based on coin purpose
-  switch (self.coin.purpose) {
-    case CoinDerivation::BIP49:
-      return [self p2wpkhInP2shForCompressedPublicKey:compressedPublicKey];
-      break;
-    case CoinDerivation::BIP84:
-      return [self p2wpkhForCompressedPublicKey:compressedPublicKey];
-      break;
-
-    default:
-      return @"";
-      break;
-  }
-}
-
-// private
-- (NSString *)p2wpkhInP2shForCompressedPublicKey:(bc::ec_compressed)compressedPublicKey {
-  // 1. wrap in p2sh
-  bc::chain::script P2WPKH = bc::chain::script(witnessProgram(compressedPublicKey));
-
-  // 2. return NSString representation of cStr
-  std::string encoded_payment_address = [self isTestNet] ?
-  bc::wallet::payment_address(P2WPKH, bc::wallet::payment_address::testnet_p2sh).encoded() :
-  bc::wallet::payment_address(P2WPKH).encoded();
-
-  NSString *word = [NSString stringWithCString:encoded_payment_address.c_str() encoding:[NSString defaultCStringEncoding]];
-  return word;
-}
-
-// private
-- (NSString *)p2wpkhForCompressedPublicKey:(bc::ec_compressed)compressedPublicKey {
-
-  // 1. get RIPEMD160 hash
-  bc::short_hash key_hash = bc::bitcoin_short_hash(compressedPublicKey);
-  std::vector<uint8_t> scriptPubKey(key_hash.begin(), key_hash.end());
-
-  // 2. convert to data
-  NSData *data = [NSData dataWithBytes:scriptPubKey.data() length:scriptPubKey.size()];
-
-  // 3. create Segwit Address
-  NSInteger version = 0; // OP_0
-  CNBWitnessMetadata *metadata = [[CNBWitnessMetadata alloc] initWithWitVer:version witProg:data];
-  NSString *address = [CNBSegwitAddress encodeSegwitAddressWithHRP:self.coin.bech32HRP witnessMetadata:metadata];
-
-  return address;
+  auto c_coin{[[self coin] c_coin]};
+  derivation_path c_path{
+    static_cast<uint32_t>(c_coin.get_purpose()),
+    static_cast<uint32_t>(c_coin.get_coin()),
+    static_cast<uint32_t>(c_coin.get_account()),
+    static_cast<uint32_t>(1),
+    static_cast<uint32_t>(index)
+  };
+  coinninja::address::usable_address usable_address{self.privateKey, c_path};
+  auto change_metadata{usable_address.build_change_address()};
+  NSString *address = [NSString stringWithCString:change_metadata.get_address().c_str() encoding:[NSString defaultCStringEncoding]];
+  CNBDerivationPath *path = [CNBDerivationPath pathFromC_path:c_path];
+  return [[CNBMetaAddress alloc] initWithAddress:address derivationPath:path uncompressedPublicKey:nil];
 }
 
 - (BOOL)isTestNet {

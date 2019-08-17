@@ -10,13 +10,13 @@
 #define CNBHDWallet_h
 
 #ifdef __cplusplus
-  #include <bitcoin/bitcoin.hpp>
-  #include <bitcoin/client.hpp>
-  #include <bitcoin/bitcoin/coinninja/wallet/mnemonic.hpp>
+#include <bitcoin/bitcoin.hpp>
+#include <bitcoin/client.hpp>
+#include <bitcoin/bitcoin/coinninja/wallet/mnemonic.hpp>
 #include <bitcoin/bitcoin/coinninja/wallet/derivation_path.hpp>
 #include <bitcoin/bitcoin/coinninja/transaction/transaction_data.hpp>
 #include <bitcoin/bitcoin/coinninja/transaction/unspent_transaction_output.hpp>
-#include <bitcoin/bitcoin/coinninja/transaction/usable_address.hpp>
+#include <bitcoin/bitcoin/coinninja/address/usable_address.hpp>
 #include <bitcoin/bitcoin/coinninja/wallet/key_factory.hpp>
 #endif
 
