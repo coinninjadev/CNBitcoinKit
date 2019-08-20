@@ -20,9 +20,6 @@
 #import "CNBAddressHelper+Project.h"
 #include "Base58Check.hpp"
 #import "sodium.h"
-#include "encryption_cipher_keys.hpp"
-#include "cipher_keys.hpp"
-#include "cipher_key_vendor.hpp"
 #import "CNBWitnessMetadata.h"
 #import "CNBSegwitAddress.h"
 #import "CNBBaseCoin+Project.h"
@@ -150,15 +147,6 @@ using namespace machine;
 	return self.mnemonicSeed;
 }
 
-bc::machine::operation::list witnessProgram(bc::ec_compressed thePublicKey) {
-	bc::short_hash keyHash = bc::bitcoin_short_hash(thePublicKey);
-	return {bc::machine::operation(bc::machine::opcode(0)), bc::machine::operation(bc::to_chunk(keyHash))};
-}
-
-bc::wallet::hd_private childPrivateKey(bc::wallet::hd_private privKey, int index) {
-	return privKey.derive_private(index);
-}
-
 - (CNBMetaAddress *)receiveAddressForIndex:(NSUInteger)index {
   auto c_coin{[[self coin] c_coin]};
   derivation_path c_path{
@@ -262,47 +250,29 @@ bc::wallet::hd_private childPrivateKey(bc::wallet::hd_private privKey, int index
 
 #pragma mark - Signing
 
-- (bc::wallet::hd_private)coinNinjaSigningKey {
-    return childPrivateKey(self.privateKey, 42);
-}
-
 - (NSString *)coinNinjaVerificationKeyHexString {
-    bc::wallet::hd_public coinNinjaVerificationKey = self.coinNinjaSigningKey.to_public();
-    
-    bc::ec_compressed key = coinNinjaVerificationKey.point();
-    NSData *data = [NSData dataWithBytes:key.data() length:key.size()];
-    return [data hexString];
+  using namespace coinninja::wallet;
+  const std::string verification_string{key_factory::coinninja_verification_key_hex_string(self.privateKey)};
+  return [NSString stringWithCString:verification_string.c_str() encoding:[NSString defaultCStringEncoding]];
 }
 
 - (NSString *)signatureSigningData:(NSData *)data {
-    return [[self signData:data] hexString];
+  using namespace coinninja::wallet;
+  const std::string signing{data_signing::signature_signing_data([data dataChunk], self.privateKey)};
+  return [NSString stringWithCString:signing.c_str() encoding:[NSString defaultCStringEncoding]];
 }
 
 - (NSData *)signData:(NSData *)data {
-    bc::hash_digest msg = [data hashDigest];
-    
-    bc::ec_signature signature;
-    if (bc::sign(signature, self.coinNinjaSigningKey.secret(), msg)) {
-        bc::der_signature derSignature;
-        if (bc::encode_signature(derSignature, signature)) {
-             return [NSData dataWithBytes:derSignature.data() length:derSignature.size()];
-        }
-    }
-    
-    return nil;
+  using namespace coinninja::wallet;
+  const bc::data_chunk signed_data{data_signing::sign_data([data dataChunk], self.privateKey)};
+  NSData *signedData = [NSData dataWithBytes:signed_data.data() length:signed_data.size()];
+  return signedData;
 }
 
 - (BOOL)verifySignedData:(NSData *)data signature:(NSData *)signature {
-    bc::hash_digest msg = [data hashDigest];
-    bc::ec_compressed point = self.coinNinjaSigningKey.to_public().point();
-    bc::der_signature derSignature = [signature dataChunk];
-    
-    bc::ec_signature sig;
-    if (bc::parse_signature(sig, derSignature, true)) {
-        return bc::verify_signature(point, msg, sig);
-    }
-    
-    return false;
+  using namespace coinninja::wallet;
+  bool verified = data_signing::verify_signed_data([data dataChunk], [signature dataChunk], self.privateKey);
+  return verified;
 }
 
 // MARK: checking for addresses
@@ -324,26 +294,26 @@ bc::wallet::hd_private childPrivateKey(bc::wallet::hd_private privKey, int index
 
 // MARK: ECDH
 - (CNBEncryptionCipherKeys *)encryptionCipherKeysForPublicKey:(NSData *)publicKeyData withEntropy:(NSData *)entropy {
-  data_chunk public_key_data([publicKeyData dataChunk]);
-  data_chunk entropy_chunk([entropy dataChunk]);
-  encryption_cipher_keys keys = cipher_key_vendor::encryption_cipher_keys_for_uncompressed_public_key(public_key_data, entropy_chunk);
+  using namespace coinninja::encryption;
+  encryption_cipher_keys keys{cipher_key_vendor::encryption_cipher_keys_for_uncompressed_public_key([publicKeyData dataChunk], [entropy dataChunk])};
+
   NSData *encryptionKey = [NSData dataWithBytes:keys.get_encryption_key().data() length:hash_size];
   NSData *hmacKey = [NSData dataWithBytes:keys.get_hmac_key().data() length:hash_size];
   NSData *ephPubKey = [NSData dataWithBytes:keys.get_ephemeral_public_key().data() length:keys.get_ephemeral_public_key().size()];
 
   CNBEncryptionCipherKeys *cipherKeys = [[CNBEncryptionCipherKeys alloc] initWithEncryptionKey:encryptionKey
                                                                                        hmacKey:hmacKey
-                                                                            ephemeralPublicKey:ephPubKey
-                                         ];
+                                                                            ephemeralPublicKey:ephPubKey];
   return cipherKeys;
 }
 
 - (CNBCipherKeys *)decryptionCipherKeysForDerivationPathOfPrivateKey:(CNBDerivationPath *)path
                                                            publicKey:(NSData *)publicKeyData {
-  coinninja::wallet::derivation_path c_path{[path c_path]};
-  bc::wallet::hd_private private_key = coinninja::wallet::key_factory::index_private_key(self.privateKey, c_path);
-  data_chunk public_key_data([publicKeyData dataChunk]);
-  cipher_keys keys = cipher_key_vendor::decryption_cipher_keys(private_key, public_key_data);
+  using namespace coinninja::encryption;
+  auto c_path{[path c_path]};
+  const auto index_private_key{key_factory::index_private_key(self.privateKey, c_path)};
+  cipher_keys keys{cipher_key_vendor::decryption_cipher_keys(index_private_key, [publicKeyData dataChunk])};
+
   NSData *encryptionKey = [NSData dataWithBytes:keys.get_encryption_key().data() length:hash_size];
   NSData *hmacKey = [NSData dataWithBytes:keys.get_hmac_key().data() length:hash_size];
   CNBCipherKeys *cipherKeys = [[CNBCipherKeys alloc] initWithEncryptionKey:encryptionKey hmacKey:hmacKey];

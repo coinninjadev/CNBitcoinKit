@@ -153,7 +153,7 @@
 	CNBHDWallet *wallet = [[CNBHDWallet alloc] initWithMnemonic:self.words coin:self.tempCoin];
 
 	NSString *pubKey = wallet.coinNinjaVerificationKeyHexString;
-	XCTAssertTrue([pubKey isEqualToString:@"02bfce58afc49224fdd4a5fc369421b4ba45dfe5ab6bcd3b7286ccff50b52a7910"]);
+  XCTAssertTrue([pubKey isEqualToString:@"02bfce58afc49224fdd4a5fc369421b4ba45dfe5ab6bcd3b7286ccff50b52a7910"], @"Failed. got %@", pubKey);
 }
 
 - (void)testSigning {
