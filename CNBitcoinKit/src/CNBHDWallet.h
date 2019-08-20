@@ -17,6 +17,7 @@
 #include <bitcoin/bitcoin/coinninja/transaction/transaction_data.hpp>
 #include <bitcoin/bitcoin/coinninja/transaction/unspent_transaction_output.hpp>
 #include <bitcoin/bitcoin/coinninja/address/usable_address.hpp>
+#include <bitcoin/bitcoin/coinninja/address/base58check.hpp>
 #include <bitcoin/bitcoin/coinninja/wallet/key_factory.hpp>
 #include <bitcoin/bitcoin/coinninja/wallet/data_signing.hpp>
 #include <bitcoin/bitcoin/coinninja/encryption/cipher_keys.hpp>

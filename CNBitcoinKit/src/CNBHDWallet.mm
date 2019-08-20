@@ -18,16 +18,10 @@
 #import "NSData+CNBitcoinKit.h"
 #import "CNBAddressHelper.h"
 #import "CNBAddressHelper+Project.h"
-#include "Base58Check.hpp"
 #import "sodium.h"
 #import "CNBWitnessMetadata.h"
 #import "CNBSegwitAddress.h"
 #import "CNBBaseCoin+Project.h"
-
-using namespace bc;
-using namespace wallet;
-using namespace chain;
-using namespace machine;
 
 @interface CNBHDWallet()
 @property (nonatomic, strong) NSArray *mnemonicSeed;
@@ -69,8 +63,7 @@ using namespace machine;
 
 + (BOOL)addressIsBase58CheckEncoded:(NSString *)address {
   std::string c_addr = [address cStringUsingEncoding:[NSString defaultCStringEncoding]];
-  BOOL valid = Base58Check::addressIsBase58CheckEncoded(c_addr);
-  return valid;
+  return coinninja::address::base58check::verify_base_58_check_encoding(c_addr);
 }
 
 + (CNBBaseCoin *)defaultBTCCoin {

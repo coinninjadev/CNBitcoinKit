@@ -31,8 +31,6 @@
 		3B7D195622A012E000C07FBE /* CNBAddressHelper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3B7D195422A012E000C07FBE /* CNBAddressHelper.mm */; };
 		3B99D20D22D67CD20016BA2F /* CNBAddressHelper+Project.h in Headers */ = {isa = PBXBuildFile; fileRef = 3B99D20B22D67CD20016BA2F /* CNBAddressHelper+Project.h */; };
 		3B9A8DFC215158B900C78C2C /* CNBHDWallet_Base58_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B9A8DFB215158B900C78C2C /* CNBHDWallet_Base58_Tests.m */; };
-		3B9A8E032151741100C78C2C /* Base58Check.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3B9A8E012151741100C78C2C /* Base58Check.cpp */; };
-		3B9A8E042151741100C78C2C /* Base58Check.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3B9A8E022151741100C78C2C /* Base58Check.hpp */; };
 		3BAA8BEE2017C677004D6F89 /* CNBHDWallet.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3BD781512017B16200E44B14 /* CNBHDWallet.mm */; };
 		3BAE55282301E0B80028AAAF /* CNBTransactionMetadataTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3BAE55272301E0B80028AAAF /* CNBTransactionMetadataTests.mm */; };
 		3BB0B4E422D4C94A0042D29C /* CNBWitnessMetadata.h in Headers */ = {isa = PBXBuildFile; fileRef = 3BB0B4E222D4C94A0042D29C /* CNBWitnessMetadata.h */; };
@@ -263,8 +261,6 @@
 		3B7D195422A012E000C07FBE /* CNBAddressHelper.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CNBAddressHelper.mm; sourceTree = "<group>"; };
 		3B99D20B22D67CD20016BA2F /* CNBAddressHelper+Project.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CNBAddressHelper+Project.h"; sourceTree = "<group>"; };
 		3B9A8DFB215158B900C78C2C /* CNBHDWallet_Base58_Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CNBHDWallet_Base58_Tests.m; sourceTree = "<group>"; };
-		3B9A8E012151741100C78C2C /* Base58Check.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Base58Check.cpp; sourceTree = "<group>"; };
-		3B9A8E022151741100C78C2C /* Base58Check.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Base58Check.hpp; sourceTree = "<group>"; };
 		3BAE55272301E0B80028AAAF /* CNBTransactionMetadataTests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CNBTransactionMetadataTests.mm; sourceTree = "<group>"; };
 		3BB0B4E222D4C94A0042D29C /* CNBWitnessMetadata.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CNBWitnessMetadata.h; sourceTree = "<group>"; };
 		3BB0B4E322D4C94A0042D29C /* CNBWitnessMetadata.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CNBWitnessMetadata.m; sourceTree = "<group>"; };
@@ -1000,8 +996,6 @@
 				3B0F440420AC9CA80031DD34 /* CNBMetaAddress.m */,
 				3BD7B73B20D7E68C005057A7 /* CNBAddressResult.m */,
 				3B1C602D212C9627008211C5 /* CNBTransactionMetadata.mm */,
-				3B9A8E012151741100C78C2C /* Base58Check.cpp */,
-				3B9A8E022151741100C78C2C /* Base58Check.hpp */,
 				3B29A2DF21EE21DB00F72511 /* NSString+NSData.h */,
 				3B29A2E021EE21DB00F72511 /* NSString+NSData.mm */,
 				3BE8AA1A21F20D4800A3F0C4 /* CNBCipherKeys.m */,
@@ -1040,7 +1034,6 @@
 				3BD51E4B2018C0E00095B3C0 /* thread.hpp in Headers */,
 				3BD51E9B2018C0E00095B3C0 /* variant.hpp in Headers */,
 				3BD7B73C20D7E68C005057A7 /* CNBAddressResult.h in Headers */,
-				3B9A8E042151741100C78C2C /* Base58Check.hpp in Headers */,
 				3BD51D312018C0960095B3C0 /* bitcoin.hpp in Headers */,
 				3BD51EB82018C0E00095B3C0 /* cast.hpp in Headers */,
 				3BD51E762018C0E00095B3C0 /* cstdfloat.hpp in Headers */,
@@ -1324,7 +1317,6 @@
 				3BB0B4F722D4DF3C0042D29C /* CNBBech32Metadata.m in Sources */,
 				3B5B7E28207E81A200785646 /* CNBBaseCoin.mm in Sources */,
 				A216D77D20AA1C73005FBAC2 /* CNBUnspentTransactionOutput.mm in Sources */,
-				3B9A8E032151741100C78C2C /* Base58Check.cpp in Sources */,
 				3B29A2E221EE21DB00F72511 /* NSString+NSData.mm in Sources */,
 				A216D78120AA1EC7005FBAC2 /* CNBTransactionData.mm in Sources */,
 				A216D77920AA19D5005FBAC2 /* CNBDerivationPath.mm in Sources */,
