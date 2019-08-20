@@ -45,10 +45,9 @@ using namespace coinninja::wallet;
 + (CNBDerivationPath *)pathFromC_path:(derivation_path)c_path {
   CoinDerivation purposeType = CoinDerivation::BIP49;
   CoinType coinType = CoinType::MainNet;
-  NSUInteger offset = 0x80000000; // 0x80000000 is hardened offset
-  NSUInteger purposeValue = c_path.get_hardened_purpose() - offset;
-  NSUInteger coinValue = c_path.get_hardened_coin() - offset;
-  NSUInteger account = c_path.get_hardened_account() - offset;
+  NSUInteger purposeValue = c_path.get_purpose();
+  NSUInteger coinValue = c_path.get_coin();
+  NSUInteger account = c_path.get_account();
   NSUInteger change = c_path.get_change();
   NSUInteger index = c_path.get_index();
 

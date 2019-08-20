@@ -76,7 +76,12 @@ using namespace coinninja::wallet;
       all_utxos.push_back(utxo);
     }
 
-    derivation_path c_change_path{49,0,0,1,0};
+    derivation_path c_change_path{
+      static_cast<uint32_t>(coin.purpose),
+      static_cast<uint32_t>(coin.coin),
+      static_cast<uint32_t>(coin.account),
+      1,
+      0};
     if (changePath != nil) {
       c_change_path = [changePath c_path];
     }
@@ -147,7 +152,12 @@ using namespace coinninja::wallet;
       all_utxos.push_back(utxo);
     }
 
-    derivation_path c_change_path{49,0,0,1,0};
+    derivation_path c_change_path{
+      static_cast<uint32_t>(coin.purpose),
+      static_cast<uint32_t>(coin.coin),
+      static_cast<uint32_t>(coin.account),
+      1,
+      0};
     if (changePath != nil) {
       c_change_path = [changePath c_path];
     }
