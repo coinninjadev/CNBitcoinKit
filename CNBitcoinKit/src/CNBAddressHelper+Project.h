@@ -9,8 +9,6 @@
 #ifndef CNBAddressHelper_Project_h
 #define CNBAddressHelper_Project_h
 
-#endif /* CNBAddressHelper_Project_h */
-
 #import "CNBAddressHelper.h"
 
 #ifdef __cplusplus
@@ -29,3 +27,5 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 NS_ASSUME_NONNULL_END
+
+#endif /* CNBAddressHelper_Project_h */

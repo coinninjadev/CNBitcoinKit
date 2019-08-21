@@ -150,7 +150,7 @@
     static_cast<uint32_t>(index)
   };
   coinninja::address::usable_address usable_address{self.privateKey, c_path};
-  auto receive_metadata{usable_address.build_receive_address()};
+  auto receive_metadata{usable_address.build_meta_address()};
   NSString *address = [NSString stringWithCString:receive_metadata.get_address().c_str() encoding:[NSString defaultCStringEncoding]];
   CNBDerivationPath *path = [CNBDerivationPath pathFromC_path:c_path];
   NSString *uncompressedPubKey = [NSString stringWithCString:receive_metadata.get_uncompressed_public_key().c_str() encoding:[NSString defaultCStringEncoding]];
@@ -167,7 +167,7 @@
     static_cast<uint32_t>(index)
   };
   coinninja::address::usable_address usable_address{self.privateKey, c_path};
-  auto change_metadata{usable_address.build_change_address()};
+  auto change_metadata{usable_address.build_meta_address()};
   NSString *address = [NSString stringWithCString:change_metadata.get_address().c_str() encoding:[NSString defaultCStringEncoding]];
   CNBDerivationPath *path = [CNBDerivationPath pathFromC_path:c_path];
   return [[CNBMetaAddress alloc] initWithAddress:address derivationPath:path uncompressedPublicKey:nil];
