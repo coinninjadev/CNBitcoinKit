@@ -1,7 +1,7 @@
 depends="libbitcoin-protocol"
 inherit lib
 
-source="https://github.com/libbitcoin/libbitcoin-client.git#4dea7261" # v0.1.0.13 tag
+source="https://github.com/libbitcoin/libbitcoin-client.git#f801390b" # v3.6.0 tag
 
 build() {
     echo Building...

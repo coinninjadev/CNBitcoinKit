@@ -9,7 +9,9 @@
 #ifndef CNBHDWallet_Project_h
 #define CNBHDWallet_Project_h
 
-#endif /* CNBHDWallet_Project_h */
+#ifdef __cplusplus
+#include <bitcoin/bitcoin.hpp>
+#endif
 
 #import "CNBHDWallet.h"
 @class CNBUnspentTransactionOutput;
@@ -26,6 +28,10 @@ NS_ASSUME_NONNULL_BEGIN
                           andFailure:(void(^)(NSError * _Nonnull))failure;
 
 - (NSData *)defaultEntropy;
+
+- (bc::wallet::hd_private &)masterPrivateKey;
 @end
 
 NS_ASSUME_NONNULL_END
+
+#endif /* CNBHDWallet_Project_h */

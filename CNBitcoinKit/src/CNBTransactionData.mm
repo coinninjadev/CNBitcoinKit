@@ -8,14 +8,21 @@
 
 #import <Foundation/Foundation.h>
 #import "CNBTransactionData.h"
+#import "CNBTransactionData+Project.h"
 #import "CNBAddressHelper.h"
 #import "CNBAddressHelper+Project.h"
 #import "CNBBaseCoin.h"
+#import "CNBBaseCoin+Project.h"
+#import "CNBUnspentTransactionOutput+Project.h"
+#import "CNBDerivationPath+Project.h"
 
 @interface CNBTransactionData()
 @property (nonatomic, retain) CNBBaseCoin *coin;
 @property (nonatomic, assign, readwrite) BOOL shouldBeRBF;
 @end
+
+using namespace coinninja::transaction;
+using namespace coinninja::wallet;
 
 @implementation CNBTransactionData
 
@@ -57,55 +64,62 @@
     _feeAmount = 0;
     _locktime = blockHeight;
     _shouldBeRBF = false;
+    _changePath = nil;
 
-    CNBAddressHelper *helper = [[CNBAddressHelper alloc] initWithCoin:_coin];
-
-    NSMutableArray<CNBUnspentTransactionOutput *> *requiredInputs = [@[] mutableCopy];
-    NSInteger totalFromUTXOs = 0;
-    NSUInteger numberOfInputs = 0;
-    NSInteger totalSendingValue = 0;
-    NSInteger currentFee = 0;
-    NSInteger feePerInput = feeRate * [helper bytesPerInput];
-
-    for (CNBUnspentTransactionOutput *output in allUnspentTransactionOutputs) {
-      totalSendingValue = amount + currentFee;
-
-      if (totalSendingValue > totalFromUTXOs) {
-        [requiredInputs addObject:output];
-        numberOfInputs += 1;
-        totalFromUTXOs += [output amount];
-        BOOL includeChangeOutput = (_changePath != nil);
-        NSUInteger totalBytes = [self bytesForInputCount:numberOfInputs paymentAddress:paymentAddress includeChangeOutput:includeChangeOutput];
-        currentFee = feeRate * totalBytes;
-        totalSendingValue = amount + currentFee;
-
-        NSInteger changeValue = totalFromUTXOs - totalSendingValue;
-
-        if ((totalFromUTXOs < amount + currentFee) || changeValue < 0) {
-          continue;
-        }
-
-        if (changeValue > 0 && changeValue < (feePerInput + [self dustThreshold])) {  // not beneficial to add change
-          currentFee += changeValue;
-          break;
-        } else if (changeValue > 0) {
-          totalBytes = [self bytesForInputCount:numberOfInputs paymentAddress:paymentAddress includeChangeOutput:YES];
-          currentFee = feeRate * totalBytes;
-          changeValue -= (feeRate * [helper bytesPerChangeOutput]);
-          _changeAmount = changeValue;
-          _changePath = changePath;
-          break;
-        }
-      } else {
-        break;
-      }
+    std::string address = [paymentAddress cStringUsingEncoding:[NSString defaultCStringEncoding]];
+    coinninja::wallet::base_coin c_coin = [coin c_coin];
+    auto all_utxo_size = [allUnspentTransactionOutputs count];
+    std::vector<unspent_transaction_output> all_utxos;
+    all_utxos.reserve(all_utxo_size);
+    for (size_t i = 0; i < all_utxo_size; i++) {
+      unspent_transaction_output utxo{[allUnspentTransactionOutputs[i] c_utxo]};
+      all_utxos.push_back(utxo);
     }
 
-    _feeAmount = currentFee;
-    _unspentTransactionOutputs = [requiredInputs copy];
+    derivation_path c_change_path{
+      static_cast<uint32_t>(coin.purpose),
+      static_cast<uint32_t>(coin.coin),
+      static_cast<uint32_t>(coin.account),
+      1,
+      0};
+    if (changePath != nil) {
+      c_change_path = [changePath c_path];
+    }
 
-    if (totalFromUTXOs < totalSendingValue) {
+    coinninja::transaction::transaction_data tx_data;
+    bool success = transaction_data::create_transaction_data(tx_data,
+                                                             address,
+                                                             c_coin,
+                                                             all_utxos,
+                                                             static_cast<uint64_t>(amount),
+                                                             static_cast<uint16_t>(feeRate),
+                                                             c_change_path,
+                                                             static_cast<uint64_t>(blockHeight));
+
+    if (!success) {
       return nil;
+    }
+
+    // succeeded in creating transaction data
+    // utxos
+    auto utxo_count{tx_data.unspent_transaction_outputs.size()};
+    NSMutableArray *selectedUTXOs = [[NSMutableArray alloc] initWithCapacity:utxo_count];
+    for (size_t i = 0; i< utxo_count; i++) {
+      unspent_transaction_output c_utxo{tx_data.unspent_transaction_outputs.at(i)};
+      CNBUnspentTransactionOutput *newUTXO = [CNBUnspentTransactionOutput utxoFromC_utxo:c_utxo];
+      selectedUTXOs[i] = newUTXO;
+    }
+    _unspentTransactionOutputs = [selectedUTXOs copy];
+
+    // feeAmount
+    _feeAmount = tx_data.fee_amount;
+
+    // changeAmount
+    _changeAmount = tx_data.change_amount;
+
+    // changePath
+    if (tx_data.should_add_change_to_transaction()) {
+      _changePath = changePath;
     }
   }
   return self;
@@ -126,42 +140,60 @@
     _feeAmount = flatFee;
     _locktime = blockHeight;
     _shouldBeRBF = true;
+    _changePath = nil;
 
-    NSMutableArray<CNBUnspentTransactionOutput *> *mutableOutputsFromAll = [allUnspentTransactionOutputs mutableCopy];
-    NSMutableArray<CNBUnspentTransactionOutput *> *outputsToUse = [@[] mutableCopy];
+    std::string address = [paymentAddress cStringUsingEncoding:[NSString defaultCStringEncoding]];
+    base_coin c_coin{[coin c_coin]};
+    auto all_utxo_size{[allUnspentTransactionOutputs count]};
+    std::vector<unspent_transaction_output> all_utxos;
+    all_utxos.reserve(all_utxo_size);
+    for (size_t i = 0; i < all_utxo_size; i++) {
+      unspent_transaction_output utxo{[allUnspentTransactionOutputs[i] c_utxo]};
+      all_utxos.push_back(utxo);
+    }
 
-    NSInteger totalFromUTXOs = 0;
+    derivation_path c_change_path{
+      static_cast<uint32_t>(coin.purpose),
+      static_cast<uint32_t>(coin.coin),
+      static_cast<uint32_t>(coin.account),
+      1,
+      0};
+    if (changePath != nil) {
+      c_change_path = [changePath c_path];
+    }
 
-    do {
-      // early exit if insufficient funds
-      if (mutableOutputsFromAll.count == 0) {
-        return nil;
-      }
+    transaction_data tx_data;
+    bool success = transaction_data::create_flat_fee_transaction_data(tx_data,
+                                                                      address,
+                                                                      c_coin,
+                                                                      all_utxos,
+                                                                      static_cast<uint64_t>(amount),
+                                                                      static_cast<uint64_t>(flatFee),
+                                                                      c_change_path,
+                                                                      static_cast<uint64_t>(blockHeight));
 
-      // get a utxo
-      CNBUnspentTransactionOutput *output = [mutableOutputsFromAll objectAtIndex:0];
-      [mutableOutputsFromAll removeObjectAtIndex:0];
-      [outputsToUse addObject:output];
+    if (!success) {
+      return nil;
+    }
 
-      totalFromUTXOs += output.amount;
+    // succeeded in creating transaction data
+    // utxos
+    auto utxo_count{tx_data.unspent_transaction_outputs.size()};
+    NSMutableArray *selectedUTXOs = [[NSMutableArray alloc] initWithCapacity:utxo_count];
+    for (size_t i = 0; i < utxo_count; i++) {
+      unspent_transaction_output c_utxo{tx_data.unspent_transaction_outputs.at(i)};
+      CNBUnspentTransactionOutput *newUTXO = [CNBUnspentTransactionOutput utxoFromC_utxo:c_utxo];
+      selectedUTXOs[i] = newUTXO;
+    }
+    _unspentTransactionOutputs = [selectedUTXOs copy];
 
-      NSInteger possibleChange = totalFromUTXOs - (NSInteger)amount - (NSInteger)_feeAmount;
-      NSInteger tempChangeAmount = MAX(0, possibleChange);
-      _changeAmount = (NSUInteger)tempChangeAmount;
+    // changeAmount
+    _changeAmount = tx_data.change_amount;
 
-      if (totalFromUTXOs >= amount && tempChangeAmount > 0 && _changePath == nil) {
-        _changePath = changePath;
-        _changeAmount = MAX(0, (totalFromUTXOs - (NSInteger)amount - (NSInteger)_feeAmount));
-
-        if (_changeAmount < [self dustThreshold]) {
-          _changePath = nil;
-          _changeAmount = 0;
-        }
-      }
-
-    } while (totalFromUTXOs < (_feeAmount + _amount));
-
-    _unspentTransactionOutputs = [outputsToUse copy];
+    // changePath
+    if (tx_data.should_add_change_to_transaction()) {
+      _changePath = changePath;
+    }
   }
 
   return self;
@@ -182,39 +214,120 @@
     _changePath = nil;
     _shouldBeRBF = false;
 
-    CNBAddressHelper *helper = [[CNBAddressHelper alloc] initWithCoin:_coin];
-
-    NSUInteger __block totalFromUTXOs = 0;
-    [unspentTransactionOutputs enumerateObjectsUsingBlock:^(CNBUnspentTransactionOutput *obj, NSUInteger idx, BOOL *stop) {
-      totalFromUTXOs += obj.amount;
-    }];
-
-    _feeAmount = feeRate * [helper totalBytesWithInputCount:[unspentTransactionOutputs count]
-                                             paymentAddress:paymentAddress
-                                       includeChangeAddress:NO];
-
-    NSInteger signedAmountForValidation = (NSInteger)totalFromUTXOs - (NSInteger)_feeAmount;
-    if (signedAmountForValidation < 0) {
-      return nil;
-    } else {
-      _amount = totalFromUTXOs - _feeAmount;
+    std::string address = [paymentAddress cStringUsingEncoding:[NSString defaultCStringEncoding]];
+    base_coin c_coin{[coin c_coin]};
+    auto all_utxo_size{[unspentTransactionOutputs count]};
+    std::vector<unspent_transaction_output> all_utxos;
+    all_utxos.reserve(all_utxo_size);
+    for (size_t i = 0; i < all_utxo_size; i++) {
+      unspent_transaction_output utxo{[unspentTransactionOutputs[i] c_utxo]};
+      all_utxos.push_back(utxo);
     }
+
+    transaction_data tx_data;
+    bool success = transaction_data::create_send_max_transaction_data(tx_data,
+                                                                      all_utxos,
+                                                                      c_coin,
+                                                                      address,
+                                                                      static_cast<uint16_t>(feeRate),
+                                                                      static_cast<uint64_t>(blockHeight));
+
+    if (!success) {
+      return nil;
+    }
+
+    // succeeded in creating transaction data
+    // utxos
+    auto utxo_count{tx_data.unspent_transaction_outputs.size()};
+    NSMutableArray *selectedUTXOs = [[NSMutableArray alloc] initWithCapacity:utxo_count];
+    for (size_t i = 0; i < utxo_count; i++) {
+      unspent_transaction_output c_utxo{tx_data.unspent_transaction_outputs.at(i)};
+      CNBUnspentTransactionOutput *newUTXO = [CNBUnspentTransactionOutput utxoFromC_utxo:c_utxo];
+      selectedUTXOs[i] = newUTXO;
+    }
+    _unspentTransactionOutputs = [selectedUTXOs copy];
+
+    // amount
+    _amount = tx_data.amount;
+
+    // feeAmount
+    _feeAmount = tx_data.fee_amount;
   }
 
   return self;
-}
-
-- (NSUInteger)bytesForInputCount:(NSUInteger)inputCount paymentAddress:(NSString *)address includeChangeOutput:(BOOL)includeChange {
-  CNBAddressHelper *helper = [[CNBAddressHelper alloc] initWithCoin:self.coin];
-  return [helper totalBytesWithInputCount:inputCount paymentAddress:address includeChangeAddress:includeChange];
-}
-
-- (NSUInteger)dustThreshold {
-  return 1000;
 }
 
 - (BOOL)shouldAddChangeToTransaction {
   return _changeAmount > 0 && _changePath != nil;
 }
 
+//MARK: translation methods
++ (CNBTransactionData *)dataFromC_data:(coinninja::transaction::transaction_data)c_data {
+  CNBBaseCoin *coin = [CNBBaseCoin coinFromC_Coin:c_data.get_coin()];
+  BOOL shouldBeRBF = c_data.get_should_be_rbf();
+  NSString *paymentAddress = [NSString stringWithCString:c_data.payment_address.c_str() encoding:[NSString defaultCStringEncoding]];
+
+  NSMutableArray *mutableUTXOs = [[NSMutableArray alloc] initWithCapacity:c_data.unspent_transaction_outputs.size()];
+  for (size_t i{0}; i < c_data.unspent_transaction_outputs.size(); i++) {
+    auto c_utxo = c_data.unspent_transaction_outputs.at(i);
+    mutableUTXOs[i] = [CNBUnspentTransactionOutput utxoFromC_utxo:c_utxo];
+  }
+
+  NSUInteger amount = (NSUInteger)c_data.amount;
+  NSUInteger feeAmount = (NSUInteger)c_data.fee_amount;
+  NSUInteger changeAmount = (NSUInteger)c_data.change_amount;
+  CNBDerivationPath *changePath = [CNBDerivationPath pathFromC_path:c_data.change_path];
+
+  NSUInteger locktime = (NSUInteger)c_data.locktime;
+
+  CNBTransactionData *retval = [[CNBTransactionData alloc] init];
+  [retval setCoin:coin];
+  [retval setShouldBeRBF:shouldBeRBF];
+  [retval setPaymentAddress:paymentAddress];
+  [retval setUnspentTransactionOutputs:[mutableUTXOs copy]];
+  [retval setAmount:amount];
+  [retval setFeeAmount:feeAmount];
+  [retval setChangeAmount:changeAmount];
+  [retval setChangePath:changePath];
+  [retval setLocktime:locktime];
+  return retval;
+}
+
+- (coinninja::transaction::transaction_data)c_data {
+  coinninja::wallet::base_coin c_coin{[[self coin] c_coin]};
+  bool c_should_be_rbf{[self shouldBeRBF]};
+  std::string c_payment_address{[[self paymentAddress] cStringUsingEncoding:[NSString defaultCStringEncoding]]};
+  uint64_t c_amount{[self amount]};
+  uint64_t c_fee_amount{[self feeAmount]};
+  uint64_t c_change_amount{[self changeAmount]};
+  uint64_t c_locktime{[self locktime]};
+
+  std::vector<coinninja::transaction::unspent_transaction_output>c_utxos;
+  c_utxos.reserve([[self unspentTransactionOutputs] count]);
+  for (CNBUnspentTransactionOutput *utxo in [self unspentTransactionOutputs]) {
+    coinninja::transaction::unspent_transaction_output c_utxo{[utxo c_utxo]};
+    c_utxos.push_back(c_utxo);
+  }
+
+  coinninja::wallet::derivation_path c_change_path{
+    static_cast<uint32_t>([[self changePath] purpose]),
+    static_cast<uint32_t>([[self changePath] coinType]),
+    static_cast<uint32_t>([[self changePath] account]),
+    static_cast<uint32_t>([[self changePath] change]),
+    static_cast<uint32_t>([[self changePath] index])
+  };
+
+  coinninja::transaction::transaction_data c_data{
+    c_payment_address,
+    c_coin, c_utxos,
+    c_amount,
+    c_fee_amount,
+    c_change_amount,
+    c_change_path,
+    c_locktime,
+    c_should_be_rbf
+  };
+
+  return c_data;
+}
 @end

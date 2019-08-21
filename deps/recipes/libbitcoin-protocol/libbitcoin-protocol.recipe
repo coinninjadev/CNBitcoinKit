@@ -1,7 +1,7 @@
 depends="libzmq libbitcoin"
 inherit lib
 
-source="https://github.com/libbitcoin/libbitcoin-protocol.git#012b3a62" # v0.1.0.13 tag
+source="https://github.com/libbitcoin/libbitcoin-protocol.git#6d680b7e" # v3.6.0 tag
 
 build() {
     echo Building...

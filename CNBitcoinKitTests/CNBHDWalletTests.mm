@@ -7,12 +7,13 @@
 //
 
 #import <XCTest/XCTest.h>
-#import "CNBitcoinKit.h"
+#import "CNBHDWallet.h"
 #import "CNBHDWallet+Project.h"
 #import "MockBitcoinCoin.h"
 #import "NSData+CNBitcoinKit.h"
 #import "CNBAddressResult.h"
 #import "CNBBaseCoin.h"
+#import "CNBBaseCoin+Project.h"
 #import "CNBTransactionData.h"
 #import "CNBTransactionData+Project.h"
 #import "NSString+NSData.h"
@@ -33,7 +34,7 @@
 	[super setUp];
 
   self.words = [GeneratedWordsHelper words4];
-  self.tempCoin = [[CNBBaseCoin alloc] initWithPurpose:BIP49 coin:MainNet account:0];
+  self.tempCoin = [[CNBBaseCoin alloc] initWithPurpose:CoinDerivation::BIP49 coin:CoinType::MainNet account:0];
 }
 
 - (void)tearDown {
@@ -85,7 +86,7 @@
 }
 
 - (void)testReceiveAddressesAreGeneratedCorrectly {
-	MockBitcoinCoin *coin = [[MockBitcoinCoin alloc] initWithPurpose:BIP49 coin:MainNet account:0 networkURL:@""];
+	MockBitcoinCoin *coin = [[MockBitcoinCoin alloc] initWithPurpose:CoinDerivation::BIP49 coin:CoinType::MainNet account:0 networkURL:@""];
 	CNBHDWallet *wallet = [[CNBHDWallet alloc] initWithMnemonic:self.words coin:coin];
 
 	XCTAssertEqualObjects([[wallet receiveAddressForIndex:0] address], @"35dKN7xvHH3xnBWUrWzJtkjfrAFXk6hyH8");
@@ -101,7 +102,7 @@
 }
 
 - (void)testChangeAddressesAreGeneratedCorrectly {
-	MockBitcoinCoin *coin = [[MockBitcoinCoin alloc] initWithPurpose:BIP49 coin:MainNet account:0 networkURL:@""];
+	MockBitcoinCoin *coin = [[MockBitcoinCoin alloc] initWithPurpose:CoinDerivation::BIP49 coin:CoinType::MainNet account:0 networkURL:@""];
 	CNBHDWallet *wallet = [[CNBHDWallet alloc] initWithMnemonic:self.words coin:coin];
 
 	XCTAssertEqualObjects([[wallet changeAddressForIndex:0] address], @"3Ab7CADa9pzZKBx17q82S4cAakoEEW4qya");
@@ -117,7 +118,7 @@
 }
 
 - (void)testTestnetReceiveAddressesAreGeneratedCorrectly {
-	MockBitcoinCoin *coin = [[MockBitcoinCoin alloc] initWithPurpose:BIP49 coin:TestNet account:0 networkURL:@""];
+	MockBitcoinCoin *coin = [[MockBitcoinCoin alloc] initWithPurpose:CoinDerivation::BIP49 coin:CoinType::TestNet account:0 networkURL:@""];
 	CNBHDWallet *wallet = [[CNBHDWallet alloc] initWithMnemonic:self.words coin:coin];
 
 	XCTAssertEqualObjects([[wallet receiveAddressForIndex:0] address], @"2NAX969W3VPpjQqhQZsrU8WtR23ojMfzYpV");
@@ -133,7 +134,7 @@
 }
 
 - (void)testTestnetChangeAddressesAreGeneratedCorrectly {
-	MockBitcoinCoin *coin = [[MockBitcoinCoin alloc] initWithPurpose:BIP49 coin:TestNet account:0 networkURL:@""];
+	MockBitcoinCoin *coin = [[MockBitcoinCoin alloc] initWithPurpose:CoinDerivation::BIP49 coin:CoinType::TestNet account:0 networkURL:@""];
 	CNBHDWallet *wallet = [[CNBHDWallet alloc] initWithMnemonic:self.words coin:coin];
 
 	XCTAssertEqualObjects([[wallet changeAddressForIndex:0] address], @"2Mt5ENwbv75BZ9nNJKj6XzBqGFbpfCnpWb8");
@@ -152,7 +153,7 @@
 	CNBHDWallet *wallet = [[CNBHDWallet alloc] initWithMnemonic:self.words coin:self.tempCoin];
 
 	NSString *pubKey = wallet.coinNinjaVerificationKeyHexString;
-	XCTAssertTrue([pubKey isEqualToString:@"02bfce58afc49224fdd4a5fc369421b4ba45dfe5ab6bcd3b7286ccff50b52a7910"]);
+  XCTAssertTrue([pubKey isEqualToString:@"02bfce58afc49224fdd4a5fc369421b4ba45dfe5ab6bcd3b7286ccff50b52a7910"], @"Failed. got %@", pubKey);
 }
 
 - (void)testSigning {
@@ -169,7 +170,7 @@
 
 // MARK: check for receive address up to index
 - (void)testValidReceiveAddressWithinRangeReturnsTrue {
-  CNBBaseCoin *coin = [[CNBBaseCoin alloc] initWithPurpose:BIP49 coin:MainNet account:0];
+  CNBBaseCoin *coin = [[CNBBaseCoin alloc] initWithPurpose:CoinDerivation::BIP49 coin:CoinType::MainNet account:0];
   NSString *validAddress = @"35dKN7xvHH3xnBWUrWzJtkjfrAFXk6hyH8";  // 0th index
   CNBHDWallet *wallet = [[CNBHDWallet alloc] initWithMnemonic:self.words coin:coin];
 
@@ -199,7 +200,7 @@
 
 // MARK: check for change address up to index
 - (void)testValidChangeAddressWithinRangeReturnsTrue {
-  CNBBaseCoin *coin = [[CNBBaseCoin alloc] initWithPurpose:BIP49 coin:MainNet account:0];
+  CNBBaseCoin *coin = [[CNBBaseCoin alloc] initWithPurpose:CoinDerivation::BIP49 coin:CoinType::MainNet account:0];
   NSString *validAddress = @"3Ab7CADa9pzZKBx17q82S4cAakoEEW4qya";  // 0th index
   CNBHDWallet *wallet = [[CNBHDWallet alloc] initWithMnemonic:self.words coin:coin];
 
@@ -221,14 +222,14 @@
 // MARK: transaction metadata tests
 - (void)testChangeAddressAndIndexAreReturned {
   CNBHDWallet *wallet = [self walletForTestingMetadata];
-  CNBDerivationPath *path = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:MainNet account:0 change:1 index:53];
+  CNBDerivationPath *path = [[CNBDerivationPath alloc] initWithPurpose:CoinDerivation::BIP49 coinType:CoinType::MainNet account:0 change:1 index:53];
   CNBUnspentTransactionOutput *utxo = [[CNBUnspentTransactionOutput alloc] initWithId:@"1a08dafe993fdc17fdc661988c88f97a9974013291e759b9b5766b8e97c78f87" index:1 amount:2788424 derivationPath:path isConfirmed:YES];
 
   NSArray<CNBUnspentTransactionOutput *> *utxos = @[utxo];
   NSUInteger amount = 13584;
   NSUInteger feesAmount = 3000;
   NSUInteger changeAmount = 2771840;
-  CNBDerivationPath *changePath = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:MainNet account:0 change:1 index:56]; //Hardcoded for now
+  CNBDerivationPath *changePath = [[CNBDerivationPath alloc] initWithPurpose:CoinDerivation::BIP49 coinType:CoinType::MainNet account:0 change:1 index:56];
 
   CNBTransactionData *data = [[CNBTransactionData alloc] initWithAddress:@"3BgxxADLtnoKu9oytQiiVzYUqvo8weCVy9"
                                                                     coin:self.tempCoin
@@ -252,7 +253,7 @@
 
 - (void)testNoChangeInTransactionReturnsNilForChangeAndIndex {
   CNBHDWallet *wallet = [self walletForTestingMetadata];
-  CNBDerivationPath *path = [[CNBDerivationPath alloc] initWithPurpose:BIP49 coinType:MainNet account:0 change:1 index:53];
+  CNBDerivationPath *path = [[CNBDerivationPath alloc] initWithPurpose:CoinDerivation::BIP49 coinType:CoinType::MainNet account:0 change:1 index:53];
   CNBUnspentTransactionOutput *utxo = [[CNBUnspentTransactionOutput alloc] initWithId:@"1a08dafe993fdc17fdc661988c88f97a9974013291e759b9b5766b8e97c78f87" index:1 amount:2788424 derivationPath:path isConfirmed:YES];
 
   NSArray<CNBUnspentTransactionOutput *> *utxos = @[utxo];
@@ -297,7 +298,7 @@
 // MARK: private methods
 - (CNBHDWallet *)walletForTestingMetadata {
   NSArray *newWords = [GeneratedWordsHelper words1];
-  MockBitcoinCoin *coin = [[MockBitcoinCoin alloc] initWithPurpose:BIP49 coin:MainNet account:0 networkURL:@""];
+  MockBitcoinCoin *coin = [[MockBitcoinCoin alloc] initWithPurpose:CoinDerivation::BIP49 coin:CoinType::MainNet account:0 networkURL:@""];
   CNBHDWallet *wallet = [[CNBHDWallet alloc] initWithMnemonic:newWords coin:coin];
   return wallet;
 }
@@ -338,7 +339,7 @@
 }
 
 - (CNBBaseCoin *)tempSegwitCoin {
-  return [[CNBBaseCoin alloc] initWithPurpose:BIP84 coin:MainNet account:0];
+  return [[CNBBaseCoin alloc] initWithPurpose:CoinDerivation::BIP84 coin:CoinType::MainNet account:0];
 }
 
 - (CNBHDWallet *)tempSegwitWallet {
