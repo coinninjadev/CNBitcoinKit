@@ -16,6 +16,7 @@
 #import <Foundation/Foundation.h>
 #import "CNBDerivationPath.h"
 #import "CNBUnspentTransactionOutput.h"
+#import "CNBTransactionData.h"
 
 @interface CNBTransactionData (Project)
 
@@ -27,7 +28,8 @@
                               feeAmount:(NSUInteger)feeAmount
                            changeAmount:(NSUInteger)changeAmount
                              changePath:(nullable CNBDerivationPath *)changePath
-                            blockHeight:(NSUInteger)blockHeight;
+                            blockHeight:(NSUInteger)blockHeight
+                rbfReplaceabilityOption:(CNBTransactionReplaceabilityOption)rbfReplaceabilityOption;
 
 /// Translation methods
 + (CNBTransactionData *)dataFromC_data:(coinninja::transaction::transaction_data)c_data;

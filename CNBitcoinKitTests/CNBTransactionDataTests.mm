@@ -54,7 +54,8 @@
                                                              paymentAmount:paymentAmount
                                                                    feeRate:feeRate
                                                                 changePath:changePath
-                                                               blockHeight:500000];
+                                                               blockHeight:500000
+                                                   rbfReplaceabilityOption:MustNotBeRBF];
 
   // then
   XCTAssertEqual(txData.amount, paymentAmount);
@@ -93,7 +94,8 @@
                                                              paymentAmount:paymentAmount
                                                                    feeRate:feeRate
                                                                 changePath:changePath
-                                                               blockHeight:500000];
+                                                               blockHeight:500000
+                                                   rbfReplaceabilityOption:MustNotBeRBF];
 
   // then
   XCTAssertEqual(txData.amount, paymentAmount);
@@ -127,7 +129,8 @@
                                                              paymentAmount:paymentAmount
                                                                    feeRate:feeRate
                                                                 changePath:changePath
-                                                               blockHeight:500000];
+                                                               blockHeight:500000
+                                                   rbfReplaceabilityOption:MustNotBeRBF];
 
   // then
   XCTAssertEqual(txData.amount, paymentAmount);
@@ -164,7 +167,8 @@
                                                              paymentAmount:paymentAmount
                                                                    feeRate:feeRate
                                                                 changePath:changePath
-                                                               blockHeight:500000];
+                                                               blockHeight:500000
+                                                   rbfReplaceabilityOption:MustNotBeRBF];
 
   // then
   XCTAssertEqual(txData.amount, paymentAmount);
@@ -193,7 +197,8 @@
                                                              paymentAmount:paymentAmount
                                                                    feeRate:feeRate
                                                                 changePath:changePath
-                                                               blockHeight:500000];
+                                                               blockHeight:500000
+                                                   rbfReplaceabilityOption:MustNotBeRBF];
 
   // then
   XCTAssertNil(txData);
@@ -229,7 +234,8 @@
                                                              paymentAmount:paymentAmount
                                                                    feeRate:feeRate
                                                                 changePath:changePath
-                                                               blockHeight:500000];
+                                                               blockHeight:500000
+                                                   rbfReplaceabilityOption:MustNotBeRBF];
 
   // then
   // NOT ANYMORE when change would only be 1454, so cost to add change would not be beneficial, let miner have dust
@@ -249,7 +255,8 @@
                                                                  paymentAmount:paymentAmount
                                                                        feeRate:feeRate
                                                                     changePath:changePath
-                                                                   blockHeight:500000];
+                                                                   blockHeight:500000
+                                                       rbfReplaceabilityOption:MustNotBeRBF];
 
   // and then
   XCTAssertEqual([goodTxData amount], paymentAmount);

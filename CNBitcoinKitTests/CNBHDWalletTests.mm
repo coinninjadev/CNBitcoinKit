@@ -238,7 +238,8 @@
                                                                feeAmount:feesAmount
                                                             changeAmount:changeAmount
                                                               changePath:changePath
-                                                             blockHeight:539943];
+                                                             blockHeight:539943
+                                                 rbfReplaceabilityOption:MustNotBeRBF];
 
   CNBTransactionBuilder *builder = [[CNBTransactionBuilder alloc] init];
   CNBTransactionMetadata *metadata = [builder generateTxMetadataWithTransactionData:data wallet:wallet];
@@ -268,7 +269,8 @@
                                                                feeAmount:feesAmount
                                                             changeAmount:changeAmount
                                                               changePath:nil
-                                                             blockHeight:539943];
+                                                             blockHeight:539943
+                                                 rbfReplaceabilityOption:MustNotBeRBF];
 
   CNBTransactionBuilder *builder = [[CNBTransactionBuilder alloc] init];
   CNBTransactionMetadata *metadata = [builder generateTxMetadataWithTransactionData:data wallet:wallet];

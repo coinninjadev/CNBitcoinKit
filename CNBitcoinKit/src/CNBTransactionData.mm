@@ -18,7 +18,7 @@
 
 @interface CNBTransactionData()
 @property (nonatomic, retain) CNBBaseCoin *coin;
-@property (nonatomic, assign, readwrite) BOOL shouldBeRBF;
+@property (nonatomic, assign, readwrite) CNBTransactionReplaceabilityOption rbfReplaceabilityOption;
 @end
 
 using namespace coinninja::transaction;
@@ -33,7 +33,8 @@ using namespace coinninja::wallet;
                               feeAmount:(NSUInteger)feeAmount
                            changeAmount:(NSUInteger)changeAmount
                              changePath:(nullable CNBDerivationPath *)changePath
-                            blockHeight:(NSUInteger)blockHeight {
+                            blockHeight:(NSUInteger)blockHeight
+                rbfReplaceabilityOption:(CNBTransactionReplaceabilityOption)rbfReplaceabilityOption {
   if (self = [super init]) {
     _paymentAddress = paymentAddress;
     _coin = coin;
@@ -43,7 +44,7 @@ using namespace coinninja::wallet;
     _changeAmount = changeAmount;
     _changePath = changePath;
     _locktime = blockHeight;
-    _shouldBeRBF = false;
+    _rbfReplaceabilityOption = rbfReplaceabilityOption;
   }
 
   return self;
@@ -55,7 +56,8 @@ using namespace coinninja::wallet;
                            paymentAmount:(NSUInteger)amount
                                  feeRate:(NSUInteger)feeRate
                               changePath:(nullable CNBDerivationPath *)changePath
-                             blockHeight:(NSUInteger)blockHeight {
+                             blockHeight:(NSUInteger)blockHeight
+                 rbfReplaceabilityOption:(CNBTransactionReplaceabilityOption)rbfReplaceabilityOption {
   if (self = [super init]) {
     _paymentAddress = paymentAddress;
     _coin = coin;
@@ -63,7 +65,7 @@ using namespace coinninja::wallet;
     _unspentTransactionOutputs = @[];
     _feeAmount = 0;
     _locktime = blockHeight;
-    _shouldBeRBF = false;
+    _rbfReplaceabilityOption = rbfReplaceabilityOption;
     _changePath = nil;
 
     std::string address = [paymentAddress cStringUsingEncoding:[NSString defaultCStringEncoding]];
@@ -86,6 +88,21 @@ using namespace coinninja::wallet;
       c_change_path = [changePath c_path];
     }
 
+    coinninja::transaction::replaceability_option rbf_option = allowed;
+    switch (rbfReplaceabilityOption) {
+    case MustBeRBF:
+      rbf_option = must_be_rbf;
+      break;
+    case MustNotBeRBF:
+      rbf_option = must_not_be_rbf;
+      break;
+    case Allowed:
+      rbf_option = allowed;
+      break;
+    default:
+      break;
+    }
+
     coinninja::transaction::transaction_data tx_data;
     bool success = transaction_data::create_transaction_data(tx_data,
                                                              address,
@@ -94,7 +111,8 @@ using namespace coinninja::wallet;
                                                              static_cast<uint64_t>(amount),
                                                              static_cast<uint16_t>(feeRate),
                                                              c_change_path,
-                                                             static_cast<uint64_t>(blockHeight));
+                                                             static_cast<uint64_t>(blockHeight),
+                                                             rbf_option);
 
     if (!success) {
       return nil;
@@ -139,7 +157,7 @@ using namespace coinninja::wallet;
     _unspentTransactionOutputs = @[];
     _feeAmount = flatFee;
     _locktime = blockHeight;
-    _shouldBeRBF = true;
+    _rbfReplaceabilityOption = MustBeRBF;
     _changePath = nil;
 
     std::string address = [paymentAddress cStringUsingEncoding:[NSString defaultCStringEncoding]];
@@ -212,7 +230,7 @@ using namespace coinninja::wallet;
     _locktime = blockHeight;
     _changeAmount = 0;
     _changePath = nil;
-    _shouldBeRBF = false;
+    _rbfReplaceabilityOption = MustNotBeRBF;
 
     std::string address = [paymentAddress cStringUsingEncoding:[NSString defaultCStringEncoding]];
     base_coin c_coin{[coin c_coin]};
@@ -264,7 +282,7 @@ using namespace coinninja::wallet;
 //MARK: translation methods
 + (CNBTransactionData *)dataFromC_data:(coinninja::transaction::transaction_data)c_data {
   CNBBaseCoin *coin = [CNBBaseCoin coinFromC_Coin:c_data.get_coin()];
-  BOOL shouldBeRBF = c_data.get_should_be_rbf();
+  coinninja::transaction::replaceability_option rbf_option{c_data.get_rbf_replaceability_option()};
   NSString *paymentAddress = [NSString stringWithCString:c_data.payment_address.c_str() encoding:[NSString defaultCStringEncoding]];
 
   NSMutableArray *mutableUTXOs = [[NSMutableArray alloc] initWithCapacity:c_data.unspent_transaction_outputs.size()];
@@ -282,7 +300,6 @@ using namespace coinninja::wallet;
 
   CNBTransactionData *retval = [[CNBTransactionData alloc] init];
   [retval setCoin:coin];
-  [retval setShouldBeRBF:shouldBeRBF];
   [retval setPaymentAddress:paymentAddress];
   [retval setUnspentTransactionOutputs:[mutableUTXOs copy]];
   [retval setAmount:amount];
@@ -290,12 +307,26 @@ using namespace coinninja::wallet;
   [retval setChangeAmount:changeAmount];
   [retval setChangePath:changePath];
   [retval setLocktime:locktime];
+
+  switch (rbf_option) {
+    case replaceability_option::must_be_rbf:
+      [retval setRbfReplaceabilityOption:MustBeRBF];
+      break;
+    case replaceability_option::must_not_be_rbf:
+      [retval setRbfReplaceabilityOption:MustNotBeRBF];
+      break;
+    case replaceability_option::allowed:
+      [retval setRbfReplaceabilityOption:Allowed];
+      break;
+    default:
+      [retval setRbfReplaceabilityOption:MustNotBeRBF];
+      break;
+  }
   return retval;
 }
 
 - (coinninja::transaction::transaction_data)c_data {
   coinninja::wallet::base_coin c_coin{[[self coin] c_coin]};
-  bool c_should_be_rbf{[self shouldBeRBF]};
   std::string c_payment_address{[[self paymentAddress] cStringUsingEncoding:[NSString defaultCStringEncoding]]};
   uint64_t c_amount{[self amount]};
   uint64_t c_fee_amount{[self feeAmount]};
@@ -317,6 +348,18 @@ using namespace coinninja::wallet;
     static_cast<uint32_t>([[self changePath] index])
   };
 
+  coinninja::transaction::replaceability_option c_rbf_option = must_not_be_rbf;
+  switch ([self rbfReplaceabilityOption]) {
+    case Allowed:
+      c_rbf_option = allowed;
+      break;
+    case MustBeRBF:
+      c_rbf_option = must_be_rbf;
+      break;
+    default:
+      break;
+  }
+
   coinninja::transaction::transaction_data c_data{
     c_payment_address,
     c_coin, c_utxos,
@@ -325,7 +368,7 @@ using namespace coinninja::wallet;
     c_change_amount,
     c_change_path,
     c_locktime,
-    c_should_be_rbf
+    c_rbf_option
   };
 
   return c_data;
