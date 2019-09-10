@@ -319,7 +319,8 @@
 - (CNBEncryptionCipherKeys *)encryptionCipherKeys:(const coinninja::encryption::encryption_cipher_keys &)keys {
   NSData *encryptionKey = [NSData dataWithBytes:keys.get_encryption_key().data() length:hash_size];
   NSData *hmacKey = [NSData dataWithBytes:keys.get_hmac_key().data() length:hash_size];
-  NSData *associatedPubKey = [NSData dataWithBytes:keys.get_ephemeral_public_key().data() length:keys.get_ephemeral_public_key().size()];
+  auto associated_key{keys.get_associated_public_key()};
+  NSData *associatedPubKey = [NSData dataWithBytes:associated_key.data() length:associated_key.size()];
 
   CNBEncryptionCipherKeys *cipherKeys = [[CNBEncryptionCipherKeys alloc] initWithEncryptionKey:encryptionKey
                                                                                        hmacKey:hmacKey
