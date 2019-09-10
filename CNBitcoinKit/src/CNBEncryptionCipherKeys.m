@@ -12,9 +12,9 @@
 
 - (instancetype)initWithEncryptionKey:(NSData *)encryptionKey
                               hmacKey:(NSData *)hmacKey
-                   ephemeralPublicKey:(NSData *)ephemeralPublicKey {
+                  associatedPublicKey:(NSData *)associatedPublicKey {
   if (self = [super initWithEncryptionKey:encryptionKey hmacKey:hmacKey]) {
-    _ephemeralPublicKey = ephemeralPublicKey;
+    _associatedPublicKey = associatedPublicKey;
   }
   return self;
 }

@@ -289,15 +289,14 @@
 - (CNBEncryptionCipherKeys *)encryptionCipherKeysForPublicKey:(NSData *)publicKeyData withEntropy:(NSData *)entropy {
   using namespace coinninja::encryption;
   encryption_cipher_keys keys{cipher_key_vendor::encryption_cipher_keys_for_uncompressed_public_key([publicKeyData dataChunk], [entropy dataChunk])};
+  return [self encryptionCipherKeys:keys];
+}
 
-  NSData *encryptionKey = [NSData dataWithBytes:keys.get_encryption_key().data() length:hash_size];
-  NSData *hmacKey = [NSData dataWithBytes:keys.get_hmac_key().data() length:hash_size];
-  NSData *ephPubKey = [NSData dataWithBytes:keys.get_ephemeral_public_key().data() length:keys.get_ephemeral_public_key().size()];
-
-  CNBEncryptionCipherKeys *cipherKeys = [[CNBEncryptionCipherKeys alloc] initWithEncryptionKey:encryptionKey
-                                                                                       hmacKey:hmacKey
-                                                                            ephemeralPublicKey:ephPubKey];
-  return cipherKeys;
+- (CNBEncryptionCipherKeys *)encryptionCipherKeysForPublicKey:(NSData *)publicKeyData {
+  using namespace coinninja::encryption;
+  auto child_key{coinninja::wallet::key_factory::signing_key(self.privateKey)};
+  encryption_cipher_keys keys{cipher_key_vendor::encryption_cipher_keys_for_uncompressed_public_key([publicKeyData dataChunk], child_key)};
+  return [self encryptionCipherKeys:keys];
 }
 
 - (CNBCipherKeys *)decryptionCipherKeysForDerivationPathOfPrivateKey:(CNBDerivationPath *)path
@@ -306,7 +305,29 @@
   auto c_path{[path c_path]};
   const auto index_private_key{key_factory::index_private_key(self.privateKey, c_path)};
   cipher_keys keys{cipher_key_vendor::decryption_cipher_keys(index_private_key, [publicKeyData dataChunk])};
+  return [self decryptionCipherKeys:keys];
+}
 
+- (CNBCipherKeys *)decryptionCipherKeysWithDefaultPrivateKeyForPublicKey:(NSData *)publicKeyData {
+  using namespace coinninja::encryption;
+  auto child_key{coinninja::wallet::key_factory::signing_key(self.privateKey)};
+  cipher_keys keys{cipher_key_vendor::decryption_cipher_keys(child_key, [publicKeyData dataChunk])};
+  return [self decryptionCipherKeys:keys];
+}
+
+// private ecdh
+- (CNBEncryptionCipherKeys *)encryptionCipherKeys:(const coinninja::encryption::encryption_cipher_keys &)keys {
+  NSData *encryptionKey = [NSData dataWithBytes:keys.get_encryption_key().data() length:hash_size];
+  NSData *hmacKey = [NSData dataWithBytes:keys.get_hmac_key().data() length:hash_size];
+  NSData *associatedPubKey = [NSData dataWithBytes:keys.get_ephemeral_public_key().data() length:keys.get_ephemeral_public_key().size()];
+
+  CNBEncryptionCipherKeys *cipherKeys = [[CNBEncryptionCipherKeys alloc] initWithEncryptionKey:encryptionKey
+                                                                                       hmacKey:hmacKey
+                                                                           associatedPublicKey:associatedPubKey];
+  return cipherKeys;
+}
+
+- (CNBCipherKeys *)decryptionCipherKeys:(const coinninja::encryption::cipher_keys &)keys {
   NSData *encryptionKey = [NSData dataWithBytes:keys.get_encryption_key().data() length:hash_size];
   NSData *hmacKey = [NSData dataWithBytes:keys.get_hmac_key().data() length:hash_size];
   CNBCipherKeys *cipherKeys = [[CNBCipherKeys alloc] initWithEncryptionKey:encryptionKey hmacKey:hmacKey];
