@@ -289,15 +289,14 @@
 - (CNBEncryptionCipherKeys *)encryptionCipherKeysForPublicKey:(NSData *)publicKeyData withEntropy:(NSData *)entropy {
   using namespace coinninja::encryption;
   encryption_cipher_keys keys{cipher_key_vendor::encryption_cipher_keys_for_uncompressed_public_key([publicKeyData dataChunk], [entropy dataChunk])};
+  return [self encryptionCipherKeys:keys];
+}
 
-  NSData *encryptionKey = [NSData dataWithBytes:keys.get_encryption_key().data() length:hash_size];
-  NSData *hmacKey = [NSData dataWithBytes:keys.get_hmac_key().data() length:hash_size];
-  NSData *ephPubKey = [NSData dataWithBytes:keys.get_ephemeral_public_key().data() length:keys.get_ephemeral_public_key().size()];
-
-  CNBEncryptionCipherKeys *cipherKeys = [[CNBEncryptionCipherKeys alloc] initWithEncryptionKey:encryptionKey
-                                                                                       hmacKey:hmacKey
-                                                                            ephemeralPublicKey:ephPubKey];
-  return cipherKeys;
+- (CNBEncryptionCipherKeys *)encryptionCipherKeysForPublicKey:(NSData *)publicKeyData {
+  using namespace coinninja::encryption;
+  auto child_key{coinninja::wallet::key_factory::signing_key(self.privateKey)};
+  encryption_cipher_keys keys{cipher_key_vendor::encryption_cipher_keys_for_uncompressed_public_key([publicKeyData dataChunk], child_key)};
+  return [self encryptionCipherKeys:keys];
 }
 
 - (CNBCipherKeys *)decryptionCipherKeysForDerivationPathOfPrivateKey:(CNBDerivationPath *)path
@@ -310,6 +309,18 @@
   NSData *encryptionKey = [NSData dataWithBytes:keys.get_encryption_key().data() length:hash_size];
   NSData *hmacKey = [NSData dataWithBytes:keys.get_hmac_key().data() length:hash_size];
   CNBCipherKeys *cipherKeys = [[CNBCipherKeys alloc] initWithEncryptionKey:encryptionKey hmacKey:hmacKey];
+  return cipherKeys;
+}
+
+// private ecdh
+- (CNBEncryptionCipherKeys *)encryptionCipherKeys:(coinninja::encryption::encryption_cipher_keys)keys {
+  NSData *encryptionKey = [NSData dataWithBytes:keys.get_encryption_key().data() length:hash_size];
+  NSData *hmacKey = [NSData dataWithBytes:keys.get_hmac_key().data() length:hash_size];
+  NSData *associatedPubKey = [NSData dataWithBytes:keys.get_ephemeral_public_key().data() length:keys.get_ephemeral_public_key().size()];
+
+  CNBEncryptionCipherKeys *cipherKeys = [[CNBEncryptionCipherKeys alloc] initWithEncryptionKey:encryptionKey
+                                                                                       hmacKey:hmacKey
+                                                                           associatedPublicKey:associatedPubKey];
   return cipherKeys;
 }
 

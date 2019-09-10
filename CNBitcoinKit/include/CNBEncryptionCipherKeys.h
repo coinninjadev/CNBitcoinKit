@@ -13,11 +13,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CNBEncryptionCipherKeys : CNBCipherKeys
 
-@property (nonatomic, strong) NSData *ephemeralPublicKey;
+@property (nonatomic, strong) NSData *associatedPublicKey;
 
 - (instancetype)initWithEncryptionKey:(NSData *)encryptionKey
                               hmacKey:(NSData *)hmacKey
-                   ephemeralPublicKey:(NSData *)ephemeralPublicKey;
+                  associatedPublicKey:(NSData *)associatedPublicKey;
 
 @end
 

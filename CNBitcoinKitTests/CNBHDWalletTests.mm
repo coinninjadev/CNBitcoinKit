@@ -297,15 +297,22 @@
   XCTAssertNil([receiveAddress uncompressedPublicKey]);
 }
 
-// MARK: private methods
-- (CNBHDWallet *)walletForTestingMetadata {
-  NSArray *newWords = [GeneratedWordsHelper words1];
-  MockBitcoinCoin *coin = [[MockBitcoinCoin alloc] initWithPurpose:CoinDerivation::BIP49 coin:CoinType::MainNet account:0 networkURL:@""];
-  CNBHDWallet *wallet = [[CNBHDWallet alloc] initWithMnemonic:newWords coin:coin];
-  return wallet;
+// MARK: ecdh
+- (void)testGetDecryptionKeys {
+  CNBBaseCoin *coin = [[CNBBaseCoin alloc] initWithPurpose:CoinDerivation::BIP49 coin:CoinType::MainNet account:0];
+  CNBHDWallet *wallet = [[CNBHDWallet alloc] initWithMnemonic:[self tempWords] coin:coin];
+  CNBDerivationPath *path = [[CNBDerivationPath alloc] initWithPurpose:CoinDerivation::BIP49 coinType:CoinType::MainNet account:0 change:0 index:0];
+  std::string encoded_string{"BBS6AnMOS9Y+uGsEDYQycHHzcC7PPmzuKDtSda842AtSANZjgm++vr8uEc/bWacKQDL+/KyL3CuIs+m+ueejbBs="};
+  bc::data_chunk decoded;
+  bc::decode_base64(decoded, encoded_string);
+  NSData *decodedData = [NSData dataWithBytes:decoded.data() length:decoded.size()];
+  CNBCipherKeys *keys = [wallet decryptionCipherKeysForDerivationPathOfPrivateKey:path publicKey:decodedData];
+
+  XCTAssertEqualObjects(keys.encryptionKey.hexString, @"c57f563d3dab750e56e96a8c77b2503acb0ac0cea47ca8863dd370f5988775e2");
+  XCTAssertEqualObjects(keys.hmacKey.hexString, @"3726b40481842beddd888df1b60afc693d3334781c74664c1469a8b908d1d16f");
 }
 
-- (void)testECDH {
+- (void)testECDHWithEphemeralKeyPair {
   CNBHDWallet *wallet = [self walletForTestingMetadata];
   NSString *uncompressedPubkeyString = @"04904240a0aaec6af6f9b6c331f71feea2a4ed1549c06e5a6409fe92c5824dc4c54e26c2b2e27cfc224a6b782b35a2872b666f568cf37456262fbb065601b4d73a";
   NSData *uncompressedPubkeyData = [uncompressedPubkeyString dataFromHexString];
@@ -315,9 +322,21 @@
   CNBCipherKeys *keys1 = [wallet encryptionCipherKeysForPublicKey:uncompressedPubkeyData withEntropy:entropy1];
   CNBCipherKeys *keys2 = [wallet encryptionCipherKeysForPublicKey:uncompressedPubkeyData withEntropy:entropy2];
   XCTAssertNotEqualObjects([keys1 encryptionKey], [keys2 encryptionKey]);
-  XCTAssertNotEqualObjects([keys1 hmacKey], [keys2 encryptionKey]);
+  XCTAssertNotEqualObjects([keys1 hmacKey], [keys2 hmacKey]);
 }
 
+- (void)testECDHWithProvidedKeyPair {
+  CNBHDWallet *wallet = [self walletForTestingMetadata];
+  NSString *uncompressedPubkeyString = @"04904240a0aaec6af6f9b6c331f71feea2a4ed1549c06e5a6409fe92c5824dc4c54e26c2b2e27cfc224a6b782b35a2872b666f568cf37456262fbb065601b4d73a";
+  NSData *uncompressedPubkeyData = [uncompressedPubkeyString dataFromHexString];
+
+  CNBCipherKeys *keys1 = [wallet encryptionCipherKeysForPublicKey:uncompressedPubkeyData];
+  CNBCipherKeys *keys2 = [wallet encryptionCipherKeysForPublicKey:uncompressedPubkeyData];
+  XCTAssertEqualObjects([keys1 encryptionKey], [keys2 encryptionKey]);
+  XCTAssertEqualObjects([keys1 hmacKey], [keys2 hmacKey]);
+}
+
+// MARK: segwit
 - (void)testBech32FirstReceiveAddress {
   NSString *address = [[[self tempSegwitWallet] receiveAddressForIndex:0] address];
   NSString *expected = @"bc1qcr8te4kr609gcawutmrza0j4xv80jy8z306fyu";
@@ -334,6 +353,14 @@
   NSString *address = [[[self tempSegwitWallet] changeAddressForIndex:0] address];
   NSString *expected = @"bc1q8c6fshw2dlwun7ekn9qwf37cu2rn755upcp6el";
   XCTAssertEqualObjects(address, expected);
+}
+
+// MARK: private methods
+- (CNBHDWallet *)walletForTestingMetadata {
+  NSArray *newWords = [GeneratedWordsHelper words1];
+  MockBitcoinCoin *coin = [[MockBitcoinCoin alloc] initWithPurpose:CoinDerivation::BIP49 coin:CoinType::MainNet account:0 networkURL:@""];
+  CNBHDWallet *wallet = [[CNBHDWallet alloc] initWithMnemonic:newWords coin:coin];
+  return wallet;
 }
 
 - (NSArray *)tempWords {
