@@ -305,15 +305,18 @@
   auto c_path{[path c_path]};
   const auto index_private_key{key_factory::index_private_key(self.privateKey, c_path)};
   cipher_keys keys{cipher_key_vendor::decryption_cipher_keys(index_private_key, [publicKeyData dataChunk])};
+  return [self decryptionCipherKeys:keys];
+}
 
-  NSData *encryptionKey = [NSData dataWithBytes:keys.get_encryption_key().data() length:hash_size];
-  NSData *hmacKey = [NSData dataWithBytes:keys.get_hmac_key().data() length:hash_size];
-  CNBCipherKeys *cipherKeys = [[CNBCipherKeys alloc] initWithEncryptionKey:encryptionKey hmacKey:hmacKey];
-  return cipherKeys;
+- (CNBCipherKeys *)decryptionCipherKeysWithDefaultPrivateKeyForPublicKey:(NSData *)publicKeyData {
+  using namespace coinninja::encryption;
+  auto child_key{coinninja::wallet::key_factory::signing_key(self.privateKey)};
+  cipher_keys keys{cipher_key_vendor::decryption_cipher_keys(child_key, [publicKeyData dataChunk])};
+  return [self decryptionCipherKeys:keys];
 }
 
 // private ecdh
-- (CNBEncryptionCipherKeys *)encryptionCipherKeys:(coinninja::encryption::encryption_cipher_keys)keys {
+- (CNBEncryptionCipherKeys *)encryptionCipherKeys:(const coinninja::encryption::encryption_cipher_keys &)keys {
   NSData *encryptionKey = [NSData dataWithBytes:keys.get_encryption_key().data() length:hash_size];
   NSData *hmacKey = [NSData dataWithBytes:keys.get_hmac_key().data() length:hash_size];
   NSData *associatedPubKey = [NSData dataWithBytes:keys.get_ephemeral_public_key().data() length:keys.get_ephemeral_public_key().size()];
@@ -321,6 +324,13 @@
   CNBEncryptionCipherKeys *cipherKeys = [[CNBEncryptionCipherKeys alloc] initWithEncryptionKey:encryptionKey
                                                                                        hmacKey:hmacKey
                                                                            associatedPublicKey:associatedPubKey];
+  return cipherKeys;
+}
+
+- (CNBCipherKeys *)decryptionCipherKeys:(const coinninja::encryption::cipher_keys &)keys {
+  NSData *encryptionKey = [NSData dataWithBytes:keys.get_encryption_key().data() length:hash_size];
+  NSData *hmacKey = [NSData dataWithBytes:keys.get_hmac_key().data() length:hash_size];
+  CNBCipherKeys *cipherKeys = [[CNBCipherKeys alloc] initWithEncryptionKey:encryptionKey hmacKey:hmacKey];
   return cipherKeys;
 }
 

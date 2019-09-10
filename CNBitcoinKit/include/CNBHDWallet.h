@@ -62,6 +62,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (CNBCipherKeys *)decryptionCipherKeysForDerivationPathOfPrivateKey:(CNBDerivationPath *)path
                                                            publicKey:(NSData *)publicKeyData;
+- (CNBCipherKeys *)decryptionCipherKeysWithDefaultPrivateKeyForPublicKey:(NSData *)publicKeyData;
 
 /**
  Checks for existence of address in a wallet, whether external or internal for the `change` index.
