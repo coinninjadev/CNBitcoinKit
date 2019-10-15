@@ -12,7 +12,8 @@
 #import "CNBAddressHelper.h"
 
 #ifdef __cplusplus
-  #include <bitcoin/bitcoin.hpp>
+#include <bitcoin/bitcoin.hpp>
+#include <bitcoin/bitcoin/coinninja/address/address_helper.hpp>
 #endif
 
 NS_ASSUME_NONNULL_BEGIN
