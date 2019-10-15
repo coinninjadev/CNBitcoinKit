@@ -43,7 +43,7 @@
   std::string c_txid = [[self txId] cStringUsingEncoding:[NSString defaultCStringEncoding]];
   coinninja::transaction::unspent_transaction_output utxo{
     c_txid,
-    static_cast<uint8_t>([self index]),
+    static_cast<uint32_t>([self index]),
     static_cast<uint64_t>([self amount]),
     [[self path] c_path],
     [self isConfirmed]

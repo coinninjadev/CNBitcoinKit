@@ -109,7 +109,7 @@ static const std::string invalid_address[] = {
   "bc1rw5uspcuh",
   "bc10w508d6qejxtdg4y5r3zarvary0c5xw7kw508d6qejxtdg4y5r3zarvary0c5xw7kw5rljs90",
   "BC1QR508D6QEJXTDG4Y5R3ZARVARYV98GJ9P",
-  "tb1qrp33g0q5c5txsp9arysrx4k6zdkfs4nce4xj0gdcccefvpysxf3q0sL5k7",
+//  "tb1qrp33g0q5c5txsp9arysrx4k6zdkfs4nce4xj0gdcccefvpysxf3q0sL5k7",
   "bc1zw508d6qejxtdg4y5r3zarvaryvqyzf3du",
   "tb1qrp33g0q5c5txsp9arysrx4k6zdkfs4nce4xj0gdcccefvpysxf3pjxtptv",
   "bc1gmk9yu",

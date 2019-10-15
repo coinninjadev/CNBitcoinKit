@@ -9,6 +9,7 @@
 #import "CNBAddressHelper.h"
 #import "CNBAddressHelper+Project.h"
 #import "CNBSegwitAddress.h"
+#import "CNBBaseCoin+Project.h"
 
 #define kP2KHOutputSize 34
 #define kP2SHOutputSize 32
@@ -33,101 +34,39 @@
   return payment_address;
 }
 
-/// Only used for P2PKH or P2SH after NSString * has been converted to payment_address
-- (CNBPaymentOutputType)addressTypeFor:(bc::wallet::payment_address)address {
-  uint8_t version = address.version();
-  if ([self addressVersionIsP2KH:version]) {
-    return P2PKH;
-  } else if ([self addressVersionIsP2SH:version]) {
-    return P2SH;
-  } else {
-    return P2PKH;
-  }
-}
-
 - (CNBPaymentOutputType)addressTypeForAddress:(NSString *)address {
-  if ([self addressIsP2WPKH:address]) {
-    return P2WPKH;
-  } else if ([self addressIsP2WSH:address]) {
-    return P2WSH;
-  } else {
-    std::string address_string = [address cStringUsingEncoding:[NSString defaultCStringEncoding]];
-    bc::wallet::payment_address payment_address(address_string);
-    return [self addressTypeFor:payment_address];
-  }
-}
-
-- (NSUInteger)bytesPerChangeOutput {
-  switch (self.coin.purpose) {
-    case BIP49:
-      return kP2SHOutputSize;
-
-    case BIP84:
-      return kP2WPKHOutputSize;
-
+  std::string c_address{[address cStringUsingEncoding:[NSString defaultCStringEncoding]]};
+  auto result{[self helper].address_type_for_address(c_address)};
+  using namespace coinninja::address;
+  switch (result) {
+    case coinninja::address::payment_output_type::P2PKH:
+      return CNBPaymentOutputType::P2PKH;
+    case coinninja::address::payment_output_type::P2SH:
+      return CNBPaymentOutputType::P2SH;
+    case coinninja::address::payment_output_type::P2WPKH:
+      return CNBPaymentOutputType::P2WPKH;
+    case coinninja::address::payment_output_type::P2WSH:
+      return CNBPaymentOutputType::P2WSH;
     default:
-      break;
+      return CNBPaymentOutputType::P2SH;
   }
-  return kP2SHOutputSize;
-}
-
-- (NSUInteger)bytesPerInput {
-  switch (self.coin.purpose) {
-    case BIP49:
-      return kP2SHSegWitInputSize;
-
-    case BIP84:
-      return kP2WPKHSegWitInputSize;
-
-    default:
-      break;
-  }
-  return kP2SHSegWitInputSize;
 }
 
 - (NSUInteger)totalBytesWithInputCount:(NSUInteger)inputCount
                         paymentAddress:(NSString *)paymentAddress
                   includeChangeAddress:(BOOL)includeChangeAddress {
-  return (kP2SHSegWitInputSize * inputCount) +
-  [self bytesPerOutputAddress:paymentAddress] +
-  (includeChangeAddress ? kP2SHOutputSize : 0) +
-  kBaseTxBytes;
+  auto c_input_count = static_cast<uint16_t>(inputCount);
+  std::string c_address = [paymentAddress cStringUsingEncoding:[NSString defaultCStringEncoding]];
+  return [self helper].total_bytes(c_input_count, c_address, includeChangeAddress);
 }
 
 // MARK: private
-- (NSUInteger)bytesPerOutputAddress:(NSString *)address {
-  NSUInteger outputSize = 0;
-  if ([self addressIsP2WPKH:address]) {
-    outputSize = kP2WPKHOutputSize;
-  } else {
-    uint8_t version = [self paymentAddressFromString:address].version();
-    if ([self addressVersionIsP2KH:version]) {
-      outputSize = kP2KHOutputSize;
-    } else if ([self addressVersionIsP2SH:version]) {
-      outputSize = kP2SHOutputSize;
-    } else {
-      outputSize = kDefaultOutputSize;
-    }
-  }
-  return outputSize;
+- (coinninja::wallet::base_coin)c_coin {
+  return [self.coin c_coin];
 }
 
-- (BOOL)addressVersionIsP2KH:(uint8_t)version {
-  return version == bc::wallet::payment_address::mainnet_p2kh ||
-  version == bc::wallet::payment_address::testnet_p2kh;
-}
-
-- (BOOL)addressVersionIsP2SH:(uint8_t)version {
-  return version == bc::wallet::payment_address::mainnet_p2sh ||
-  version == bc::wallet::payment_address::testnet_p2sh;
-}
-
-- (BOOL)addressIsP2WPKH:(NSString *)address {
-  return [CNBSegwitAddress isValidP2WPKHAddress:address];
-}
-
-- (BOOL)addressIsP2WSH:(NSString *)address {
-  return [CNBSegwitAddress isValidP2WSHAddress:address];
+- (coinninja::address::address_helper)helper {
+  return coinninja::address::address_helper([self c_coin]);
 }
 
 @end
