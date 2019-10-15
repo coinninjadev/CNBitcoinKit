@@ -52,14 +52,6 @@
   }
 }
 
-- (NSUInteger)bytesPerChangeOutput {
-  return [self helper].bytes_per_change_output();
-}
-
-- (NSUInteger)bytesPerInput {
-  return [self helper].bytes_per_input();
-}
-
 - (NSUInteger)totalBytesWithInputCount:(NSUInteger)inputCount
                         paymentAddress:(NSString *)paymentAddress
                   includeChangeAddress:(BOOL)includeChangeAddress {

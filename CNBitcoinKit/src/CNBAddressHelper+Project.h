@@ -20,8 +20,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CNBAddressHelper (Project)
 - (bc::wallet::payment_address)paymentAddressFromString:(NSString *)address;
-- (NSUInteger)bytesPerChangeOutput;
-- (NSUInteger)bytesPerInput;
 - (NSUInteger)totalBytesWithInputCount:(NSUInteger)inputCount
                         paymentAddress:(NSString *)paymentAddress
                   includeChangeAddress:(BOOL)includeChangeAddress;
