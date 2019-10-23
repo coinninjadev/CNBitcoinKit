@@ -26,6 +26,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) CNBBaseCoin *coin;
 
 + (nonnull NSArray <NSString *>*)allWords;
+
+/// createMnemonicWordsWithEntropy
+/// @param entropy bytes of secure random data, provided by client. On iOS, use SecRandomCopyBytes, at least 16 bytes.
+/// @return An NSArray <NSString *>* of mnemonic words. Returns an empty array if the entropy fails validation. Suggest looping, providing new entropy, if returning an empty array.
 + (NSArray <NSString *> *)createMnemonicWordsWithEntropy:(NSData *)entropy;
 + (BOOL)addressIsBase58CheckEncoded:(NSString *)address;
 
