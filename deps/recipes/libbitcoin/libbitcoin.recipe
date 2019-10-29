@@ -1,7 +1,7 @@
 depends="boost libsecp256k1"
 inherit lib
 
-source="https://github.com/coinninjadev/libbitcoin-system.git#ef4792a0" # coinninja-v3 branch
+source="https://github.com/coinninjadev/libbitcoin-system.git#e5440b37" # coinninja-v3 branch
 
 build() {
     echo Building...
