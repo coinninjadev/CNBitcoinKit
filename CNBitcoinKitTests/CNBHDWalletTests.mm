@@ -355,6 +355,35 @@
   XCTAssertEqualObjects(address, expected);
 }
 
+// MARK: regtest addresses
+- (void)testBech32RegtestReceiveAddresses {
+  NSString *address0 = [[[self tempSegwitRegtestWallet] receiveAddressForIndex:0] address];
+  NSString *address1 = [[[self tempSegwitRegtestWallet] receiveAddressForIndex:1] address];
+  NSString *address2 = [[[self tempSegwitRegtestWallet] receiveAddressForIndex:2] address];
+
+  NSString *expected0 = @"bcrt1q6rz28mcfaxtmd6v789l9rrlrusdprr9pz3cppk";
+  NSString *expected1 = @"bcrt1qd7spv5q28348xl4myc8zmh983w5jx32cs707jh";
+  NSString *expected2 = @"bcrt1qxdyjf6h5d6qxap4n2dap97q4j5ps6ua8jkxz0z";
+
+  XCTAssertEqualObjects(address0, expected0);
+  XCTAssertEqualObjects(address1, expected1);
+  XCTAssertEqualObjects(address2, expected2);
+}
+
+- (void)testBech32RegtestChangeAddresses {
+  NSString *address0 = [[[self tempSegwitRegtestWallet] changeAddressForIndex:0] address];
+  NSString *address1 = [[[self tempSegwitRegtestWallet] changeAddressForIndex:1] address];
+  NSString *address2 = [[[self tempSegwitRegtestWallet] changeAddressForIndex:2] address];
+
+  NSString *expected0 = @"bcrt1q9u62588spffmq4dzjxsr5l297znf3z6jkgnhsw";
+  NSString *expected1 = @"bcrt1qkwgskuzmmwwvqajnyr7yp9hgvh5y45kg984qvy";
+  NSString *expected2 = @"bcrt1q2vma00td2g9llw8hwa8ny3r774rtt7ae3q2e44";
+
+  XCTAssertEqualObjects(address0, expected0);
+  XCTAssertEqualObjects(address1, expected1);
+  XCTAssertEqualObjects(address2, expected2);
+}
+
 // MARK: private methods
 - (CNBHDWallet *)walletForTestingMetadata {
   NSArray *newWords = [GeneratedWordsHelper words1];
@@ -371,8 +400,16 @@
   return [[CNBBaseCoin alloc] initWithPurpose:CoinDerivation::BIP84 coin:CoinType::MainNet account:0];
 }
 
+- (CNBBaseCoin *)tempSegwitRegtestCoin {
+  return [[CNBBaseCoin alloc] initWithPurpose:CoinDerivation::BIP84 coin:CoinType::TestNet account:0];
+}
+
 - (CNBHDWallet *)tempSegwitWallet {
   return [[CNBHDWallet alloc] initWithMnemonic:[self tempWords] coin:[self tempSegwitCoin]];
+}
+
+- (CNBHDWallet *)tempSegwitRegtestWallet {
+  return [[CNBHDWallet alloc] initWithMnemonic:[self tempWords] coin:[self tempSegwitRegtestCoin]];
 }
 
 @end
