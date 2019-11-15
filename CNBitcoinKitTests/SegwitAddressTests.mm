@@ -227,11 +227,33 @@ static const invalid_address_data invalid_address_enc[] = {
   NSString *expectedProgram = @"1863143c14c5166804bd19203356da136c985678cd4d27a1b8c6329604903262";
   NSInteger expectedProgSize = 32;
 
-  CNBWitnessMetadata *decoded = [CNBSegwitAddress decodeSegwitAddressWithHRP:@"bc" address:p2wshAddress];
+  NSString *hrp = [CNBSegwitAddress hrpFromAddress:p2wshAddress];
+  CNBWitnessMetadata *decoded = [CNBSegwitAddress decodeSegwitAddressWithHRP:hrp address:p2wshAddress];
 
   NSInteger actualVersion = [decoded witver];
   NSString *actualProgram = [[decoded witprog] hexString];
   NSInteger actualProgSize = [[decoded witprog] length];
+  XCTAssertEqual(expectedVersion, actualVersion);
+  XCTAssertEqualObjects(expectedProgram, actualProgram);
+  XCTAssertEqual(expectedProgSize, actualProgSize);
+}
+
+- (void)testRegtestAddressValidation {
+  NSString *address = @"bcrt1q67jjgzu3tkqlc9vlrqh9xfdapv5us7sv4lhpf8";
+  NSString *hrp = [CNBSegwitAddress hrpFromAddress:address];
+
+  XCTAssertEqualObjects(hrp, @"bcrt");
+
+  CNBWitnessMetadata *decoded = [CNBSegwitAddress decodeSegwitAddressWithHRP:hrp address:address];
+
+  NSInteger expectedVersion = 0;
+  NSInteger expectedProgSize = 20;
+  NSString *expectedProgram = @"d7a5240b915d81fc159f182e5325bd0b29c87a0c";
+
+  NSInteger actualVersion = [decoded witver];
+  NSString *actualProgram = [[decoded witprog] hexString];
+  NSInteger actualProgSize = [[decoded witprog] length];
+
   XCTAssertEqual(expectedVersion, actualVersion);
   XCTAssertEqualObjects(expectedProgram, actualProgram);
   XCTAssertEqual(expectedProgSize, actualProgSize);

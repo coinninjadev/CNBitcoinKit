@@ -40,8 +40,7 @@
     return false;
   }
 
-  NSRange range = NSMakeRange(0, 2);
-  NSString *hrp = [address substringWithRange:range];
+  NSString *hrp = [self hrpFromAddress: address];
   CNBWitnessMetadata *metadata = [self decodeSegwitAddressWithHRP:hrp address:address];
   return (metadata.witver != -1) && (metadata.witprog.length == kP2WPKHProgramSize);
 }
@@ -51,10 +50,21 @@
     return false;
   }
 
-  NSRange range = NSMakeRange(0, 2);
-  NSString *hrp = [address substringWithRange:range];
+  NSString *hrp = [self hrpFromAddress: address];
   CNBWitnessMetadata *metadata = [self decodeSegwitAddressWithHRP:hrp address:address];
   return (metadata.witver != -1) && (metadata.witprog.length == kP2WSHProgramSize);
+}
+
++ (NSString *)hrpFromAddress:(NSString *)address {
+  NSRange separatorRange = [address rangeOfString:@"1" options:NSBackwardsSearch];
+  NSString *truncatedString = [address substringToIndex:separatorRange.location];
+  NSRange hrpRange = [truncatedString rangeOfCharacterFromSet:NSCharacterSet.decimalDigitCharacterSet];
+  if (hrpRange.location != NSNotFound) {
+    NSString *hrp = [address substringToIndex:hrpRange.location];
+    return hrp;
+  } else {
+    return truncatedString;
+  }
 }
 
 @end
